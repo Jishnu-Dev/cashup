@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { tagline } from "@/lib/constants";
 import { useRouter } from "next/navigation";
@@ -84,11 +85,12 @@ const LoginForm = () => {
 
 const Title = () => (
   <div className="grid grid-flow-row gap-6">
-    <h2 className="text-6xl font-bold text-transparent bg-gradient-to-r from-primary to-white bg-clip-text">
+    {/* <h2 className="text-6xl font-bold text-transparent bg-gradient-to-r from-primary to-white bg-clip-text">
       CASHUP
-    </h2>
+    </h2> */}
+    <Image src="/images/app-logo.png" alt="Cashup" width={200} height={200} />
     <div className="grid grid-flow-row">
-      <h1 className="text-black font-medium text-3xl">Welcome back!</h1>
+      <h1 className="text-black font-medium text-2xl">Welcome back!</h1>
       <p className="text-black/50">
         Enter to get unlimited cashback and rewards
       </p>

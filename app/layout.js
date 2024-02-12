@@ -3,10 +3,11 @@ import "./globals.css";
 import { siteBasePath, siteName, tagline } from "@/lib/constants";
 
 import Aos from "@/components/ui/Aos";
-import Footer from "@/components/layout/Footer";
-import Header from "@/components/layout/Header";
+import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import { Inter } from "next/font/google";
+import { ThemeProvider } from "@mui/material/styles";
 import classNames from "classnames";
+import theme from "./theme";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -72,7 +73,11 @@ export default function RootLayout({ children }) {
           "text-black min-h-screen flex flex-col"
         )}
       >
-        <main className="flex-grow bg-white">{children}</main>
+        <AppRouterCacheProvider>
+          <ThemeProvider theme={theme}>
+            <main className="flex-grow bg-white">{children}</main>
+          </ThemeProvider>
+        </AppRouterCacheProvider>
         <Aos />
       </body>
     </html>

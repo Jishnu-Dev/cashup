@@ -1,21 +1,25 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export default function Page() {
   return (
-    <section className="w-full h-screen bg-gradient-to-tr from-primary via-[#74E291] to-transparent flex justify-center items-center">
+    <section className="w-full h-screen bg-gradient-to-t from-primary to-white flex justify-center items-center text-white">
       <div className="container flex flex-col justify-center items-center gap-16">
         <div className="flex flex-col gap-4 text-center">
-          <p className="text-sm text-white font-medium">Welcome back!</p>
           <div className="flex flex-col gap-1.5">
-            <h1 className="text-6xl font-bold bg-gradient-to-r from-white to-gray-200 bg-clip-text text-transparent">
+            {/* <h1 className="text-6xl font-bold bg-gradient-to-r from-white to-gray-200 bg-clip-text text-transparent">
               Cashup
-            </h1>
-            <p className="text-sm text-white">
-              Empowering cashback and passive income!
-            </p>
+            </h1> */}
+            <Image
+              src="/images/app-logo.png"
+              alt="Cashup"
+              width={250}
+              height={250}
+            />
+            <p className="text-sm">Empowering cashback and passive income!</p>
           </div>
         </div>
         <LoginForm />
