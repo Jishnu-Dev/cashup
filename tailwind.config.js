@@ -22,15 +22,5 @@ module.exports = {
       },
     },
   },
-  daisyui: {
-    themes: [
-      "emerald",
-      {
-        mytheme: {
-          primary: "#65B741",
-        },
-      },
-    ],
-  },
-  plugins: [require("daisyui")],
+  plugins: [],
 };

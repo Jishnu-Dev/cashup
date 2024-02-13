@@ -1,7 +1,9 @@
 "use client";
 
+import Alert from "@mui/material/Alert";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
+import CheckIcon from "@mui/icons-material/Check";
 import Checkbox from "@mui/material/Checkbox";
 import DashboardRoundedIcon from "@mui/icons-material/DashboardRounded";
 import ExploreRoundedIcon from "@mui/icons-material/ExploreRounded";
@@ -11,6 +13,7 @@ import Link from "next/link";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import PeopleAltRoundedIcon from "@mui/icons-material/PeopleAltRounded";
+import SampleTable from "@/components/SampleTable";
 import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
 import TimelineRoundedIcon from "@mui/icons-material/TimelineRounded";
 import { usePathname } from "next/navigation";
@@ -27,7 +30,7 @@ export default function DashboardLayout() {
       </aside>
       <section className="flex flex-col flex-grow h-full bg-white rounded-l rounded-xl">
         <Navbar />
-        <div className="px-10 py-6">
+        <div className="px-10 py-6 flex flex-col gap-4">
           <div className="flex gap-4">
             <Button variant="contained" disableElevation>
               Button Primary
@@ -40,6 +43,10 @@ export default function DashboardLayout() {
             </Button>
             <Checkbox defaultChecked />
           </div>
+          <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
+            Here is a gentle confirmation that your action was successful.
+          </Alert>
+          <SampleTable />
         </div>
       </section>
     </section>
@@ -50,7 +57,7 @@ const Navbar = () => {
   const pathname = usePathname().replace("/", "");
   return (
     <nav className="w-full px-10 py-4 bg-white border-b flex justify-between items-center">
-      <h2 className="text-lg font-medium text-cyan-500 capitalize">
+      <h2 className="text-lg font-medium text-primary capitalize">
         {pathname}
       </h2>
       <div className="flex gap-3 items-center">
