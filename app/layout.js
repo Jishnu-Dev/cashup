@@ -3,7 +3,9 @@ import "./globals.css";
 import { siteBasePath, siteName, tagline } from "@/lib/constants";
 
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
+import AsideMenu from "@/components/layout/AsideMenu";
 import { Inter } from "next/font/google";
+import Navbar from "@/components/layout/Navbar";
 import { ThemeProvider } from "@mui/material/styles";
 import classNames from "classnames";
 import theme from "./theme";
@@ -42,7 +44,15 @@ export default function RootLayout({ children }) {
       >
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
-            <main className="flex-grow bg-white">{children}</main>
+            <main className="max-h-screen h-screen w-full overflow-hidden flex bg-white">
+              <AsideMenu />
+              <section className="flex flex-col flex-grow h-full rounded-l rounded-xl relative">
+                <Navbar />
+                <div className="px-10 py-6 flex flex-col gap-4 overflow-scroll pt-28">
+                  {children}
+                </div>
+              </section>
+            </main>
           </ThemeProvider>
         </AppRouterCacheProvider>
       </body>

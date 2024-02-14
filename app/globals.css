@@ -21,7 +21,7 @@ body {
 }
 
 @layer utilities {
- .glass {
+  .glass {
     @apply bg-white backdrop-filter backdrop-blur bg-opacity-50;
- }
+  }
 }

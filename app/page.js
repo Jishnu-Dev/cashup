@@ -1,99 +1,61 @@
-"use client";
-
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import Image from "next/image";
-import Link from "next/link";
-import { tagline } from "@/lib/constants";
-import { useRouter } from "next/navigation";
 
-// export const metadata = {
-//   title: `Login | ${tagline}`,
-//   description: tagline,
-// };
-
-export default function Home() {
+export default function Page() {
   return (
-    <section className="min-h-screen h-screen w-full bg-white flex">
-      {/* Left Column */}
-      <div className="w-full h-full md:w-6/12 flex justify-center items-center">
-        <div className="w-full md:w-9/12 grid grid-flow-row gap-12">
-          <Title />
-          <LoginForm />
-        </div>
-      </div>
 
-      {/* Left Column */}
-      <div className="hidden md:w-6/12 h-full bg-white md:flex justify-center items-center bg-[url('/images/login-bg.jpg')] bg-cover bg-no-repeat" />
-    </section>
-  );
+    <section className='grid grid-flow-row gap-12'>
+      <Greenting />
+      <Grid />
+  </section>
+     )
 }
 
-const LoginForm = () => {
-  const router = useRouter();
+const Greenting = () => {
   return (
-    <div className="grid grid-flow-row gap-8">
-      <form className="w-full grid grid-flow-row gap-4">
-        {/* Email */}
-        <fieldset className="grid grid-flow-row gap-1">
-          <label>
-            Email<sup className="text-red-500"> * </sup>
-          </label>
-          <input
-            // required
-            type="email"
-            placeholder="Enter your email"
-            className="input input-bordered w-full"
-          />
-        </fieldset>
-        {/* Password */}
-        <fieldset className="grid grid-flow-row gap-1">
-          <label>
-            Password<sup className="text-red-500"> * </sup>
-          </label>
-          <input
-            // required
-            type="password"
-            placeholder="Enter your password"
-            className="input input-bordered w-full"
-          />
-        </fieldset>
-        <Link
-          href="/jishnu/forgot-password"
-          className="text-sm text-blue-600 text-right underline"
-        >
-          Forgot your password?
-        </Link>
-        <button
-          onClick={() => {
-            router.push("/dashboard");
-          }}
-          type="submit"
-          className="btn bg-primary text-white hover:bg-primary/90"
-        >
-          Login
+    <div className="w-full rounded-2xl bg-gradient-to-r from-emerald-500 to-emerald-900 flex justify-between p-6">
+      <div className="flex flex-col gap-8">
+        <Clock />
+        <div className='flex flex-col gap-8'>
+        <div className='flex flex-col gap-2'>
+        <h1 className="text-4xl font-bold text-white">Welcome back Admin!</h1>
+        <p className="text-white/80">Hello there, Welcome back to the dashboard. <br />Take a look at today's overview.</p>
+        </div>
+        <button className='bg-transparent hover:bg-white hover:text-black text-white border border-white p-3 rounded-2xl'>
+          See Analytics
         </button>
-      </form>
-
-      <p>
-        Don't have an accoutn?{" "}
-        <Link href="/register" className="text-blue-600 underline">
-          Register now
-        </Link>
-      </p>
+        </div>
+      </div>
+      <Image
+        src="/images/greetings-hero.svg"
+        alt="Welcome"
+        width={250}
+        height={250}
+        />
     </div>
-  );
-};
+  )
+}
 
-const Title = () => (
-  <div className="grid grid-flow-row gap-6">
-    {/* <h2 className="text-6xl font-bold text-transparent bg-gradient-to-r from-primary to-white bg-clip-text">
-      CASHUP
-    </h2> */}
-    <Image src="/images/app-logo.png" alt="Cashup" width={200} height={200} />
-    <div className="grid grid-flow-row">
-      <h1 className="text-black font-medium text-2xl">Welcome back!</h1>
-      <p className="text-black/50">
-        Enter to get unlimited cashback and rewards
-      </p>
-    </div>
+const Clock = () => {
+  const presentDateTime = new Date().toLocaleString()
+  return (
+    <div className="flex gap-2 items-center">
+      <CalendarTodayIcon className='text-white' />
+      <p className="text-white">{presentDateTime}</p>
   </div>
-);
+)
+}
+
+const Grid = () => {
+  return (
+    <div className='grid grid-cols-2 gap-8'>
+      {
+        [...Array(5)].map((_, i)=>(
+          <div className='rounded-2xl h-44 w-full bg-white border glass'>
+            
+            </div>
+        ))
+      }
+    </div>
+  )
+}

@@ -1,13 +1,9 @@
 "use client";
 
-import DashboardRoundedIcon from "@mui/icons-material/DashboardRounded";
-import ExploreRoundedIcon from "@mui/icons-material/ExploreRounded";
 import Image from "next/image";
 import Link from "next/link";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
-import PeopleAltRoundedIcon from "@mui/icons-material/PeopleAltRounded";
 import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
-import TimelineRoundedIcon from "@mui/icons-material/TimelineRounded";
 import classNames from "classnames";
 import { usePathname } from "next/navigation";
 
@@ -17,26 +13,26 @@ export default function AsideMenu() {
     {
       label: "Dashboard",
       uri: "/dashboard",
-      Icon: DashboardRoundedIcon,
+      icon: "round-graph-line-duotone",
       isActive: pathname === "/dashboard",
     },
     {
       label: "Analytics",
-      uri: "/dashboard/analytics",
-      Icon: TimelineRoundedIcon,
-      isActive: pathname === "/dashboard/analytics",
+      uri: "/analytics",
+      icon: "round-graph-line-duotone",
+      isActive: pathname === "/analytics",
     },
     {
       label: "Users",
-      uri: "/dashboard/users",
-      Icon: PeopleAltRoundedIcon,
-      isActive: pathname === "/dashboard/users",
+      uri: "/users",
+      icon: "round-graph-line-duotone",
+      isActive: pathname === "/users",
     },
     {
       label: "Overview",
-      uri: "/dashboard/overview",
-      Icon: ExploreRoundedIcon,
-      isActive: pathname === "/dashboard/overview",
+      uri: "/overview",
+      icon: "round-graph-line-duotone",
+      isActive: pathname === "/overview",
     },
   ];
 
@@ -46,24 +42,27 @@ export default function AsideMenu() {
         <Branding />
         <menu className="h-8/12">
           <ul className="flex flex-col gap-1.5">
-            {menuItems.map(({ label, uri, Icon, isActive }) => (
-              <li
-                key={uri}
-                className={classNames({
-                  "w-full group rounded-l-2xl": true,
-                  "bg-white text-primary font-bold": isActive,
-                  "text-white/80 hover:glass": !isActive,
-                })}
-              >
-                <Link
-                  href={uri}
-                  className="w-full text-sm p-3 rounded-lg flex items-center gap-3"
+            {menuItems.map(({ label, uri, icon, isActive }) => {
+              const iconClass = `icon-\[solar--${icon}\]`;
+              return (
+                <li
+                  key={uri}
+                  className={classNames({
+                    "w-full group rounded-l-2xl": true,
+                    "bg-white text-primary font-bold": isActive,
+                    "text-white/80 hover:glass hover:text-white": !isActive,
+                  })}
                 >
-                  <Icon size={24} />
-                  {label}
-                </Link>
-              </li>
-            ))}
+                  <Link
+                    href={uri}
+                    className="w-full text-sm p-3 rounded-lg flex items-center gap-3"
+                  >
+                    <span className={`${iconClass} text-3xl`}></span>
+                    {label}
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </menu>
       </div>
@@ -73,7 +72,7 @@ export default function AsideMenu() {
 }
 
 const Branding = () => (
-  <div className="flex gap-2 items-center">
+  <Link href="/dashboard" className="flex gap-2 items-center">
     <Image
       priority
       src="/images/cashup-logo-main-white.png"
@@ -87,7 +86,7 @@ const Branding = () => (
         Empowering cashback & passive income
       </p>
     </div>
-  </div>
+  </Link>
 );
 
 const FooterActions = () => {
