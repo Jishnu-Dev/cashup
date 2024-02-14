@@ -1,7 +1,8 @@
 "use client";
 
+import { green, red } from "@mui/material/colors";
+
 import { Inter } from "next/font/google";
-import { blue } from "@mui/material/colors";
 import { createTheme } from "@mui/material/styles";
 
 const inter = Inter({
@@ -16,14 +17,14 @@ const theme = createTheme({
   },
   palette: {
     primary: {
-      main: blue[500],
+      main: green[600],
     },
-    // secondary: {
-    //   main: "#38b6ff",
-    // },
+    secondary: {
+      main: red[600]
+    }
   },
   shape: {
-    borderRadius: 10,
+    borderRadius: 18,
   },
 });
 

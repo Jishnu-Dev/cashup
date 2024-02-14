@@ -21,10 +21,7 @@ body {
 }
 
 @layer utilities {
-  /* .input {
-    @apply rounded-full;
-  }
-  .btn {
-    @apply rounded-full;
-  } */
+ .glass {
+    @apply bg-white backdrop-filter backdrop-blur bg-opacity-50;
+ }
 }
