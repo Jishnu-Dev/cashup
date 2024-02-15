@@ -21,6 +21,7 @@ export default function Page() {
         />
       </div>
       <Grid />
+      <Grid />
     </section>
   );
 }

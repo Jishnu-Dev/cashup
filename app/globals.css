@@ -24,4 +24,7 @@ body {
   .glass {
     @apply bg-white backdrop-filter backdrop-blur bg-opacity-50;
   }
+  .default-gradient {
+    @apply bg-gradient-to-r from-emerald-500 to-emerald-900;
+  }
 }
