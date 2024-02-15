@@ -4,8 +4,6 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
-import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
 import classNames from "classnames";
 import { usePathname } from "next/navigation";
 
@@ -39,7 +37,7 @@ export default function AsideMenu() {
   ];
 
   return (
-    <aside className="w-[23%] h-full py-6 pr-6 flex flex-col bg-white rounded-2xl shadow shadow-primary/20">
+    <aside className="col-span-2 h-full py-6 pr-6 flex flex-col bg-white rounded-2xl shadow shadow-primary/20">
       <div className="h-max flex flex-col gap-12">
         <Branding />
         <menu className="h-8/12">
@@ -84,38 +82,3 @@ const Branding = () => (
     />
   </Link>
 );
-
-const FooterActions = () => {
-  const actions = [
-    {
-      label: "Settings",
-      action: () => Router.push("/settings"),
-      Icon: SettingsRoundedIcon,
-    },
-    {
-      label: "Logout",
-      action: logoutHandler,
-      Icon: LogoutRoundedIcon,
-    },
-  ];
-
-  function logoutHandler() {}
-
-  return (
-    <menu className="mt-auto w-full">
-      <ul className="flex flex-col gap-1.5 w-full">
-        {actions.map(({ label, action, Icon }) => (
-          <li key={label} className="w-full group">
-            <button
-              className="w-full flex items-center gap-3 p-3 rounded-lg group-hover:bg-primary/10 group-hover:text-primary text-black/50 text-sm"
-              onClick={() => action()}
-            >
-              <Icon size={24} className="group-hover:text-primary" />
-              {label}
-            </button>
-          </li>
-        ))}
-      </ul>
-    </menu>
-  );
-};

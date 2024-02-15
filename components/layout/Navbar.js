@@ -1,8 +1,7 @@
 "use client";
 
-import Avatar from "@mui/material/Avatar";
 import { IconButton } from "@mui/material";
-import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
+import ProfileToggle from "@/components/layout/ProfileToggle";
 import { usePathname } from "next/navigation";
 
 export default function Navbar() {
@@ -14,7 +13,6 @@ export default function Navbar() {
       </h2>
       <div className="flex gap-3 items-center">
         <IconButton aria-label="delete" className="group">
-          {/* <NotificationsNoneIcon /> */}
           <span className="icon-[solar--bell-line-duotone] group-hover:icon-[solar--bell-bold-duotone]" />
         </IconButton>
         <ProfileToggle />
@@ -22,15 +20,3 @@ export default function Navbar() {
     </nav>
   );
 }
-
-const ProfileToggle = () => {
-  return (
-    <button className="flex items-center gap-3 p-2 hover:bg-primary/10 rounded-2xl">
-      <Avatar alt="Remy Sharp" />
-      <div>
-        <h2 className="font-semibold text-black">Jonathan</h2>
-        <p className="text-sm text-black text-left">Admin</p>
-      </div>
-    </button>
-  );
-};

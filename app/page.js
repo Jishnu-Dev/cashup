@@ -1,4 +1,3 @@
-import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import Card from "@/components/ui/Card";
 import Image from "next/image";
 
@@ -42,7 +41,7 @@ const Greenting = ({ title, lead, img, cta = "Learn More" }) => {
               dangerouslySetInnerHTML={{ __html: lead }}
             />
           </div>
-          <button className="bg-transparent hover:bg-white hover:text-black text-white border border-white p-3 rounded-2xl">
+          <button className="bg-transparent hover:bg-white hover:text-black text-white border border-white p-3 rounded-full">
             {cta}
           </button>
         </div>
@@ -56,7 +55,6 @@ const Clock = () => {
   const presentDateTime = new Date().toLocaleString();
   return (
     <div className="flex gap-2 items-center">
-      <CalendarTodayIcon className="text-white" />
       <p className="text-white">{presentDateTime}</p>
     </div>
   );
