@@ -1,3 +1,3 @@
 import http from "./axios";
 
-const apiHome = http.get('/')
+export const apiHome = http.get("/products");

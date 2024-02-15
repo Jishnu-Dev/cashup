@@ -1,5 +1,7 @@
 "use client";
 
+// Icons used - https://icon-sets.iconify.design/solar/ (Line Duotone)
+
 import Image from "next/image";
 import Link from "next/link";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
@@ -12,52 +14,52 @@ export default function AsideMenu() {
   const menuItems = [
     {
       label: "Dashboard",
-      uri: "/dashboard",
-      icon: "round-graph-line-duotone",
-      isActive: pathname === "/dashboard",
+      uri: "/",
+      isActive: pathname === "/",
+      icon: "icon-[solar--soundwave-square-line-duotone]",
     },
     {
       label: "Analytics",
       uri: "/analytics",
-      icon: "round-graph-line-duotone",
       isActive: pathname === "/analytics",
+      icon: "icon-[solar--pie-chart-3-line-duotone]",
     },
     {
       label: "Users",
       uri: "/users",
-      icon: "round-graph-line-duotone",
       isActive: pathname === "/users",
+      icon: "icon-[solar--user-line-duotone]",
     },
     {
       label: "Overview",
       uri: "/overview",
-      icon: "round-graph-line-duotone",
       isActive: pathname === "/overview",
+      icon: "icon-[solar--checklist-line-duotone]",
     },
   ];
 
   return (
-    <aside className="w-2/12 h-full py-6 pl-6 flex flex-col bg-gradient-to-tr from-green-800 to-teal-500">
+    <aside className="w-[23%] h-full py-6 pr-6 flex flex-col bg-white rounded-2xl shadow shadow-primary/20">
       <div className="h-max flex flex-col gap-12">
         <Branding />
         <menu className="h-8/12">
-          <ul className="flex flex-col gap-1.5">
+          <p className="font-medium text-sm text-black/50 pl-6 mb-2">Home</p>
+          <ul className="flex flex-col gap-0.5">
             {menuItems.map(({ label, uri, icon, isActive }) => {
-              const iconClass = `icon-\[solar--${icon}\]`;
               return (
                 <li
                   key={uri}
                   className={classNames({
-                    "w-full group rounded-l-2xl": true,
-                    "bg-white text-primary font-bold": isActive,
-                    "text-white/80 hover:glass hover:text-white": !isActive,
+                    "w-full group rounded-r-full": true,
+                    "bg-primary/10 text-primary": isActive,
+                    "text-black hover:bg-primary/10": !isActive,
                   })}
                 >
                   <Link
                     href={uri}
-                    className="w-full text-sm p-3 rounded-lg flex items-center gap-3"
+                    className="w-full text-sm rounded-lg flex items-center gap-3 p-4"
                   >
-                    <span className={`${iconClass} text-3xl`}></span>
+                    <span className={`${icon} text-2xl`}></span>
                     {label}
                   </Link>
                 </li>
@@ -72,20 +74,14 @@ export default function AsideMenu() {
 }
 
 const Branding = () => (
-  <Link href="/dashboard" className="flex gap-2 items-center">
+  <Link href="/dashboard" className="px-6">
     <Image
       priority
-      src="/images/cashup-logo-main-white.png"
+      src="/images/cashup-logo-colored.png"
       alt="Logo"
-      width={60}
-      height={60}
+      width={200}
+      height={200}
     />
-    <div>
-      <h2 className="text-3xl font-bold text-white">Cashup</h2>
-      <p className="text-[8px] text-white">
-        Empowering cashback & passive income
-      </p>
-    </div>
   </Link>
 );
 

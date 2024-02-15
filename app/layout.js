@@ -44,11 +44,11 @@ export default function RootLayout({ children }) {
       >
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
-            <main className="max-h-screen h-screen w-full overflow-hidden flex bg-white">
+            <main className="max-h-screen h-screen w-full overflow-hidden flex gap-10 bg-[#f0f5f9] p-5">
               <AsideMenu />
               <section className="flex flex-col flex-grow h-full rounded-l rounded-xl relative">
                 <Navbar />
-                <div className="px-10 py-6 flex flex-col gap-4 overflow-scroll pt-28">
+                <div className="flex flex-col gap-4 overflow-scroll rounded-t-2xl py-28">
                   {children}
                 </div>
               </section>
