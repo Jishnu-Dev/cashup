@@ -77,8 +77,9 @@ const Branding = () => (
       priority
       src="/images/cashup-logo-colored.png"
       alt="Logo"
-      width={200}
-      height={200}
+      width={180}
+      height={180}
+      style={{ width: "auto", height: "auto" }}
     />
   </Link>
 );
