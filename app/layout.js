@@ -13,7 +13,7 @@ import theme from "./theme";
 const inter = Inter({ subsets: ["latin"] });
 
 export const viewport = {
-  themeColor: "#dc2626",
+  themeColor: "#43A047",
 };
 
 export const metadata = {
@@ -44,11 +44,11 @@ export default function RootLayout({ children }) {
       >
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
-            <main className="max-h-screen h-screen w-full grid grid-cols-10 gap-10 overflow-hidden bg-[#f0f5f9] p-5">
+            <main className="h-screen max-h-screen w-full overflow-hidde grid grid-cols-10 gap-8 bg-[#f0f5f9] p-5">
               <AsideMenu />
-              <section className="col-span-8 flex flex-col flex-grow h-full rounded-l rounded-xl relative">
+              <section className="col-span-8 flex flex-col flex-grow h-full overflow-hidden relative">
                 <Navbar />
-                <div className="h-full flex flex-col gap-4 overflow-scroll rounded-t-2xl py-28">
+                <div className="h-full rounded-2xl overflow-scroll pt-24">
                   {children}
                 </div>
               </section>

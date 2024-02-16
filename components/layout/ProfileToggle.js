@@ -26,12 +26,12 @@ export default function ProfileToggle() {
       <button
         aria-describedby={id}
         onClick={handleClick}
-        className="flex items-center gap-3 p-2 hover:bg-primary/10 rounded-2xl"
+        className="flex items-center text-left gap-3 p-2 hover:bg-primary/10 rounded-2xl"
       >
         <UserAvatar name={name} />
-        <div>
+        <div className="flex flex-col">
           <h2 className="font-semibold text-black">{name}</h2>
-          <p className="text-sm text-black text-left">Admin</p>
+          <small className="text-black/80">Admin</small>
         </div>
       </button>
       <Popover
@@ -72,10 +72,10 @@ const PopoverBody = () => {
         <h2 className="text-lg font-medium mb-4">User Profile</h2>
         <div className="flex gap-3">
           <UserAvatar name={name} size={62} />
-          <div>
+          <div className="flex flex-col">
             <h4 className="font-medium">{name}</h4>
-            <p className="text-sm">Admin</p>
-            <p className="text-sm">info@spike.com</p>
+            <small>Admin</small>
+            <small>info@spike.com</small>
           </div>
         </div>
       </div>
@@ -93,7 +93,7 @@ const PopoverBody = () => {
                 </div>
                 <div className="grid grid-flow-row">
                   <p>{label}</p>
-                  <p className="text-xs text-black/80">{lead}</p>
+                  <small className="text-black/80">{lead}</small>
                 </div>
               </Link>
             </li>

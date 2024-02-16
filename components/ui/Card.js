@@ -5,17 +5,17 @@ export default function Card({ title, lead, children, blank = false }) {
   return (
     <div
       className={cn({
-        "bg-white rounded-2xl border shadow-xl shadow-primary/10 grid grid-flow-row gap-4": true,
+        "bg-white rounded-2xl border shadow-xl shadow-primary/10 grid grid-flow-row gap-6": true,
         "p-4": !blank,
       })}
     >
       <ShowWhen when={title}>
-        <div>
+        <span>
           <h3 className="text-xl font-medium text-black">{title}</h3>
-          <p className="text-black text-sm">{lead}</p>
-        </div>
+          <p className="text-black/80 text-sm">{lead}</p>
+        </span>
       </ShowWhen>
-      <div>{children}</div>
+      <span className="overflow-x-scroll">{children}</span>
     </div>
   );
 }

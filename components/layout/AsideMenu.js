@@ -37,8 +37,8 @@ export default function AsideMenu() {
   ];
 
   return (
-    <aside className="col-span-2 h-full py-6 pr-6 flex flex-col bg-white rounded-2xl shadow shadow-primary/20">
-      <div className="h-max flex flex-col gap-12">
+    <aside className="h-full col-span-2 py-6 pr-6 flex flex-col bg-white rounded-2xl shadow shadow-primary/20">
+      <div className="flex flex-col gap-12">
         <Branding />
         <menu className="h-8/12">
           <p className="font-medium text-sm text-black/50 pl-6 mb-2">Home</p>
@@ -57,7 +57,7 @@ export default function AsideMenu() {
                     href={uri}
                     className="w-full text-sm rounded-lg flex items-center gap-3 p-4"
                   >
-                    <span className={`${icon} text-2xl`}></span>
+                    <span className={`${icon} text-2xl`} />
                     {label}
                   </Link>
                 </li>
