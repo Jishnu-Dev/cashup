@@ -3,9 +3,11 @@
 import { Button } from "@mui/material";
 import Card from "@/components/ui/Card";
 import ProfileEditModal from "./ProfileEditModal";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function MerchatDetails() {
+  const router = useRouter();
   const accountInfos = [
     { label: "Name", value: "Acme Dodas" },
     { label: "Email", value: "merchant@cashup.com" },
@@ -37,7 +39,8 @@ export default function MerchatDetails() {
           className="w-max"
           variant="outlined"
           onClick={() => {
-            setIsProfileEditModalOpen(true);
+            // setIsProfileEditModalOpen(true);
+            router.push("/profile/edit-profile");
           }}
           startIcon={<span className="icon-[solar--pen-line-duotone]" />}
         >
