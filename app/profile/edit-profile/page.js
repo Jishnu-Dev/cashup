@@ -8,6 +8,7 @@ import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
+import { Chip } from "@mui/material";
 import Divider from "@mui/material/Divider";
 import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
@@ -51,6 +52,7 @@ export default function Page() {
       <CardHeader
         title="Update your merchant details"
         subheader="Marked * fields are required fields"
+        action={<Chip label="Active" color="success" />}
       />
       <CardContent>
         <FormContext.Provider
@@ -72,7 +74,7 @@ export default function Page() {
         </FormContext.Provider>
       </CardContent>
       <Divider />
-      <CardActions className="flex gap-3 justify-end">
+      <CardActions className="flex justify-end">
         <FormActions />
       </CardActions>
     </Card>
@@ -100,7 +102,7 @@ const FieldsBasicInfo = () => {
           variant="outlined"
           id="field-merchant-name"
           label="Merchant Name*"
-          error={!!errors?.merchantName?.message}
+          error={!!errors?.merchantName}
           helperText={
             errors?.merchantName?.message ?? "Enter your merchant name"
           }
@@ -122,7 +124,7 @@ const FieldsBasicInfo = () => {
           variant="outlined"
           id="field-merchant-email"
           label="Email Address*"
-          error={!!errors?.merchantEmail?.message}
+          error={!!errors?.merchantEmail}
           helperText={
             errors?.merchantEmail?.message ?? "Enter your email address"
           }
@@ -145,7 +147,7 @@ const FieldsBasicInfo = () => {
           defaultValue="shop"
           id="field-merchant-branch-type"
           helperText="Choose the type of your branch"
-          error={!!errors?.merchantBranchType?.message}
+          error={!!errors?.merchantBranchType}
           {...register("merchantBranchType")}
         >
           {branchTypes.map(({ label, value }) => (
@@ -161,7 +163,7 @@ const FieldsBasicInfo = () => {
           defaultValue="active"
           id="field-merchant-status"
           helperText="Enable or disable your merchant account"
-          error={!!errors?.merchantStatus?.message}
+          error={!!errors?.merchantStatus}
           {...register("merchantStatus")}
         >
           {[
@@ -190,6 +192,22 @@ const FieldsAddressDetails = () => {
     <div className="grid grid-flow-row gap-6">
       <Divider textAlign="left">Street Address</Divider>
       <div className="grid grid-cols-2 gap-6">
+        {/* ****** City ***** */}
+        <TextField
+          select
+          label="City"
+          defaultValue="marketplace"
+          id="field-merchant-city"
+          helperText="Choose the city where the business is registered"
+          error={!!errors?.merchantCity}
+          {...register("merchantCity")}
+        >
+          {branchTypes.map(({ label, value }) => (
+            <MenuItem key={value} value={value}>
+              {label}
+            </MenuItem>
+          ))}
+        </TextField>
         {/* ****** Address ***** */}
         <TextField
           // multiline
@@ -199,7 +217,7 @@ const FieldsAddressDetails = () => {
           variant="outlined"
           id="field-merchant-address"
           error={!!errors.merchantAddress}
-          helperText={errors?.merchantAddress?.message ?? "Enter your address"}
+          helperText={errors?.merchantAddress ?? "Enter your address"}
           {...register("merchantAddress", {
             required: "Please enter your address",
             max: {
@@ -219,7 +237,7 @@ const FieldsAddressDetails = () => {
           defaultValue="shop"
           id="field-merchant-area"
           helperText="Choose the area of your branch"
-          error={!!errors?.merchantArea?.message}
+          error={!!errors?.merchantArea}
           {...register("merchantArea")}
         >
           {branchTypes.map(({ label, value }) => (
@@ -250,7 +268,7 @@ const FieldsAddressDetails = () => {
           variant="outlined"
           id="field-merchant-po-box"
           label="PO Box*"
-          error={!!errors?.merchantPoBox?.message}
+          error={!!errors?.merchantPoBox}
           helperText={
             errors?.merchantPoBox?.message ?? "Enter your PO Box number"
           }
@@ -266,8 +284,8 @@ const FieldsAddressDetails = () => {
             },
           })}
         />
-        {/* ****** Country ***** */}
-        <TextField
+        {/* ****** Country: Not needed for now, presently only UAE ***** */}
+        {/* <TextField
           select
           label="Country"
           defaultValue="marketplace"
@@ -281,23 +299,7 @@ const FieldsAddressDetails = () => {
               {label}
             </MenuItem>
           ))}
-        </TextField>
-        {/* ****** City ***** */}
-        <TextField
-          select
-          label="City"
-          defaultValue="marketplace"
-          id="field-merchant-city"
-          helperText="Choose the city where the business is registered"
-          error={!!errors?.merchantCity?.message}
-          {...register("merchantCity")}
-        >
-          {branchTypes.map(({ label, value }) => (
-            <MenuItem key={value} value={value}>
-              {label}
-            </MenuItem>
-          ))}
-        </TextField>
+        </TextField> */}
         {/* ****** Area ***** */}
         <TextField
           select
@@ -305,7 +307,7 @@ const FieldsAddressDetails = () => {
           defaultValue="marketplace"
           id="field-merchant-area"
           helperText="Choose the area where the business is running"
-          error={!!errors?.merchantarea?.message}
+          error={!!errors?.merchantarea}
           {...register("merchantArea")}
         >
           {branchTypes.map(({ label, value }) => (
@@ -314,6 +316,9 @@ const FieldsAddressDetails = () => {
             </MenuItem>
           ))}
         </TextField>
+
+        {/* ****** Location ***** */}
+        {/* <FieldGoogleMapsLocation /> */}
         {/* ****** Mobile ***** */}
         <MuiTelInput
           {...register("merchantMobileNumber", {
@@ -344,6 +349,8 @@ const FieldsAddressDetails = () => {
           onChange={handleChange}
           // onlyCountries={["AE"]}
         />
+        {/* COUNTRT PICKER TEST : TODO */}
+        {/* https://mui.com/material-ui/react-autocomplete/#google-maps-place */}
       </div>
     </div>
   );

@@ -52,7 +52,7 @@ export default function MerchantBanks() {
           className="w-max"
           variant="outlined"
           onClick={() => {
-            router.push("/merchant/banks");
+            router.push("/banks");
           }}
           startIcon={<span className="icon-[solar--eye-line-duotone]" />}
         >

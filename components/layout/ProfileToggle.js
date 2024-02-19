@@ -19,7 +19,7 @@ export default function ProfileToggle() {
     setAnchorEl(null);
   };
   const open = Boolean(anchorEl);
-  const id = open ? "simple-popover" : undefined;
+  const id = open ? "profile-popover" : undefined;
 
   return (
     <Fragment>

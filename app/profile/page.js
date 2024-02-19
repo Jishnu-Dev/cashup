@@ -1,4 +1,3 @@
-import { Button } from "@mui/material";
 import Card from "@/components/ui/Card";
 import MerchantBanks from "@/components/profile/MerchantBanks";
 import MerchantContacts from "@/components/profile/MerchantContacts";
