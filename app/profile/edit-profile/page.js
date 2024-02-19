@@ -1,5 +1,6 @@
 "use client";
 
+import { Controller, useForm } from "react-hook-form";
 import { Fragment, createContext, useContext, useState } from "react";
 import { MuiTelInput, matchIsValidTel } from "mui-tel-input";
 
@@ -8,11 +9,10 @@ import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
-import { Chip } from "@mui/material";
+import Chip from "@mui/material/Chip";
 import Divider from "@mui/material/Divider";
 import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
-import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 
 const FormContext = createContext();
@@ -20,15 +20,15 @@ const FormContext = createContext();
 const branchTypes = [
   {
     label: "Shop",
-    value: "shop",
+    value: 1,
   },
   {
     label: "Marketplace",
-    value: "marketplace",
+    value: 2,
   },
   {
     label: "Online",
-    value: "online",
+    value: 3,
   },
 ];
 
@@ -37,14 +37,14 @@ export default function Page() {
     register,
     handleSubmit,
     reset,
+    control,
     formState: { errors },
   } = useForm();
   const router = useRouter();
 
   const profileUpdateHandler = async (formData) => {
-    setIsOpen(false);
-    const { merchantName, merchantBranchType } = formData;
-    console.log("NAME,", merchantBranchType);
+    const { merchantLandline, merchantBranchType } = formData;
+    console.log("NAME,", merchantMobileNumber);
   };
 
   return (
@@ -61,6 +61,7 @@ export default function Page() {
             handleSubmit,
             errors,
             reset,
+            control,
           }}
         >
           <form
@@ -144,7 +145,7 @@ const FieldsBasicInfo = () => {
         <TextField
           select
           label="Branch Type"
-          defaultValue="shop"
+          defaultValue={1}
           id="field-merchant-branch-type"
           helperText="Choose the type of your branch"
           error={!!errors?.merchantBranchType}
@@ -181,7 +182,7 @@ const FieldsBasicInfo = () => {
 };
 
 const FieldsAddressDetails = () => {
-  const { register, errors } = useContext(FormContext);
+  const { register, control, errors } = useContext(FormContext);
 
   const [phone, setPhone] = useState("");
   const handleChange = (newPhone) => {
@@ -196,7 +197,7 @@ const FieldsAddressDetails = () => {
         <TextField
           select
           label="City"
-          defaultValue="marketplace"
+          defaultValue={1}
           id="field-merchant-city"
           helperText="Choose the city where the business is registered"
           error={!!errors?.merchantCity}
@@ -217,7 +218,7 @@ const FieldsAddressDetails = () => {
           variant="outlined"
           id="field-merchant-address"
           error={!!errors.merchantAddress}
-          helperText={errors?.merchantAddress ?? "Enter your address"}
+          helperText={errors?.merchantAddress?.message ?? "Enter your address"}
           {...register("merchantAddress", {
             required: "Please enter your address",
             max: {
@@ -234,7 +235,7 @@ const FieldsAddressDetails = () => {
         <TextField
           select
           label="Area"
-          defaultValue="shop"
+          defaultValue={3}
           id="field-merchant-area"
           helperText="Choose the area of your branch"
           error={!!errors?.merchantArea}
@@ -250,7 +251,7 @@ const FieldsAddressDetails = () => {
         <TextField
           select
           label="City"
-          defaultValue="shop"
+          defaultValue={2}
           id="field-merchant-city"
           helperText="Choose the city of your branch"
           error={!!errors.merchantCity}
@@ -304,7 +305,7 @@ const FieldsAddressDetails = () => {
         <TextField
           select
           label="Area"
-          defaultValue="marketplace"
+          defaultValue={3}
           id="field-merchant-area"
           helperText="Choose the area where the business is running"
           error={!!errors?.merchantarea}
@@ -316,40 +317,57 @@ const FieldsAddressDetails = () => {
             </MenuItem>
           ))}
         </TextField>
-
-        {/* ****** Location ***** */}
-        {/* <FieldGoogleMapsLocation /> */}
         {/* ****** Mobile ***** */}
-        <MuiTelInput
-          {...register("merchantMobileNumber", {
+        <Controller
+          name="merchantMobileNumber"
+          control={control}
+          rules={{
+            required: "Please enter mobile number",
             validate: (value) =>
-              matchIsValidTel(value, { onlyCountries: ["FR"] }),
-          })}
-          helperText={errors.tel ? "Mobile number is invalid" : ""}
-          error={!!errors.merchantMobileNumber}
-          value={phone}
-          label="Mobile Number"
-          disableDropdown
-          defaultCountry="AE"
-          onChange={handleChange}
-          // onlyCountries={["AE"]}
+              matchIsValidTel(value, { onlyCountries: ["AE"] }),
+          }}
+          render={({
+            field: { ref: fieldRef, value, ...fieldProps },
+            fieldState,
+          }) => (
+            <MuiTelInput
+              {...fieldProps}
+              value={value ?? ""}
+              inputRef={fieldRef}
+              disableDropdown
+              onlyCountries={["AE"]}
+              defaultCountry="AE"
+              helperText={fieldState.invalid ? "Mobile number is invalid" : ""}
+              error={fieldState.invalid}
+            />
+          )}
         />
         {/* ****** Landline ***** */}
-        <MuiTelInput
-          {...register("merchantTelephone", {
+        <Controller
+          name="merchantLandline"
+          control={control}
+          rules={{
+            required: "Please enter landline number",
             validate: (value) =>
-              matchIsValidTel(value, { onlyCountries: ["FR"] }),
-          })}
-          helperText={errors.tel ? "Telephone number is invalid" : ""}
-          error={!!errors.merchantTelephone}
-          value={phone}
-          label="Telephone Number"
-          disableDropdown
-          defaultCountry="AE"
-          onChange={handleChange}
-          // onlyCountries={["AE"]}
+              matchIsValidTel(value, { onlyCountries: ["AE"] }),
+          }}
+          render={({
+            field: { ref: fieldRef, value, ...fieldProps },
+            fieldState,
+          }) => (
+            <MuiTelInput
+              {...fieldProps}
+              value={value ?? ""}
+              inputRef={fieldRef}
+              disableDropdown
+              onlyCountries={["AE"]}
+              defaultCountry="AE"
+              helperText={fieldState.invalid ? "Landline is invalid" : ""}
+              error={fieldState.invalid}
+            />
+          )}
         />
-        {/* COUNTRT PICKER TEST : TODO */}
+        {/* AREA PICKER TEST : TODO */}
         {/* https://mui.com/material-ui/react-autocomplete/#google-maps-place */}
       </div>
     </div>
@@ -357,13 +375,15 @@ const FieldsAddressDetails = () => {
 };
 
 const FormActions = () => {
-  const handleCancel = () => {
-    reset();
-    router.push("/profile");
-  };
+  const router = useRouter();
   return (
     <Fragment>
-      <Button type="reset" onClick={handleCancel}>
+      <Button
+        type="reset"
+        onClick={() => {
+          router.push("/profile");
+        }}
+      >
         Cancel
       </Button>
       <Button type="submit" variant="contained" form="merchant-details-form">

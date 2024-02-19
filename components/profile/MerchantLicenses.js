@@ -1,7 +1,9 @@
 "use client";
 
-import { Button } from "@mui/material";
-import Card from "@/components/ui/Card";
+import Button from "@mui/material/Button";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardHeader from "@mui/material/CardHeader";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -38,8 +40,23 @@ const rows = [
 export default function MerchantLicenses() {
   const router = useRouter();
   return (
-    <Card title="Merchant Licenses" lead="View or update your licenses">
-      <span className="h-full flex flex-col justify-between gap-3">
+    <Card variant="outlined">
+      <CardHeader
+        title="Licenses"
+        subheader="View or update your licenses"
+        action={
+          <Button
+            disableElevation
+            onClick={() => {
+              router.push("/licenses");
+            }}
+            startIcon={<span className="icon-[solar--eye-line-duotone]" />}
+          >
+            View complete list
+          </Button>
+        }
+      />
+      <CardContent>
         <TableContainer>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
@@ -65,18 +82,7 @@ export default function MerchantLicenses() {
             </TableBody>
           </Table>
         </TableContainer>
-        <Button
-          disableElevation
-          className="w-max"
-          variant="outlined"
-          onClick={() => {
-            router.push("/merchant/contacts");
-          }}
-          startIcon={<span className="icon-[solar--eye-line-duotone]" />}
-        >
-          View full list
-        </Button>
-      </span>
+      </CardContent>
     </Card>
   );
 }

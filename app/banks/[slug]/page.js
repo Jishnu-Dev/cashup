@@ -1,20 +1,18 @@
 "use client";
 
-import {
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  CardHeader,
-  Divider,
-  MenuItem,
-  TextField,
-} from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import Button from "@mui/material/Button";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import CardHeader from "@mui/material/CardHeader";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import Divider from "@mui/material/Divider";
 import { LocalizationProvider } from "@mui/x-date-pickers";
+import MenuItem from "@mui/material/MenuItem";
+import TextField from "@mui/material/TextField";
 import { useRouter } from "next/navigation";
 
 /* THIS PAGE IS USED FOR BOTH ADDING A NEW BANK ACCOUNT
@@ -29,8 +27,12 @@ export default function Page({ params }) {
     control,
     register,
     handleSubmit,
-    formState: { errors },
-  } = useForm();
+    formState: { errors, isLoading },
+  } = useForm({
+    defaultValues: {
+      bankName: isAddingNewBank ? null : slug,
+    },
+  });
 
   const addBankAccountHandler = async (formData) => {
     try {
@@ -44,7 +46,7 @@ export default function Page({ params }) {
   return (
     <Card variant="outlined">
       <CardHeader
-        title="Add New Bank Account"
+        title={isAddingNewBank ? "Add new bank account" : "Edit bank account"}
         subheader="Add a new bank account to use for transactions"
       />
       <CardContent>
@@ -58,7 +60,6 @@ export default function Page({ params }) {
             id="field-bank-name"
             label="Bank Name*"
             variant="outlined"
-            defaultValue="S567JKULO"
             helperText={
               errors?.bankName?.message ?? "Enter the name of the bank"
             }
@@ -161,10 +162,7 @@ export default function Page({ params }) {
             defaultValue="active"
             id="field-bank-status"
             helperText="Enable or disable your bank account"
-            error={!!errors?.accountStatus}
-            {...register("accountStatus", {
-              required: `Please enter the account number`,
-            })}
+            {...register("accountStatus")}
           >
             {[
               { label: "Active", value: "active" },

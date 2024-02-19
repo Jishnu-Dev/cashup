@@ -14,39 +14,28 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { useRouter } from "next/navigation";
 
-function createData(
-  name,
-  branchName,
-  accountNum,
-  accountName,
-  iBanNum,
-  swiftCode,
-  regDate,
-  status
-) {
+function createData(name, designation, country, city, mobile, email, status) {
   return {
     name,
-    branchName,
-    accountNum,
-    accountName,
-    iBanNum,
-    swiftCode,
-    regDate,
+    designation,
+    country,
+    city,
+    mobile,
+    email,
     status,
   };
 }
 
 export default function Page() {
   const router = useRouter();
-  const rows = [...Array(10)].fill(
+  const rows = [...Array(5)].fill(
     createData(
-      "ADCB",
+      "Jishnu Raj",
+      "Software Developer",
+      "UAE",
       "Dubai",
-      89547895213665,
-      "Commercial Acc",
-      587965,
-      "#KIYHG5874",
-      new Date().toLocaleDateString(),
+      "+971 584098765",
+      "jishnu@gn.com",
       "Active"
     )
   );
@@ -55,18 +44,18 @@ export default function Page() {
     <section>
       <Card variant="outlined">
         <CardHeader
-          title="Bank Accounts"
-          subheader="All the banks you have added will be listed here"
+          title="Contacts"
+          subheader="All the contacts you have added will be listed here"
           action={
             <Button
               onClick={() => {
-                router.push("/banks/add-new");
+                router.push("/contacts/add-new");
               }}
               startIcon={
                 <span className="icon-[solar--add-circle-line-duotone]" />
               }
             >
-              Add new account
+              Add new contact
             </Button>
           }
         />
@@ -75,13 +64,12 @@ export default function Page() {
             <Table stickyHeader aria-label="simple table">
               <TableHead>
                 <TableRow>
-                  <TableCell>Bank</TableCell>
-                  <TableCell>Branch</TableCell>
-                  <TableCell>Account</TableCell>
-                  <TableCell>Account No.</TableCell>
-                  <TableCell>IBan No.</TableCell>
-                  <TableCell>Swift Code</TableCell>
-                  <TableCell>Reg. Date</TableCell>
+                  <TableCell>Name</TableCell>
+                  <TableCell>Designation</TableCell>
+                  <TableCell>Country</TableCell>
+                  <TableCell>City</TableCell>
+                  <TableCell>Mobile Number</TableCell>
+                  <TableCell>Email</TableCell>
                   <TableCell>Status</TableCell>
                   <TableCell>Edit</TableCell>
                   <TableCell>Delete</TableCell>
@@ -94,12 +82,11 @@ export default function Page() {
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
                     <TableCell>{row.name}</TableCell>
-                    <TableCell>{row.branchName}</TableCell>
-                    <TableCell>{row.accountName}</TableCell>
-                    <TableCell>{row.accountNum}</TableCell>
-                    <TableCell>{row.iBanNum}</TableCell>
-                    <TableCell>{row.swiftCode}</TableCell>
-                    <TableCell>{row.regDate}</TableCell>
+                    <TableCell>{row.designation}</TableCell>
+                    <TableCell>{row.country}</TableCell>
+                    <TableCell>{row.city}</TableCell>
+                    <TableCell>{row.mobile}</TableCell>
+                    <TableCell>{row.email}</TableCell>
                     <TableCell>
                       <Chip
                         // variant="outlined"

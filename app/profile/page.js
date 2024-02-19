@@ -1,4 +1,5 @@
-import Card from "@/components/ui/Card";
+import Card from "@mui/material/Card";
+import { Fragment } from "react";
 import MerchantBanks from "@/components/profile/MerchantBanks";
 import MerchantContacts from "@/components/profile/MerchantContacts";
 import MerchantLicenses from "@/components/profile/MerchantLicenses";
@@ -16,7 +17,7 @@ export default function Page() {
 
 const HeroBanner = () => {
   return (
-    <Card blank>
+    <Card variant="outlined">
       <div className="w-full h-72 rounded-2xl default-gradient">
         <div className="h-full flex justify-center items-center">
           <div className="flex flex-col gap-4 justify-center items-center">
@@ -36,11 +37,13 @@ const HeroBanner = () => {
 
 const ProfileGrid = () => {
   return (
-    <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <Fragment>
       <MerchatDetails />
-      <MerchantBanks />
-      <MerchantContacts />
+      <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <MerchantBanks />
+        <MerchantContacts />
+      </div>
       <MerchantLicenses />
-    </div>
+    </Fragment>
   );
 };

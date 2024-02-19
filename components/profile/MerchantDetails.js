@@ -1,8 +1,9 @@
 "use client";
 
-import { Button } from "@mui/material";
-import Card from "@/components/ui/Card";
-import ProfileEditModal from "./ProfileEditModal";
+import Button from "@mui/material/Button";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardHeader from "@mui/material/CardHeader";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -24,33 +25,33 @@ export default function MerchatDetails() {
   const [isProfileEditModalOpen, setIsProfileEditModalOpen] = useState(false);
 
   return (
-    <Card title="Merchant Details" lead="View or update your account details">
-      <div className="h-full flex flex-col gapp-3 justify-between">
-        <ul className="grid grid-cols-2 gap-x-4 gap-y-6">
-          {accountInfos.map(({ label, value }, i) => (
-            <li key={label} className="grid grid-flow-row gap-1">
-              <p className="text-black/60 text-sm">{label}</p>
-              <p className="text-black font-medium">{value}</p>
-            </li>
-          ))}
-        </ul>
-        <Button
-          disableElevation
-          className="w-max"
-          variant="outlined"
-          onClick={() => {
-            // setIsProfileEditModalOpen(true);
-            router.push("/profile/edit-profile");
-          }}
-          startIcon={<span className="icon-[solar--pen-line-duotone]" />}
-        >
-          Edit Details
-        </Button>
-        <ProfileEditModal
-          isOpen={isProfileEditModalOpen}
-          setIsOpen={setIsProfileEditModalOpen}
-        />
-      </div>
+    <Card variant="outlined">
+      <CardHeader
+        title="Merchant details"
+        subheader="View or update your account details"
+        action={
+          <Button
+            onClick={() => {
+              router.push("/profile/edit-profile");
+            }}
+            startIcon={<span className="icon-[solar--pen-line-duotone]" />}
+          >
+            Edit Details
+          </Button>
+        }
+      />
+      <CardContent>
+        <div className="h-full flex flex-col gapp-3 justify-between">
+          <ul className="grid grid-cols-2 gap-x-4 gap-y-6">
+            {accountInfos.map(({ label, value }, i) => (
+              <li key={label} className="grid grid-flow-row gap-1">
+                <p className="text-black/60 text-sm">{label}</p>
+                <p className="text-black font-medium">{value}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </CardContent>
     </Card>
   );
 }
