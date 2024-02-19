@@ -3,15 +3,12 @@
 import { Controller, useForm } from "react-hook-form";
 import { MuiTelInput, matchIsValidTel } from "mui-tel-input";
 
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import Divider from "@mui/material/Divider";
-import { LocalizationProvider } from "@mui/x-date-pickers";
 import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
 import { useRouter } from "next/navigation";
@@ -38,7 +35,7 @@ const branchTypes = [
 export default function Page({ params }) {
   const { slug } = params;
   const router = useRouter();
-  const isAddingNewBank = slug === "add-new";
+  const isAddingNewContact = slug === "add-new";
   const {
     control,
     register,
@@ -46,7 +43,7 @@ export default function Page({ params }) {
     formState: { errors, isLoading },
   } = useForm({
     defaultValues: {
-      bankName: isAddingNewBank ? null : slug,
+      bankName: isAddingNewContact ? null : slug,
     },
   });
 
@@ -62,8 +59,12 @@ export default function Page({ params }) {
   return (
     <Card variant="outlined">
       <CardHeader
-        title={isAddingNewBank ? "Add new contact" : "Edit bank account"}
-        subheader="Add a new contact to your contacts list"
+        title={isAddingNewContact ? "Add new contact" : "Edit contact"}
+        subheader={
+          isAddingNewContact
+            ? "Add a new contact to your contacts list"
+            : "Update this existing contact"
+        }
       />
       <CardContent>
         <form

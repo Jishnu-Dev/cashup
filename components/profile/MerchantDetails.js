@@ -5,11 +5,11 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 
 export default function MerchatDetails() {
   const router = useRouter();
   const accountInfos = [
+    { label: "Merchant ID", value: "WHRXSR854" },
     { label: "Name", value: "Acme Dodas" },
     { label: "Email", value: "merchant@cashup.com" },
     {
@@ -20,9 +20,6 @@ export default function MerchatDetails() {
     { label: "Telephone", value: "+971 583459876" },
     { label: "Status", value: "Active" },
   ];
-
-  // Edit Modal
-  const [isProfileEditModalOpen, setIsProfileEditModalOpen] = useState(false);
 
   return (
     <Card variant="outlined">
