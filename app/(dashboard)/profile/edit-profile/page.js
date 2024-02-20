@@ -9,6 +9,7 @@ import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
+import CardTitleIcon from "@/components/ui/CardTitleIcon";
 import Chip from "@mui/material/Chip";
 import Divider from "@mui/material/Divider";
 import MenuItem from "@mui/material/MenuItem";
@@ -53,6 +54,9 @@ export default function Page() {
         title="Update your merchant details"
         subheader="Marked * fields are required fields"
         action={<Chip label="Active" color="success" />}
+        avatar={
+          <CardTitleIcon icon="icon-[solar--user-check-rounded-line-duotone]" />
+        }
       />
       <CardContent>
         <FormContext.Provider
@@ -86,7 +90,12 @@ const FieldsBasicInfo = () => {
   const { register, errors } = useContext(FormContext);
   return (
     <div className="grid grid-flow-row gap-6">
-      <Divider textAlign="left">Basic Info</Divider>
+      <Divider textAlign="left">
+        <div className="flex items-center gap-3">
+          <CardTitleIcon icon="icon-[solar--document-add-line-duotone]" />
+          Basic Info
+        </div>
+      </Divider>
       <div className="grid grid-cols-2 gap-6">
         {/* ****** Merchant Code ***** */}
         <TextField
@@ -184,14 +193,14 @@ const FieldsBasicInfo = () => {
 const FieldsAddressDetails = () => {
   const { register, control, errors } = useContext(FormContext);
 
-  const [phone, setPhone] = useState("");
-  const handleChange = (newPhone) => {
-    setPhone(newPhone);
-  };
-
   return (
     <div className="grid grid-flow-row gap-6">
-      <Divider textAlign="left">Street Address</Divider>
+      <Divider textAlign="left">
+        <div className="flex items-center gap-3">
+          <CardTitleIcon icon="icon-[solar--mailbox-line-duotone]" />
+          Street Address
+        </div>
+      </Divider>
       <div className="grid grid-cols-2 gap-6">
         {/* ****** City ***** */}
         <TextField
@@ -380,13 +389,19 @@ const FormActions = () => {
     <Fragment>
       <Button
         type="reset"
+        size="large"
         onClick={() => {
           router.push("/profile");
         }}
       >
         Cancel
       </Button>
-      <Button type="submit" variant="contained" form="merchant-details-form">
+      <Button
+        size="large"
+        type="submit"
+        variant="contained"
+        form="merchant-details-form"
+      >
         Save changes
       </Button>
     </Fragment>

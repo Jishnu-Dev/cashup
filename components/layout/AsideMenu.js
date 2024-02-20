@@ -1,6 +1,6 @@
 "use client";
 
-// Icons used - https://icon-sets.iconify.design/solar/ (Line Duotone)
+/* ***** Icon pack used -> https://icon-sets.iconify.design/solar (Line Duotone variant) ***** */
 
 import Image from "next/image";
 import Link from "next/link";
@@ -37,11 +37,14 @@ export default function AsideMenu() {
   ];
 
   return (
-    <aside className="h-full col-span-2 py-6 pr-6 flex flex-col bg-white rounded-2xl shadow shadow-primary/20">
+    <aside
+      className="h-full col-span-2 py-6 pr-6 flex flex-col rounded-2xl shadow shadow-primary/20
+      default-gradient
+    "
+    >
       <div className="flex flex-col gap-12">
         <Branding />
         <menu className="h-8/12">
-          <p className="font-medium text-sm text-black/50 pl-6 mb-2">Home</p>
           <ul className="flex flex-col gap-0.5">
             {menuItems.map(({ label, uri, icon, isActive }) => {
               return (
@@ -49,8 +52,8 @@ export default function AsideMenu() {
                   key={uri}
                   className={classNames({
                     "w-full group rounded-r-full": true,
-                    "bg-primary/10 text-primary": isActive,
-                    "text-black hover:bg-primary/10": !isActive,
+                    "bg-green-400 text-white": isActive,
+                    "text-white hover:bg-green-400": !isActive,
                   })}
                 >
                   <Link
@@ -66,19 +69,18 @@ export default function AsideMenu() {
           </ul>
         </menu>
       </div>
-      {/* <FooterActions /> */}
     </aside>
   );
 }
 
 const Branding = () => (
-  <Link href="/dashboard" className="px-6">
+  <Link href="/" className="px-6">
     <Image
       priority
-      src="/images/cashup-logo-colored.png"
       alt="Logo"
-      width={180}
-      height={180}
+      width={160}
+      height={160}
+      src="/images/cashup-logo-white.png"
       style={{ width: "auto", height: "auto" }}
     />
   </Link>

@@ -1,4 +1,4 @@
-import "./globals.css";
+import "../globals.css";
 
 import { siteBasePath, siteName, tagline } from "@/lib/constants";
 
@@ -8,7 +8,7 @@ import { Inter } from "next/font/google";
 import Navbar from "@/components/layout/Navbar";
 import { ThemeProvider } from "@mui/material/styles";
 import classNames from "classnames";
-import theme from "./theme";
+import theme from "../theme";
 
 const inter = Inter({ subsets: ["latin"] });
 

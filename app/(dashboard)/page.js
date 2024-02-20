@@ -1,4 +1,6 @@
-import Card from "@/components/ui/Card";
+import { Card, CardContent, CardHeader } from "@mui/material";
+
+import CardTitleIcon from "@/components/ui/CardTitleIcon";
 import Image from "next/image";
 
 export default function Page() {
@@ -21,14 +23,13 @@ export default function Page() {
         />
       </div>
       <Grid />
-      <Grid />
     </section>
   );
 }
 
 const Greenting = ({ title, lead, img, cta = "Learn More" }) => {
   return (
-    <div className="w-full rounded-2xl bg-gradient-to-r from-emerald-500 to-emerald-900 flex justify-between shadow p-6">
+    <div className="w-full rounded-2xl bg-gradient-to-r from-sky-600 to-emerald-500 flex justify-between shadow p-6">
       <div className="flex flex-col gap-8">
         <Clock />
         <div className="flex flex-col gap-8">
@@ -64,12 +65,18 @@ const Clock = () => {
 const Grid = () => {
   return (
     <div className="grid grid-cols-2 gap-8">
-      {[...Array(5)].map((_, i) => (
-        <Card
-          title="Total downloads"
-          lead="Total app downloads in a selected period"
-        >
-          Lorem ipsum dolor sit amet lorem ipsum dolor sit amet
+      {[...Array(4)].map((_, i) => (
+        <Card>
+          <CardHeader
+            title="Lorem ipsum"
+            subheader="Lorem ipsum dolor sit amet"
+            avatar={
+              <CardTitleIcon icon="icon-[solar--course-up-line-duotone]" />
+            }
+          />
+          <CardContent>
+            Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
+          </CardContent>
         </Card>
       ))}
     </div>
