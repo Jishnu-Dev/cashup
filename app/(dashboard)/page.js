@@ -29,7 +29,11 @@ export default function Page() {
 
 const Greenting = ({ title, lead, img, cta = "Learn More" }) => {
   return (
-    <div className="w-full rounded-2xl bg-gradient-to-r from-sky-600 to-emerald-500 flex justify-between shadow p-6">
+    <div
+      className="w-full rounded-2xl flex justify-between shadow p-6
+      bg-gradient-to-r from-sky-600 to-emerald-500
+    "
+    >
       <div className="flex flex-col gap-8">
         <Clock />
         <div className="flex flex-col gap-8">

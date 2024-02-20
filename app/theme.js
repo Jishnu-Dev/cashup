@@ -20,7 +20,6 @@ const theme = createTheme({
       },
     },
     // Card
-    // rgb(67 160 71 / 0.1)
     MuiCard: {
       defaultProps: {
         variant: "outlined",
