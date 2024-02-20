@@ -18,7 +18,7 @@ export default function Page() {
 const HeroBanner = () => {
   return (
     <Card variant="outlined">
-      <div className="w-full h-72 rounded-2xl default-gradient">
+      <div className="w-full h-72 rounded-2xl default-gradien">
         <div className="h-full flex justify-center items-center">
           <div className="flex flex-col gap-4 justify-center items-center">
             <div className="p-1 rounded-full border-2 border-white/60">

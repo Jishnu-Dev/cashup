@@ -36,12 +36,17 @@ export default function AsideMenu() {
     },
   ];
 
+  // old
+  //bg-gradient-to-t from-emerald-600/70 via-emerald-500/30 to-white
+  // bg-gradient-to-t from-green-500 via-emerald-500/30 to-white
+
   return (
     <aside
       className="h-full col-span-2 py-6 pr-6 flex flex-col rounded-2xl shadow shadow-primary/20
-      default-gradient
-    "
+      bg-gradient-to-t from-emerald-700/70 via-emerald-600/30 to-white
+      "
     >
+      {/* bg-gradient-to-t from-emerald-600/50 white */}
       <div className="flex flex-col gap-12">
         <Branding />
         <menu className="h-8/12">
@@ -52,8 +57,8 @@ export default function AsideMenu() {
                   key={uri}
                   className={classNames({
                     "w-full group rounded-r-full": true,
-                    "bg-green-400 text-white": isActive,
-                    "text-white hover:bg-green-400": !isActive,
+                    "bg-green-400/80 text-black": isActive,
+                    "text-black hover:bg-green-400/20": !isActive,
                   })}
                 >
                   <Link
@@ -80,7 +85,7 @@ const Branding = () => (
       alt="Logo"
       width={160}
       height={160}
-      src="/images/cashup-logo-white.png"
+      src="/images/cashup-logo-colored.png"
       style={{ width: "auto", height: "auto" }}
     />
   </Link>

@@ -52,7 +52,6 @@ const theme = createTheme({
   palette: {
     primary: {
       main: green[600],
-      // main: '#0066FF'
     },
     secondary: {
       main: blue[600],

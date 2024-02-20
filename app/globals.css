@@ -25,6 +25,7 @@ body {
     @apply bg-white backdrop-filter backdrop-blur bg-opacity-50;
   }
   .default-gradient {
-    @apply bg-gradient-to-r from-emerald-500 to-emerald-900;
+    @apply bg-gradient-to-r from-sky-600 to-emerald-500;
+    /* @apply bg-gradient-to-r from-emerald-500 to-emerald-900; */
   }
 }
