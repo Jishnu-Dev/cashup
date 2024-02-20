@@ -4,6 +4,7 @@ import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
+import CardTitleIcon from "@/components/ui/CardTitleIcon";
 import { useRouter } from "next/navigation";
 
 export default function MerchatDetails() {
@@ -22,7 +23,7 @@ export default function MerchatDetails() {
   ];
 
   return (
-    <Card variant="outlined">
+    <Card>
       <CardHeader
         title="Merchant details"
         subheader="View or update your account details"
@@ -36,6 +37,7 @@ export default function MerchatDetails() {
             Edit Details
           </Button>
         }
+        avatar={<CardTitleIcon icon="icon-[solar--user-circle-broken]" />}
       />
       <CardContent>
         <div className="h-full flex flex-col gapp-3 justify-between">

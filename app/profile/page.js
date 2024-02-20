@@ -38,12 +38,12 @@ const HeroBanner = () => {
 const ProfileGrid = () => {
   return (
     <Fragment>
-      <MerchatDetails />
       <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <MerchatDetails />
         <MerchantBanks />
         <MerchantContacts />
+        <MerchantLicenses />
       </div>
-      <MerchantLicenses />
     </Fragment>
   );
 };

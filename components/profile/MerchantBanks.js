@@ -1,11 +1,10 @@
 "use client";
 
-import { Button, CardActionArea, Divider } from "@mui/material";
-
+import { Button } from "@mui/material";
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
+import CardTitleIcon from "@/components/ui/CardTitleIcon";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -28,7 +27,7 @@ const rows = [
 export default function MerchantBanks() {
   const router = useRouter();
   return (
-    <Card variant="outlined">
+    <Card>
       <CardHeader
         title="Bank Accounts"
         subheader="View or update your bank accounts"
@@ -43,6 +42,7 @@ export default function MerchantBanks() {
             View complete list
           </Button>
         }
+        avatar={<CardTitleIcon icon="icon-[solar--buildings-2-line-duotone]" />}
       />
       <CardContent>
         <TableContainer>

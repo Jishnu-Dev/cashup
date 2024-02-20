@@ -4,6 +4,7 @@ import { Button } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
+import CardTitleIcon from "@/components/ui/CardTitleIcon";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -26,7 +27,7 @@ const rows = [
 export default function MerchantContacts() {
   const router = useRouter();
   return (
-    <Card variant="outlined">
+    <Card>
       <CardHeader
         title="Contacts"
         subheader="View or update your contacts"
@@ -41,6 +42,7 @@ export default function MerchantContacts() {
             View complete list
           </Button>
         }
+        avatar={<CardTitleIcon icon="icon-[solar--user-id-line-duotone]" />}
       />
       <CardContent>
         <TableContainer>

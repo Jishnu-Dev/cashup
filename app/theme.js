@@ -20,6 +20,18 @@ const theme = createTheme({
       },
     },
     // Card
+    // rgb(67 160 71 / 0.1)
+    MuiCard: {
+      defaultProps: {
+        variant: "outlined",
+      },
+      styleOverrides: {
+        root: {
+          boxShadow:
+            "rgb(67 160 71 / 0.1) 0px 10px 15px -3px, rgb(67 160 71 / 0.1) 0px 4px 6px -2px",
+        },
+      },
+    },
     MuiCardHeader: {
       defaultProps: {
         titleTypographyProps: {
