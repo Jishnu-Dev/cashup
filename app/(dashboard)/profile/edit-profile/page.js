@@ -53,7 +53,13 @@ export default function Page() {
       <CardHeader
         title="Update your merchant details"
         subheader="Marked * fields are required fields"
-        action={<Chip label="Active" color="success" />}
+        action={
+          <Chip
+            label="Account Status: Active"
+            color="success"
+            variant="outlined"
+          />
+        }
         avatar={
           <CardTitleIcon icon="icon-[solar--user-check-rounded-line-duotone]" />
         }

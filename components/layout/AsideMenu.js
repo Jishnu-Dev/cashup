@@ -1,5 +1,4 @@
 "use client";
-
 /* ***** Icon pack used -> https://icon-sets.iconify.design/solar (Line Duotone variant) ***** */
 
 import Image from "next/image";
@@ -36,17 +35,12 @@ export default function AsideMenu() {
     },
   ];
 
-  // old
-  //bg-gradient-to-t from-emerald-600/70 via-emerald-500/30 to-white
-  // bg-gradient-to-t from-green-500 via-emerald-500/30 to-white
-
   return (
     <aside
       className="h-full col-span-2 py-6 pr-6 flex flex-col rounded-2xl shadow shadow-primary/20
-      bg-gradient-to-t from-emerald-700/70 via-emerald-600/30 to-white
-      "
+      bg-gradient-to-t from-emerald-500 via-emerald-600/30 to-white"
     >
-      {/* bg-gradient-to-t from-emerald-600/50 white */}
+      {/* from-emerald-700/70 */}
       <div className="flex flex-col gap-12">
         <Branding />
         <menu className="h-8/12">
@@ -62,6 +56,7 @@ export default function AsideMenu() {
                   })}
                 >
                   <Link
+                    prefetch
                     href={uri}
                     className="w-full text-sm rounded-lg flex items-center gap-3 p-4"
                   >

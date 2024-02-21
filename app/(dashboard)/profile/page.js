@@ -1,4 +1,5 @@
 import Card from "@mui/material/Card";
+import { Chip } from "@mui/material";
 import { Fragment } from "react";
 import MerchantBanks from "@/components/profile/MerchantBanks";
 import MerchantContacts from "@/components/profile/MerchantContacts";
@@ -17,17 +18,16 @@ export default function Page() {
 
 const HeroBanner = () => {
   return (
-    <Card variant="outlined">
-      <div className="w-full h-72 rounded-2xl default-gradien">
-        <div className="h-full flex justify-center items-center">
-          <div className="flex flex-col gap-4 justify-center items-center">
-            <div className="p-1 rounded-full border-2 border-white/60">
-              <UserAvatar size={96} name="Acme Doddas" />
-            </div>
-            <div className="text-center text-white">
-              <h2 className="text-2xl font-bold text-white">Acme Doddas</h2>
-              <small>Admin • acme@cashup.com • Merchant Id: WHRXSR854</small>
-            </div>
+    <Card variant="outlined w-full h-72 rounded-2xl default-gradient relative">
+      <AccountStatusBadge />
+      <div className="h-full flex justify-center items-center">
+        <div className="flex flex-col gap-4 justify-center items-center">
+          <div className="p-1 rounded-full border-2 border-white/60">
+            <UserAvatar size={96} name="Acme Doddas" />
+          </div>
+          <div className="text-center text-white">
+            <h2 className="text-2xl font-bold text-white">Acme Doddas</h2>
+            <small>Admin • acme@cashup.com • Merchant Id: WHRXSR854</small>
           </div>
         </div>
       </div>
@@ -47,3 +47,9 @@ const ProfileGrid = () => {
     </Fragment>
   );
 };
+
+const AccountStatusBadge = () => (
+  <div className="absolute right-5 top-5">
+    <Chip label="Active" color="primary" />
+  </div>
+);

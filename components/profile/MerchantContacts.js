@@ -56,9 +56,9 @@ export default function MerchantContacts() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row) => (
+              {rows.map((row, i) => (
                 <TableRow
-                  key={row.name}
+                  key={row.name + i}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell>{row.name}</TableCell>

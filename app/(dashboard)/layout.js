@@ -22,7 +22,7 @@ export const metadata = {
     default: siteName,
   },
   description: tagline,
-  metadataBase: new URL(siteBasePath),
+  // metadataBase: "/",
   keywords: [siteName, tagline],
   openGraph: {
     title: siteName,
