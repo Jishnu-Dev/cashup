@@ -2,7 +2,6 @@
 
 import { Card, CardActions, CardContent, Typography } from "@mui/material";
 
-import BarChart from "@/components/dummy/BarChart";
 import { CountUp } from "use-count-up";
 import Image from "next/image";
 import NivoBumpChart from "@/components/dummy/NivoBumpChart";
@@ -74,7 +73,6 @@ const Clock = () => {
 const Grid = () => {
   return (
     <div className="grid grid-cols-2 gap-8">
-      <BarChart />
       <Sales />
       <ProfileVerifications />
       <NivoBumpChart />
@@ -138,7 +136,7 @@ const Sales = () => {
       {sampleData.slice(0, 2).map(({ value, label, icon }) => (
         <Card
           key={label}
-          className="bg-[url('/images/layered-waves.svg')] bg-no-repeat bg-contain bg-bottom"
+          className="bg-[url('/images/layered-waves.svg')] bg-no-repeat bg-cover bg-bottom"
         >
           <CardContent className="text-black grid grid-flow-row gap-6">
             <span className={`${icon} text-4xl text-primary`} />
