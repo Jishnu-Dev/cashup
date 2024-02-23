@@ -1,9 +1,13 @@
 "use client";
 
-import { Card, CardActions, CardContent, Typography } from "@mui/material";
+import { Card, CardContent, CardHeader } from "@mui/material";
 
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import CardTitleIcon from "@/components/ui/CardTitleIcon";
 import { CountUp } from "use-count-up";
+import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import Image from "next/image";
+import { LocalizationProvider } from "@mui/x-date-pickers";
 import NivoBumpChart from "@/components/dummy/NivoBumpChart";
 import NivoPieChart from "@/components/dummy/NivoPieChart";
 import ProfileVerifications from "@/components/dashboard/ProfileVerifications";
@@ -65,7 +69,7 @@ const Clock = () => {
   const presentDateTime = new Date().toLocaleString();
   return (
     <div className="flex gap-2 items-center">
-      <p className="text-white">{presentDateTime}</p>
+      <p className="text-white">{"22/02/2024"}</p>
     </div>
   );
 };
@@ -76,12 +80,7 @@ const Grid = () => {
       <Sales />
       <ProfileVerifications />
       <NivoBumpChart />
-      {/* <Greenting
-        title="Check out today's sales"
-        lead="Check out the sales of last week"
-        img="coins-stack.svg"
-        cta="Explore"
-      /> */}
+      <Calendar />
     </div>
   );
 };
@@ -157,5 +156,24 @@ const Sales = () => {
       <ThreeColumn />
       <TwoColumn />
     </div>
+  );
+};
+
+const Calendar = () => {
+  return (
+    <Card>
+      <CardHeader
+        title="Activities Calender"
+        subheader="Find your upcoming activities here"
+        avatar={
+          <CardTitleIcon icon="icon-[solar--calendar-date-line-duotone]" />
+        }
+      />
+      <CardContent>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DateCalendar views={["day"]} />
+        </LocalizationProvider>
+      </CardContent>
+    </Card>
   );
 };

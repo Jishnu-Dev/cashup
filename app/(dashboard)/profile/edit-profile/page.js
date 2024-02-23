@@ -93,7 +93,7 @@ export default function Page() {
 }
 
 const FieldsBasicInfo = () => {
-  const { register, errors } = useContext(FormContext);
+  const { register, control, errors } = useContext(FormContext);
   return (
     <div className="grid grid-flow-row gap-6">
       <Divider textAlign="left">
@@ -134,6 +134,38 @@ const FieldsBasicInfo = () => {
             },
           })}
         />
+        {/* ****** Branch Type ***** */}
+        <TextField
+          select
+          label="Branch Type"
+          defaultValue={1}
+          id="field-merchant-branch-type"
+          helperText="Choose the type of your branch"
+          error={!!errors?.merchantBranchType}
+          {...register("merchantBranchType")}
+        >
+          {branchTypes.map(({ label, value }) => (
+            <MenuItem key={value} value={value}>
+              {label}
+            </MenuItem>
+          ))}
+        </TextField>
+        {/* ****** Industry ***** */}
+        <TextField
+          select
+          label="Industry"
+          defaultValue={1}
+          id="field-merchant-branch-industry"
+          helperText="Choose the industry in which the business belongs to"
+          error={!!errors?.merchantBranchType}
+          {...register("merchantBranchType")}
+        >
+          {branchTypes.map(({ label, value }) => (
+            <MenuItem key={value} value={value}>
+              {label}
+            </MenuItem>
+          ))}
+        </TextField>
         {/* ****** Email ***** */}
         <TextField
           type="text"
@@ -156,41 +188,58 @@ const FieldsBasicInfo = () => {
             },
           })}
         />
-        {/* ****** Branch Type ***** */}
-        <TextField
-          select
-          label="Branch Type"
-          defaultValue={1}
-          id="field-merchant-branch-type"
-          helperText="Choose the type of your branch"
-          error={!!errors?.merchantBranchType}
-          {...register("merchantBranchType")}
-        >
-          {branchTypes.map(({ label, value }) => (
-            <MenuItem key={value} value={value}>
-              {label}
-            </MenuItem>
-          ))}
-        </TextField>
-        {/* ****** Status ***** */}
-        <TextField
-          select
-          label="Status"
-          defaultValue="active"
-          id="field-merchant-status"
-          helperText="Enable or disable your merchant account"
-          error={!!errors?.merchantStatus}
-          {...register("merchantStatus")}
-        >
-          {[
-            { label: "Active", value: "active" },
-            { label: "Inactive", value: "inactive" },
-          ].map(({ label, value }) => (
-            <MenuItem key={value} value={value}>
-              {label}
-            </MenuItem>
-          ))}
-        </TextField>
+        {/* ****** Mobile ***** */}
+        <Controller
+          name="merchantMobileNumber"
+          control={control}
+          rules={{
+            required: "Please enter mobile number",
+            validate: (value) =>
+              matchIsValidTel(value, { onlyCountries: ["AE"] }),
+          }}
+          render={({
+            field: { ref: fieldRef, value, ...fieldProps },
+            fieldState,
+          }) => (
+            <MuiTelInput
+              {...fieldProps}
+              value={value ?? ""}
+              inputRef={fieldRef}
+              disableDropdown
+              label="Mobile Number"
+              onlyCountries={["AE"]}
+              defaultCountry="AE"
+              helperText={fieldState.invalid ? "Mobile number is invalid" : ""}
+              error={fieldState.invalid}
+            />
+          )}
+        />
+        {/* ****** Landline ***** */}
+        <Controller
+          name="merchantLandline"
+          control={control}
+          rules={{
+            required: "Please enter landline number",
+            validate: (value) =>
+              matchIsValidTel(value, { onlyCountries: ["AE"] }),
+          }}
+          render={({
+            field: { ref: fieldRef, value, ...fieldProps },
+            fieldState,
+          }) => (
+            <MuiTelInput
+              {...fieldProps}
+              value={value ?? ""}
+              inputRef={fieldRef}
+              disableDropdown
+              label="Landline Number"
+              onlyCountries={["AE"]}
+              defaultCountry="AE"
+              helperText={fieldState.invalid ? "Landline is invalid" : ""}
+              error={fieldState.invalid}
+            />
+          )}
+        />
       </div>
     </div>
   );
@@ -332,56 +381,6 @@ const FieldsAddressDetails = () => {
             </MenuItem>
           ))}
         </TextField>
-        {/* ****** Mobile ***** */}
-        <Controller
-          name="merchantMobileNumber"
-          control={control}
-          rules={{
-            required: "Please enter mobile number",
-            validate: (value) =>
-              matchIsValidTel(value, { onlyCountries: ["AE"] }),
-          }}
-          render={({
-            field: { ref: fieldRef, value, ...fieldProps },
-            fieldState,
-          }) => (
-            <MuiTelInput
-              {...fieldProps}
-              value={value ?? ""}
-              inputRef={fieldRef}
-              disableDropdown
-              onlyCountries={["AE"]}
-              defaultCountry="AE"
-              helperText={fieldState.invalid ? "Mobile number is invalid" : ""}
-              error={fieldState.invalid}
-            />
-          )}
-        />
-        {/* ****** Landline ***** */}
-        <Controller
-          name="merchantLandline"
-          control={control}
-          rules={{
-            required: "Please enter landline number",
-            validate: (value) =>
-              matchIsValidTel(value, { onlyCountries: ["AE"] }),
-          }}
-          render={({
-            field: { ref: fieldRef, value, ...fieldProps },
-            fieldState,
-          }) => (
-            <MuiTelInput
-              {...fieldProps}
-              value={value ?? ""}
-              inputRef={fieldRef}
-              disableDropdown
-              onlyCountries={["AE"]}
-              defaultCountry="AE"
-              helperText={fieldState.invalid ? "Landline is invalid" : ""}
-              error={fieldState.invalid}
-            />
-          )}
-        />
         {/* AREA PICKER TEST : TODO */}
         {/* https://mui.com/material-ui/react-autocomplete/#google-maps-place */}
       </div>

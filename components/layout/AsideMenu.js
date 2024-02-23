@@ -37,7 +37,7 @@ export default function AsideMenu() {
 
   return (
     <aside
-      className="h-full col-span-2 py-6 pr-6 flex flex-col rounded-2xl shadow shadow-primary/20
+      className="h-full py-6 pr-6 flex flex-col rounded-2xl shadow shadow-primary/20
       bg-gradient-to-t from-emerald-500 via-emerald-600/30 to-white"
     >
       {/* from-emerald-700/70 */}

@@ -18,8 +18,7 @@ export default function Page() {
 
 const HeroBanner = () => {
   return (
-    <Card variant="outlined w-full h-72 rounded-2xl default-gradient relative">
-      <AccountStatusBadge />
+    <Card variant="outlined w-full h-72 rounded-2xl default-gradient">
       <div className="h-full flex justify-center items-center">
         <div className="flex flex-col gap-4 justify-center items-center">
           <div className="p-1 rounded-full border-2 border-white/60">
@@ -47,9 +46,3 @@ const ProfileGrid = () => {
     </Fragment>
   );
 };
-
-const AccountStatusBadge = () => (
-  <div className="absolute right-5 top-5">
-    <Chip label="Active" color="primary" />
-  </div>
-);

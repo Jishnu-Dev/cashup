@@ -1,55 +1,57 @@
 "use client";
 
-import { Fragment, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 
 import Badge from "@mui/material/Badge";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Chip from "@mui/material/Chip";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
 import ProfileToggle from "@/components/layout/ProfileToggle";
 import Typography from "@mui/material/Typography";
-import { usePathname } from "next/navigation";
+import { useState } from "react";
 
 export default function Navbar() {
-  const pathname = usePathname().replace("/", ""); // Removing first / slash
-  // const breadCrumbs = pathname.replace(/\//g, " / "); // Adding space between slashes
-
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const toggleDrawer = () => setIsDrawerOpen((open) => !open);
 
   return (
-    <Card className="w-full px-6 py-2 border-b flex justify-between items-center glass absolute top-0 right-0 z-50 rounded-2xl shadow shadow-primary/20 border">
-      <h2 className="text-lg font-medium text-green-800 capitalize">
-        {pathname || "Dashboard"}
-      </h2>
-      <div className="flex gap-3 items-center">
-        <Badge badgeContent={4} color="primary" overlap="circular">
-          <IconButton aria-label="notifications" onClick={toggleDrawer}>
-            <span className="icon-[solar--bell-line-duotone] group-hover:icon-[solar--bell-bold-duotone]" />
-          </IconButton>
-        </Badge>
-        <ProfileToggle />
+    <Card>
+      <div className="w-full flex justify-between items-center glass rounded-2xl px-4 py-2 shadow-md absolute top-0 right-0 z-50">
+        <RouteActions />
+        <div className="flex gap-3 items-center">
+          <AccountStatusBadge />
+          <Badge badgeContent={4} color="primary" overlap="circular">
+            <IconButton aria-label="notifications" onClick={toggleDrawer}>
+              <span className="icon-[solar--bell-line-duotone] group-hover:icon-[solar--bell-bold-duotone]" />
+            </IconButton>
+          </Badge>
+          <ProfileToggle />
+        </div>
+        <NotificationsDrawer
+          isOpen={isDrawerOpen}
+          setIsOpen={setIsDrawerOpen}
+        />
       </div>
-      <NotificationsDrawer isOpen={isDrawerOpen} setIsOpen={setIsDrawerOpen} />
     </Card>
   );
-
-  // return (
-  //   <nav className="w-full px-6 py-2 border-b flex justify-between items-center glass absolute top-0 right-0 z-50 rounded-2xl shadow shadow-primary/20 border">
-  //     <h2 className="text-lg font-medium text-green-800 capitalize">
-  //       {pathname || "Dashboard"}
-  //     </h2>
-  //     <div className="flex gap-3 items-center">
-  //       <IconButton aria-label="delete" className="group">
-  //         <span className="icon-[solar--bell-line-duotone] group-hover:icon-[solar--bell-bold-duotone]" />
-  //       </IconButton>
-  //       <ProfileToggle />
-  //     </div>
-  //   </nav>
-  // );
 }
+
+const AccountStatusBadge = () => (
+  <Chip
+    color="primary"
+    variant="outlined"
+    label={
+      <div className="flex items-center gap-2">
+        <p>Active</p>
+        <div className="h-2 w-2 rounded-full bg-primary" />
+      </div>
+    }
+  />
+);
 
 const NotificationsDrawer = ({ isOpen, setIsOpen }) => {
   return (
@@ -84,5 +86,25 @@ const NotificationContent = ({ title, content }) => {
         <Divider />
       </button>
     </li>
+  );
+};
+
+const RouteActions = () => {
+  const router = useRouter();
+  const pathname = usePathname().replace("/", ""); // Removing first / slash
+  // const breadCrumbs = pathname.replace(/\//g, " / "); // Adding space between slashes
+
+  return (
+    <div className="flex items-center gap-3">
+      <button
+        onClick={() => router.back()}
+        className="h-10 w-10 p-2 rounded-full bg-primary/10 hover:bg-primary/20 text-primary flex items-center justify-center"
+      >
+        <span className="icon-[solar--arrow-left-line-duotone] text-4xl" />
+      </button>
+      <h5 className="text-xl text-primary font-medium capitalize">
+        {pathname}
+      </h5>
+    </div>
   );
 };
