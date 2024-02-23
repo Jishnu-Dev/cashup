@@ -1,12 +1,20 @@
 "use client";
 
-import { Card, CardContent, CardHeader } from "@mui/material";
+import {
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardHeader,
+} from "@mui/material";
 
 import CardTitleIcon from "../ui/CardTitleIcon";
 import { ResponsivePie } from "@nivo/pie";
 import { pieChartData } from "./data";
+import { useRouter } from "next/navigation";
 
 export default function NivoPieChart() {
+  const router = useRouter();
   return (
     <Card>
       <CardHeader
@@ -95,6 +103,17 @@ export default function NivoPieChart() {
           ]}
         />
       </CardContent>
+      <CardActions>
+        <Button
+          onClick={() => router.push("/reports")}
+          className="group"
+          endIcon={
+            <span className="icon-[solar--arrow-right-line-duotone] group-hover:translate-x-2 ease-in-out transition-all duration-200" />
+          }
+        >
+          See all reports
+        </Button>
+      </CardActions>
     </Card>
   );
 }

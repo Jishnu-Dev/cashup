@@ -1,11 +1,12 @@
 "use client";
 
-import { Card, CardContent, CardHeader } from "@mui/material";
+import { Button, Card, CardContent, CardHeader, Divider } from "@mui/material";
 
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import CardTitleIcon from "@/components/ui/CardTitleIcon";
 import { CountUp } from "use-count-up";
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
+import { Fragment } from "react";
 import Image from "next/image";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import NivoBumpChart from "@/components/dummy/NivoBumpChart";
@@ -70,6 +71,7 @@ const Clock = () => {
   return (
     <div className="flex gap-2 items-center">
       <p className="text-white">{"22/02/2024"}</p>
+      {/* <p className="text-white">{presentDateTime}</p> */}
     </div>
   );
 };
@@ -130,36 +132,54 @@ const Sales = () => {
     </div>
   );
 
-  const TwoColumn = () => (
-    <div className="w-full grid grid-cols-2 gap-4">
-      {sampleData.slice(0, 2).map(({ value, label, icon }) => (
-        <Card
-          key={label}
-          className="bg-[url('/images/layered-waves.svg')] bg-no-repeat bg-cover bg-bottom"
-        >
-          <CardContent className="text-black grid grid-flow-row gap-6">
-            <span className={`${icon} text-4xl text-primary`} />
-            <div>
-              <h4 className="text-3xl font-semibold text-primary">
-                <CountUp isCounting end={value} duration={3} />
-              </h4>
-              <p className="text-primary/80">{label}</p>
-            </div>
-          </CardContent>
-        </Card>
-      ))}
-    </div>
+  const InviteMerhcants = () => (
+    <Card>
+      <CardContent className="h-full bg-[url('/images/blob-circles.svg')] bg-no-repeat bg-cover bg-right-bottom">
+        <div className="h-full flex items-center justify-around gap-4">
+          <span className="icon-[solar--shop-2-broken] text-primary text-[6rem]" />
+          <div className="grid grid-flow-row gap-3">
+            <h3 className="text-2xl font-semibold">
+              Invite New Customers
+              <sup className="text-4xl text-primary font-bold">+</sup>
+            </h3>
+            <Button
+              variant="contained"
+              endIcon={
+                <span className="icon-[solar--arrow-right-line-duotone]" />
+              }
+            >
+              Send invitations now
+            </Button>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
   );
 
   return (
     <div className="grid grid-flow-row grid-rows-2 gap-4">
       <ThreeColumn />
-      <TwoColumn />
+      <InviteMerhcants />
     </div>
   );
 };
 
 const Calendar = () => {
+  const activities = [
+    {
+      label: "Collect pendings",
+      icon: "icon-[solar--banknote-broken]",
+    },
+    {
+      label: "Contact merchants",
+      icon: "icon-[solar--shop-2-line-duotone]",
+    },
+    {
+      label: "Invite merchant",
+      icon: "icon-[solar--user-plus-broken]",
+    },
+  ];
+
   return (
     <Card>
       <CardHeader
@@ -170,9 +190,28 @@ const Calendar = () => {
         }
       />
       <CardContent>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DateCalendar views={["day"]} />
-        </LocalizationProvider>
+        <div className="flex gap-3">
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DateCalendar views={["day"]} sx={{ m: 0 }} />
+          </LocalizationProvider>
+          <div className="flex flex-col gap-3">
+            {activities.map(({ label, icon }) => (
+              <Fragment>
+                <button className="hover:bg-primary/5 p-3">
+                  <div className="flex gap-3 items-center">
+                    <div className="h-16 w-16 rounded-full bg-primary/10 p-3 flex justify-center items-center">
+                      <span className={`${icon} text-primary text-3xl`} />
+                    </div>
+                    <h6 className="font-medium text-left leading-tight text-sm">
+                      {label}
+                    </h6>
+                  </div>
+                </button>
+                <Divider />
+              </Fragment>
+            ))}
+          </div>
+        </div>
       </CardContent>
     </Card>
   );

@@ -20,9 +20,9 @@ export default function Navbar() {
 
   return (
     <Card>
-      <div className="w-full flex justify-between items-center glass rounded-2xl px-4 py-2 shadow-md absolute top-0 right-0 z-50">
+      <div className="w-full flex justify-between items-center glass rounded-2xl px-4 py-2 shadow absolute top-0 right-0 z-50">
         <RouteActions />
-        <div className="flex gap-3 items-center">
+        <div className="ml-auto flex gap-3 items-center">
           <AccountStatusBadge />
           <Badge badgeContent={4} color="primary" overlap="circular">
             <IconButton aria-label="notifications" onClick={toggleDrawer}>
@@ -94,6 +94,7 @@ const RouteActions = () => {
   const pathname = usePathname().replace("/", ""); // Removing first / slash
   // const breadCrumbs = pathname.replace(/\//g, " / "); // Adding space between slashes
 
+  if (!pathname) return null;
   return (
     <div className="flex items-center gap-3">
       <button
