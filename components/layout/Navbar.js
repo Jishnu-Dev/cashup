@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 
 import Badge from "@mui/material/Badge";
@@ -12,11 +13,23 @@ import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
 import ProfileToggle from "@/components/layout/ProfileToggle";
 import Typography from "@mui/material/Typography";
-import { useState } from "react";
+import { apiTest } from "@/api/api";
 
 export default function Navbar() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const toggleDrawer = () => setIsDrawerOpen((open) => !open);
+
+  useEffect(() => {
+    async function test() {
+      try {
+        const resp = await apiTest();
+        console.log("RESULT", resp);
+      } catch (e) {
+        console.log(e.response);
+      }
+    }
+    test();
+  }, []);
 
   return (
     <Card>

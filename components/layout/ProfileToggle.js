@@ -6,6 +6,7 @@ import { Button } from "@mui/material";
 import Link from "next/link";
 import Popover from "@mui/material/Popover";
 import UserAvatar from "@/components/layout/UserAvatar";
+import { useRouter } from "next/navigation";
 
 const name = "Acme Doddas";
 
@@ -107,7 +108,10 @@ const PopoverBody = () => {
 };
 
 const LogoutButton = () => {
-  const logoutHandler = () => {};
+  const router = useRouter();
+  const logoutHandler = () => {
+    router.push("/login");
+  };
   return (
     <Button variant="contained" disableElevation onClick={logoutHandler}>
       Log out

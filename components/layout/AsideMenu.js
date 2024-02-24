@@ -63,7 +63,7 @@ export default function AsideMenu() {
                   key={uri}
                   className={cn({
                     "w-full group rounded-r-full": true,
-                    "bg-green-400/80 text-black font-medium": isActive,
+                    "bg-green-400/80 text-black/50": isActive,
                     "text-black hover:bg-green-400/20": !isActive,
                   })}
                 >
@@ -77,7 +77,7 @@ export default function AsideMenu() {
                         [icon]: true,
                         "text-2xl": true,
                         "text-green-900": isActive,
-                        "text-emerald-800": !isActive,
+                        "text-lime-800": !isActive,
                       })}
                     />
                     {label}

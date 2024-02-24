@@ -6,22 +6,24 @@ import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
-import Divider from "@mui/material/Divider";
+import CircularProgress from "@mui/material/CircularProgress";
 import FormHelperText from "@mui/material/FormHelperText";
 import FormLabel from "@mui/material/FormLabel";
 import Image from "next/image";
 import Link from "next/link";
 import { MuiOtpInput } from "mui-one-time-password-input";
 import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
+import { apiLogin } from "@/api/api";
+import { isValidEmail } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 
 export default function Page() {
   return (
-    <section className="h-full w-full bg-[url('/images/login-bg.svg')] bg-cover bg-no-repeat">
+    <section className="h-full w-full bg-[url('/images/bg-layered-waves.svg')] bg-cover bg-no-repeat">
       <div className="container h-full flex flex-col justify-center items-center gap-12">
         <Logo />
         <LoginForm />
+        <BlankLayoutFooter />
       </div>
     </section>
   );
@@ -33,13 +35,28 @@ const LoginForm = () => {
     register,
     handleSubmit,
     control,
-    formState: { errors },
-  } = useForm();
+    formState: { errors, isSubmitting },
+  } = useForm({
+    defaultValues: {
+      username: "0501111111",
+      passcode: "111111",
+    },
+  });
 
-  const onSubmit = async (formData) => {
+  const onSubmit = async ({ username, passcode }) => {
     try {
-      console.log("FormData::", formData);
+      const isSigningInByEmail = isValidEmail(username);
+      console.log("isSigningInByEmail", isSigningInByEmail);
       router.replace("/");
+      return;
+
+      const payload = {
+        in_userid: username,
+        in_pin: passcode,
+      };
+      console.log("Payload", payload);
+      const resp = await apiLogin(payload);
+      console.log("RESP::", resp);
     } catch (e) {
       console.error(e);
     }
@@ -49,7 +66,6 @@ const LoginForm = () => {
     <Card className="w-full md:w-8/12 lg:w-5/12">
       <CardContent className="grid grid-flow-row gap-8">
         <Title />
-        <Divider textAlign="center">Sign In</Divider>
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="grid grid-flow-row gap-4"
@@ -57,9 +73,6 @@ const LoginForm = () => {
           <TextField
             {...register("username", {
               required: "Please enter your email or phone",
-              validate: (value) => {
-                console.log("VALUE::", value);
-              },
             })}
             id="field-username"
             variant="outlined"
@@ -86,21 +99,23 @@ const LoginForm = () => {
               </div>
             )}
           />
-          <Button type="submit" variant="contained" size="large">
-            Sign In
+          <Button
+            size="large"
+            type="submit"
+            variant="contained"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? "Signing in..." : "Sign In"}
           </Button>
         </form>
-        <div className="grid grid-flow-row gap-4">
-          <Divider>Help</Divider>
-          <CardActions>
-            <Link
-              href="/forgot-passcode"
-              className="w-max mx-auto text-sm text-black hover:text-primary"
-            >
-              Forgot Passcode?
-            </Link>
-          </CardActions>
-        </div>
+        <CardActions>
+          <Link
+            href="/forgot-passcode"
+            className="w-max mx-auto text-sm text-black hover:text-primary"
+          >
+            Forgot passcode?
+          </Link>
+        </CardActions>
       </CardContent>
     </Card>
   );
@@ -108,22 +123,37 @@ const LoginForm = () => {
 
 const Title = () => {
   return (
-    <div className="flex flex-col justify-center items-center">
-      <h1 className="text-3xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-green-950">
-        Welcome Admin!
-      </h1>
-      <Typography variant="subtitle1" className="text-black/80">
-        Sign in to manage your Cashup account
-      </Typography>
+    <div className="flex flex-col justify-center items-center gap-3">
+      <span className="icon-[solar--shop-2-line-duotone] text-[4rem] text-primary" />
+      <span>
+        <h1 className="text-3xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-green-950">
+          Welcome Back Admin
+        </h1>
+        <p className="text-sm text-black/60">
+          Sign in to manage your <b>Cashup</b> merchant account
+        </p>
+      </span>
     </div>
   );
 };
 
 const Logo = () => (
   <Image
-    width={210}
-    height={210}
+    width={200}
+    height={200}
     alt="Cashup logo"
     src="/images/cashup-logo-colored.png"
   />
 );
+
+const BlankLayoutFooter = () => {
+  const currentYear = new Date().getFullYear();
+  return (
+    <footer className="w-full fixed bottom-5 text-xs text-white/80 flex gap-4 justify-center">
+      <p>{`All rights reserved. ${currentYear} Cashup.`}</p>
+      <Link className="hover:text-white hover:underline" href="/privacy-policy">
+        Privacy Policy
+      </Link>
+    </footer>
+  );
+};

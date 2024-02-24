@@ -1,4 +1,7 @@
 import http from "./axios";
 
-export const apiGetAreaListByCity = () => http.get("/getAreaListByCity/1");
-export const apiTest = () => http.get("/getAllBranchType");
+// FOR TESTING :: TO BE REMOVED
+export const apiTest = () => http.get("/getMerchantBankAccounts/1");
+
+/*** Auth ***/
+export const apiLogin = (payload) => http.post("/loginMerchant", payload);
