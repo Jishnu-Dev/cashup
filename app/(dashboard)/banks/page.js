@@ -102,7 +102,7 @@ export default function Page() {
                     <TableCell>{row.regDate}</TableCell>
                     <TableCell>
                       <Chip
-                        // variant="outlined"
+                        variant="outlined"
                         label={i % 2 === 0 ? "Active" : "Inactive"}
                         color={i % 2 === 0 ? "success" : "error"}
                       />

@@ -29,7 +29,7 @@ export default function AsideMenu() {
     },
     {
       label: "Manage eShop",
-      uri: "/manage/eshop",
+      uri: "/eshop",
       isActive: pathname === "/manage/eshop",
       icon: "icon-[solar--shop-2-bold-duotone]",
     },

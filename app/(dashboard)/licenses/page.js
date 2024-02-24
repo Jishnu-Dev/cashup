@@ -121,7 +121,7 @@ export default function Page() {
                     </TableCell>
                     <TableCell>
                       <Chip
-                        // variant="outlined"
+                        variant="outlined"
                         label={i % 2 === 0 ? "Active" : "Inactive"}
                         color={i % 2 === 0 ? "success" : "error"}
                       />
