@@ -1,35 +1,24 @@
+/****
+Refer: https://nextjs.org/docs/app/building-your-application/routing/route-groups
+****/
+
 import "../globals.css";
 
-import { siteBasePath, siteName, tagline } from "@/lib/constants";
+import { metadata, viewport } from "@/lib/metadata";
 
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
-import { Inter } from "next/font/google";
+import ReduxProvider from "@/app/ReduxProvider";
 import { ThemeProvider } from "@mui/material/styles";
+import ToastProvider from "@/app/ToastProvider";
 import classNames from "classnames";
-import theme from "../theme";
+import { inter } from "@/lib/font";
+import theme from "@/app/theme";
 
-const inter = Inter({ subsets: ["latin"] });
+// import { Inter } from "next/font/google";
 
-export const viewport = {
-  themeColor: "#43A047",
-};
+// const inter = Inter({ subsets: ["latin"] });
 
-export const metadata = {
-  title: {
-    template: `%s | ${siteName}`,
-    default: siteName,
-  },
-  description: tagline,
-  // metadataBase: "/",
-  keywords: [siteName, tagline],
-  openGraph: {
-    title: siteName,
-    description: tagline,
-    url: siteBasePath,
-    siteName: siteName,
-    publishedTime: new Date().getTime(),
-  },
-};
+export { metadata, viewport };
 
 export default function RootLayout({ children }) {
   return (
@@ -40,11 +29,14 @@ export default function RootLayout({ children }) {
           "text-black min-h-screen flex flex-col"
         )}
       >
-        <AppRouterCacheProvider>
-          <ThemeProvider theme={theme}>
-            <main className="h-screen w-full bg-[#f0f5f9]">{children}</main>
-          </ThemeProvider>
-        </AppRouterCacheProvider>
+        <ReduxProvider>
+          <AppRouterCacheProvider>
+            <ThemeProvider theme={theme}>
+              <main className="h-screen w-full bg-[#f0f5f9]">{children}</main>
+              <ToastProvider />
+            </ThemeProvider>
+          </AppRouterCacheProvider>
+        </ReduxProvider>
       </body>
     </html>
   );

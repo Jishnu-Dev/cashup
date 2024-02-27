@@ -1,37 +1,22 @@
+/****
+Refer: https://nextjs.org/docs/app/building-your-application/routing/route-groups
+****/
+
 import "../globals.css";
 
-import { siteBasePath, siteName, tagline } from "@/lib/constants";
+import { metadata, viewport } from "@/lib/metadata";
 
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import AsideMenu from "@/components/layout/AsideMenu";
-import { Inter } from "next/font/google";
 import Navbar from "@/components/layout/Navbar";
+import ReduxProvider from "@/app/ReduxProvider";
 import { ThemeProvider } from "@mui/material/styles";
+import ToastProvider from "@/app/ToastProvider";
 import classNames from "classnames";
-import theme from "../theme";
+import { inter } from "@/lib/font";
+import theme from "@/app/theme";
 
-const inter = Inter({ subsets: ["latin"] });
-
-export const viewport = {
-  themeColor: "#43A047",
-};
-
-export const metadata = {
-  title: {
-    template: `%s | ${siteName}`,
-    default: siteName,
-  },
-  description: tagline,
-  // metadataBase: "/",
-  keywords: [siteName, tagline],
-  openGraph: {
-    title: siteName,
-    description: tagline,
-    url: siteBasePath,
-    siteName: siteName,
-    publishedTime: new Date().getTime(),
-  },
-};
+export { metadata, viewport };
 
 export default function RootLayout({ children }) {
   return (
@@ -42,21 +27,24 @@ export default function RootLayout({ children }) {
           "text-black min-h-screen flex flex-col"
         )}
       >
-        <AppRouterCacheProvider>
-          <ThemeProvider theme={theme}>
-            <main className="h-screen max-h-screen w-full grid grid-cols-10 gap-10 bg-[#f0f5f9] overflow-hidden p-5">
-              <section className="col-span-2 w-full">
-                <AsideMenu />
-              </section>
-              <section className="col-span-8 flex flex-col flex-grow h-full overflow-hidden relative rounded-2xl">
-                <Navbar />
-                <section className="h-full overflow-scroll pt-24">
-                  {children}
+        <ReduxProvider>
+          <AppRouterCacheProvider>
+            <ThemeProvider theme={theme}>
+              <main className="h-screen max-h-screen w-full grid grid-cols-10 gap-10 bg-[#f0f5f9] overflow-hidden p-5">
+                <section className="col-span-2 w-full">
+                  <AsideMenu />
                 </section>
-              </section>
-            </main>
-          </ThemeProvider>
-        </AppRouterCacheProvider>
+                <section className="col-span-8 flex flex-col flex-grow h-full overflow-hidden relative rounded-2xl">
+                  <Navbar />
+                  <section className="h-full overflow-scroll pt-24">
+                    {children}
+                  </section>
+                </section>
+              </main>
+              <ToastProvider />
+            </ThemeProvider>
+          </AppRouterCacheProvider>
+        </ReduxProvider>
       </body>
     </html>
   );

@@ -12,22 +12,25 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import NivoBumpChart from "@/components/dummy/NivoBumpChart";
 import NivoPieChart from "@/components/dummy/NivoPieChart";
 import ProfileVerifications from "@/components/dashboard/ProfileVerifications";
+import ReduxProvider from "@/app/ReduxProvider";
 
 export default function Page() {
   return (
-    <section className="grid grid-flow-row gap-6">
-      <div className="grid grid-cols-2 gap-6">
-        <Greenting
-          title="Check out today's statistics"
-          lead="Hello there, Welcome back to the dashboard. <br />
-              Take a look at today's overview."
-          img="greetings-hero.svg"
-          cta="Explore"
-        />
-        <NivoPieChart />
-      </div>
-      <Grid />
-    </section>
+    <ReduxProvider>
+      <section className="grid grid-flow-row gap-6">
+        <div className="grid grid-cols-2 gap-6">
+          <Greenting
+            title="Check out today's statistics"
+            lead="Hello there, Welcome back to the dashboard. <br />
+          Take a look at today's overview."
+            img="greetings-hero.svg"
+            cta="Explore"
+          />
+          <NivoPieChart />
+        </div>
+        <Grid />
+      </section>
+    </ReduxProvider>
   );
 }
 
@@ -196,7 +199,7 @@ const Calendar = () => {
           </LocalizationProvider>
           <div className="flex flex-col gap-3">
             {activities.map(({ label, icon }) => (
-              <Fragment>
+              <Fragment key={label}>
                 <button className="hover:bg-primary/5 p-3">
                   <div className="flex gap-3 items-center">
                     <div className="h-16 w-16 rounded-full bg-primary/10 p-3 flex justify-center items-center">

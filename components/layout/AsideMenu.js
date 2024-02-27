@@ -1,10 +1,15 @@
 "use client";
-/* ***** Icon pack used -> https://icon-sets.iconify.design/solar (Line Duotone variant) ***** */
+
+/* ***** 
+  Icon pack used -> 
+  https://icon-sets.iconify.design/solar (Line Duotone variant) 
+***** */
 
 import Image from "next/image";
 import Link from "next/link";
 import cn from "classnames";
 import { usePathname } from "next/navigation";
+import { useSelector } from "react-redux";
 
 export default function AsideMenu() {
   const pathname = usePathname();
@@ -46,6 +51,8 @@ export default function AsideMenu() {
       icon: "icon-[solar--document-add-bold-duotone]",
     },
   ];
+
+  console.log(useSelector((state) => state.user));
 
   return (
     <aside

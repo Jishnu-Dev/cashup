@@ -6,6 +6,8 @@ import { Button } from "@mui/material";
 import Link from "next/link";
 import Popover from "@mui/material/Popover";
 import UserAvatar from "@/components/layout/UserAvatar";
+import { logoutUser } from "@/redux/userSlice";
+import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 
 const name = "Acme Doddas";
@@ -109,11 +111,13 @@ const PopoverBody = () => {
 
 const LogoutButton = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const logoutHandler = () => {
+    dispatch(logoutUser());
     router.push("/login");
   };
   return (
-    <Button variant="contained" disableElevation onClick={logoutHandler}>
+    <Button variant="contained" onClick={logoutHandler}>
       Log out
     </Button>
   );
