@@ -4,4 +4,5 @@ import http from "./axios";
 export const apiTest = () => http.get("/getMerchantBankAccounts/1");
 
 /*** Auth ***/
-export const apiLogin = (payload) => http.post("/loginMerchant", payload);
+export const apiLogin = (payload) =>
+  http.post("/merchantPublic/loginMerchant", payload);

@@ -42,9 +42,7 @@ export default function RootLayout({ children }) {
       >
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
-            <main className="h-screen max-h-screen w-full bg-[#f0f5f9]">
-              {children}
-            </main>
+            <main className="h-screen w-full bg-[#f0f5f9]">{children}</main>
           </ThemeProvider>
         </AppRouterCacheProvider>
       </body>

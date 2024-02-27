@@ -37,25 +37,24 @@ const LoginForm = () => {
     formState: { errors, isSubmitting },
   } = useForm({
     defaultValues: {
-      username: "0501111111",
-      passcode: "111111",
+      username: "ryan@abc.com",
+      passcode: "123456",
     },
   });
 
   const onSubmit = async ({ username, passcode }) => {
     try {
       const isSigningInByEmail = isValidEmail(username);
-      console.log("isSigningInByEmail", isSigningInByEmail);
-      router.replace("/");
-      return;
-
+      const loginType = isSigningInByEmail ? 0 : 1;
       const payload = {
         in_userid: username,
         in_pin: passcode,
+        in_login_type: loginType,
       };
       console.log("Payload", payload);
       const resp = await apiLogin(payload);
       console.log("RESP::", resp);
+      // router.replace("/");
     } catch (e) {
       console.error(e);
     }

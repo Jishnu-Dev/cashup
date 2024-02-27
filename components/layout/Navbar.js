@@ -19,17 +19,17 @@ export default function Navbar() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const toggleDrawer = () => setIsDrawerOpen((open) => !open);
 
-  useEffect(() => {
-    async function test() {
-      try {
-        const resp = await apiTest();
-        console.log("RESULT", resp);
-      } catch (e) {
-        console.log(e.response);
-      }
-    }
-    test();
-  }, []);
+  // useEffect(() => {
+  //   async function test() {
+  //     try {
+  //       const resp = await apiTest();
+  //       console.log("RESULT", resp);
+  //     } catch (e) {
+  //       console.log(e.response);
+  //     }
+  //   }
+  //   test();
+  // }, []);
 
   return (
     <Card>
