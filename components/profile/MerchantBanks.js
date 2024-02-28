@@ -11,6 +11,10 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
+import { apiGetMerchantBanks } from "@/api/api";
+import { merchantId } from "@/lib/authenticator";
+import { toast } from "react-toastify";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 function createData(name, accountNum) {
@@ -26,11 +30,26 @@ const rows = [
 
 export default function MerchantBanks() {
   const router = useRouter();
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const resp = await apiGetMerchantBanks(merchantId);
+        console.log("BANKS:", resp.data);
+      } catch (e) {
+        toast.error(e?.response?.data?.message ?? e?.message);
+        console.dir(e);
+      }
+    }
+    fetchData();
+  }, []);
+
   return (
     <Card>
       <CardHeader
         title="Bank Accounts"
         subheader="View or update your bank accounts"
+        avatar={<CardTitleIcon icon="icon-[solar--buildings-2-line-duotone]" />}
         action={
           <Button
             disableElevation
@@ -42,7 +61,6 @@ export default function MerchantBanks() {
             View complete list
           </Button>
         }
-        avatar={<CardTitleIcon icon="icon-[solar--buildings-2-line-duotone]" />}
       />
       <CardContent>
         <TableContainer>

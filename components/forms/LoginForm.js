@@ -1,25 +1,26 @@
 "use client";
 
 import { Controller, useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
 
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
+import Cookies from "universal-cookie";
 import FormHelperText from "@mui/material/FormHelperText";
 import FormLabel from "@mui/material/FormLabel";
 import Link from "next/link";
 import { MuiOtpInput } from "mui-one-time-password-input";
 import TextField from "@mui/material/TextField";
 import { apiLogin } from "@/api/api";
+import { isLoggedIn } from "@/lib/authenticator";
 import { isValidEmail } from "@/lib/utils";
-import { loginUser } from "@/redux/userSlice";
 import { toast } from "react-toastify";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
-  const dispatch = useDispatch();
+  const cookie = new Cookies();
   const router = useRouter();
   const {
     register,
@@ -33,11 +34,6 @@ export default function LoginForm() {
     },
   });
 
-  console.log(
-    "STORE",
-    useSelector((state) => state.user)
-  );
-
   const onSubmit = async ({ username, passcode }) => {
     try {
       const isSigningInByEmail = isValidEmail(username);
@@ -48,14 +44,28 @@ export default function LoginForm() {
         in_login_type: loginType,
       };
       const resp = await apiLogin(payload);
-      const { merchant_id, token, is_logged_in } = resp.data;
-      dispatch(loginUser({ merchant_id, token, is_logged_in }));
-      toast.success("Login successful");
-      // router.replace("/");
+      const { merchant_id, token } = resp.data;
+
+      // Setting cookies
+      cookie.set("cashup_auth_token", token, { path: "/" });
+      cookie.set("cashup_merchant_id", merchant_id, { path: "/" });
+
+      toast.success("Login successful. Redirecting to dashboard...");
+      setTimeout(() => {
+        router.replace("/");
+      }, [1500]);
     } catch (e) {
-      console.error(e);
+      const errorMessage =
+        e?.response?.data?.message ?? "Something went wrong, please try again";
+      toast.error(errorMessage);
+      console.dir(e);
     }
   };
+
+  // If token exists, means already logged in. Pushing to dashboard.
+  useEffect(() => {
+    if (isLoggedIn) router.push("/");
+  }, [isLoggedIn]);
 
   return (
     <Card className="w-full md:w-8/12 lg:w-5/12">

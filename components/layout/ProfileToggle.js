@@ -3,11 +3,12 @@
 import { Fragment, useState } from "react";
 
 import { Button } from "@mui/material";
+import Cookies from "universal-cookie";
 import Link from "next/link";
 import Popover from "@mui/material/Popover";
 import UserAvatar from "@/components/layout/UserAvatar";
-import { logoutUser } from "@/redux/userSlice";
-import { useDispatch } from "react-redux";
+import { clearCookies } from "@/lib/authenticator";
+import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 
 const name = "Acme Doddas";
@@ -111,10 +112,13 @@ const PopoverBody = () => {
 
 const LogoutButton = () => {
   const router = useRouter();
-  const dispatch = useDispatch();
+  // const cookie = new Cookies();
   const logoutHandler = () => {
-    dispatch(logoutUser());
-    router.push("/login");
+    clearCookies();
+    toast.success("Logged out successfully, redirecting to login...");
+    setTimeout(() => {
+      router.push("/login");
+    }, 1500);
   };
   return (
     <Button variant="contained" onClick={logoutHandler}>

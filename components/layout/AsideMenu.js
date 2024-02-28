@@ -52,8 +52,6 @@ export default function AsideMenu() {
     },
   ];
 
-  console.log(useSelector((state) => state.user));
-
   return (
     <aside
       className="h-full py-6 pr-6 flex flex-col rounded-2xl shadow shadow-primary/20
