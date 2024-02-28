@@ -6,11 +6,14 @@ import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
+import { CardHeader } from "@mui/material";
 import Cookies from "universal-cookie";
 import FormHelperText from "@mui/material/FormHelperText";
 import FormLabel from "@mui/material/FormLabel";
+import LinearProgress from "@mui/material/LinearProgress";
 import Link from "next/link";
 import { MuiOtpInput } from "mui-one-time-password-input";
+import ShowWhen from "@/components/ui/ShowWhen";
 import TextField from "@mui/material/TextField";
 import { apiLogin } from "@/api/api";
 import { isLoggedIn } from "@/lib/authenticator";
@@ -18,6 +21,10 @@ import { isValidEmail } from "@/lib/utils";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+
+// import { Icon } from "@shopify/polaris";
+
+// import { PlusIcon } from "@shopify/polaris-icons";
 
 export default function LoginForm() {
   const cookie = new Cookies();
@@ -43,6 +50,7 @@ export default function LoginForm() {
         in_pin: passcode,
         in_login_type: loginType,
       };
+
       const resp = await apiLogin(payload);
       const { merchant_id, token } = resp.data;
 
@@ -68,9 +76,17 @@ export default function LoginForm() {
   }, [isLoggedIn]);
 
   return (
-    <Card className="w-full md:w-8/12 lg:w-5/12">
+    <Card>
+      <ShowWhen when={isSubmitting}>
+        <LinearProgress />
+      </ShowWhen>
       <CardContent className="grid grid-flow-row gap-8">
-        <Title />
+        <CardHeader
+          title="Welcome back admin!"
+          subheader="Sign in to manage your Cashup merchant account"
+        />
+        {/* <Icon source={PlusIcon} /> */}
+        {/* <Title /> */}
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="grid grid-flow-row gap-4"
@@ -110,12 +126,12 @@ export default function LoginForm() {
             variant="contained"
             disabled={isSubmitting}
           >
-            {isSubmitting ? "Signing in..." : "Sign In"}
+            Sign In
           </Button>
         </form>
         <CardActions>
           <Link
-            href="/forgot-passcode"
+            href="/reset-pin"
             className="w-max mx-auto text-sm text-black hover:text-primary"
           >
             Forgot passcode?
@@ -129,7 +145,7 @@ export default function LoginForm() {
 const Title = () => {
   return (
     <div className="flex flex-col justify-center items-center gap-3">
-      <span className="icon-[solar--shop-2-line-duotone] text-[4rem] text-primary" />
+      {/* <span className="icon-[solar--shop-2-line-duotone] text-[4rem] text-primary" /> */}
       <span>
         <h1 className="text-3xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-green-950">
           Welcome Back Admin

@@ -12,25 +12,22 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import NivoBumpChart from "@/components/dummy/NivoBumpChart";
 import NivoPieChart from "@/components/dummy/NivoPieChart";
 import ProfileVerifications from "@/components/dashboard/ProfileVerifications";
-import ReduxProvider from "@/app/ReduxProvider";
 
 export default function Page() {
   return (
-    <ReduxProvider>
-      <section className="grid grid-flow-row gap-6">
-        <div className="grid grid-cols-2 gap-6">
-          <Greenting
-            title="Check out today's statistics"
-            lead="Hello there, Welcome back to the dashboard. <br />
+    <section className="grid grid-flow-row gap-6">
+      <div className="grid grid-cols-2 gap-6">
+        <Greenting
+          title="Check out today's statistics"
+          lead="Hello there, Welcome back to the dashboard. <br />
           Take a look at today's overview."
-            img="greetings-hero.svg"
-            cta="Explore"
-          />
-          <NivoPieChart />
-        </div>
-        <Grid />
-      </section>
-    </ReduxProvider>
+          img="greetings-hero.svg"
+          cta="Explore"
+        />
+        <NivoPieChart />
+      </div>
+      <Grid />
+    </section>
   );
 }
 

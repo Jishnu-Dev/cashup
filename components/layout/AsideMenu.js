@@ -9,7 +9,6 @@ import Image from "next/image";
 import Link from "next/link";
 import cn from "classnames";
 import { usePathname } from "next/navigation";
-import { useSelector } from "react-redux";
 
 export default function AsideMenu() {
   const pathname = usePathname();

@@ -1,7 +1,8 @@
 import http from "./axios";
 
-// FOR TESTING :: TO BE REMOVED
-export const apiTest = () => http.get("/getMerchantBankAccounts/1");
+// Common: Audit auction, logging actions api
+export const apiAuditAction = (payload) =>
+  http.post("/merchantMain/insertAuditMerchantData", payload);
 
 // Auth
 export const apiLogin = (payload) =>
