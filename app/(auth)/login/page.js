@@ -1,3 +1,7 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
 import Image from "next/image";
 import LoginForm from "@/components/forms/LoginForm";
 import TwoColumnLayout from "@/components/ui/TwoColumnLayout";
@@ -11,8 +15,17 @@ export default function Page() {
     "analysis-flatline.svg",
   ];
 
-  const randomIllustration =
-    illustrationOptions[Math.floor(Math.random() * illustrationOptions.length)];
+  const [randomIllustration, setRandomIllustration] = useState(
+    illustrationOptions[0]
+  );
+
+  useEffect(() => {
+    setRandomIllustration(
+      illustrationOptions[
+        Math.floor(Math.random() * illustrationOptions.length)
+      ]
+    );
+  }, []);
 
   return (
     <TwoColumnLayout illustration={randomIllustration}>

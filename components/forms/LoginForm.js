@@ -7,8 +7,8 @@ import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
-import { CardHeader } from "@mui/material";
-import Cookies from "universal-cookie";
+import CardHeader from "@mui/material/CardHeader";
+import Checkbox from "@mui/material/Checkbox";
 import FormHelperText from "@mui/material/FormHelperText";
 import FormLabel from "@mui/material/FormLabel";
 import LinearProgress from "@mui/material/LinearProgress";
@@ -22,10 +22,6 @@ import { toast } from "react-toastify";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-// import { Icon } from "@shopify/polaris";
-
-// import { PlusIcon } from "@shopify/polaris-icons";
-
 export default function LoginForm() {
   const router = useRouter();
   const {
@@ -37,22 +33,26 @@ export default function LoginForm() {
     defaultValues: {
       username: "ryan@abc.com",
       passcode: "123456",
+      remember_me: false,
     },
   });
 
-  const onSubmit = async ({ username, passcode }) => {
+  const onSubmit = async ({ username, passcode, remember_me }) => {
     try {
       const isSigningInByEmail = isValidEmail(username);
-      const loginType = isSigningInByEmail ? 0 : 1;
+      const loginType = isSigningInByEmail ? 2 : 1;
       const payload = {
         in_userid: username,
         in_pin: passcode,
         in_login_type: loginType,
       };
-
       const resp = await apiLogin(payload);
       const { merchant_id, token } = resp.data;
-      setUserCredentials({ merchantId: merchant_id, token });
+      setUserCredentials({
+        token,
+        merchantId: merchant_id,
+        keepAlive: remember_me,
+      });
       toast.success("Login successful. Redirecting to dashboard...");
       setTimeout(() => {
         router.replace("/");
@@ -80,7 +80,6 @@ export default function LoginForm() {
           title="Welcome back Admin!"
           subheader="Sign in to manage your Cashup merchant account"
         />
-        {/* <Icon source={PlusIcon} /> */}
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="grid grid-flow-row gap-4"
@@ -105,7 +104,12 @@ export default function LoginForm() {
             render={({ field, fieldState }) => (
               <div className="grid grid-flow-row gap-1">
                 <FormLabel sx={{ ml: "14px" }}>Passcode*</FormLabel>
-                <MuiOtpInput sx={{ gap: 1 }} {...field} length={6} />
+                <MuiOtpInput
+                  {...field}
+                  length={6}
+                  sx={{ gap: 1 }}
+                  TextFieldsProps={{ type: "password" }}
+                />
                 <FormHelperText error={fieldState?.invalid} sx={{ ml: "14px" }}>
                   {fieldState?.invalid
                     ? "Invalid passcode"
@@ -114,6 +118,22 @@ export default function LoginForm() {
               </div>
             )}
           />
+          <div className="flex items-center">
+            <Controller
+              name="remember_me"
+              control={control}
+              render={({ field: props }) => (
+                <Checkbox
+                  {...props}
+                  checked={props.value}
+                  onChange={(e) => props.onChange(e.target.checked)}
+                  inputProps={{ "aria-label": "Keep me signed in" }}
+                  size="small"
+                />
+              )}
+            />
+            <FormLabel sx={{ fontSize: "14px" }}>Keep me signed in</FormLabel>
+          </div>
           <Button
             size="large"
             type="submit"

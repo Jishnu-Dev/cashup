@@ -2,7 +2,7 @@ import ResetPinForm from "@/components/forms/ResetPinForm";
 import TwoColumnLayout from "@/components/ui/TwoColumnLayout";
 
 export const metadata = {
-  title: "Reset Pin",
+  title: "Reset PIN",
   description: "Restore access to your merchant account by reseting the pin",
 };
 

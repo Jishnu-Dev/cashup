@@ -27,7 +27,7 @@ export default function RootLayout({ children }) {
       >
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
-            <main className="h-screen w-full bg-[#f0f5f9]">{children}</main>
+            <main className="min-h-screen w-full bg-[#f0f5f9]">{children}</main>
             <ToastProvider />
           </ThemeProvider>
         </AppRouterCacheProvider>

@@ -1,4 +1,4 @@
-import { authToken, clearCookies } from "@/lib/authenticator";
+import { authToken, clearUserCredentials } from "@/lib/authenticator";
 
 import axios from "axios";
 
@@ -7,7 +7,8 @@ const http = axios.create({
   headers: {
     Authorization: `Bearer ${authToken}`,
     "Content-Type": "application/json",
-    "ngrok-skip-browser-warning": "69420",
+    "ngrok-skip-browser-warning": 69420,
+    "in-login-platform-type-id": 1, // 1: Web, 2: Mobile App
   },
 });
 
@@ -16,8 +17,8 @@ http.interceptors.response.use(
     return Promise.resolve(response);
   },
   function (error) {
-    console.info(error);
-    if (error?.response?.status === 401) clearCookies(); // If token error, clear cookies. So, on next re-load, user will be redirected to login.
+    if (error?.response?.status === 401) clearUserCredentials(); // If token error, clear cookies. So, on next re-load, user will be redirected to login.
+    delete error.stack;
     return Promise.reject(error);
   }
 );
