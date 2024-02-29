@@ -1,14 +1,26 @@
 import Image from "next/image";
 import LoginForm from "@/components/forms/LoginForm";
+import TwoColumnLayout from "@/components/ui/TwoColumnLayout";
 
 export default function Page() {
+  const illustrationOptions = [
+    "ranking-two-color.svg",
+    "finance-app-flatline.svg",
+    "google-ad-flatline.svg",
+    "authentication-two-color.svg",
+    "analysis-flatline.svg",
+  ];
+
+  const randomIllustration =
+    illustrationOptions[Math.floor(Math.random() * illustrationOptions.length)];
+
   return (
-    <section className="h-full w-full bg-[url('/images/bg-layered-waves.sv')] bg-cover bg-no-repeat">
+    <TwoColumnLayout illustration={randomIllustration}>
       <div className="container h-full flex flex-col justify-center items-center gap-12">
         <Logo />
         <LoginForm />
       </div>
-    </section>
+    </TwoColumnLayout>
   );
 }
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { Controller, useForm } from "react-hook-form";
+import { isLoggedIn, setUserCredentials } from "@/lib/authenticator";
 
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
@@ -16,7 +17,6 @@ import { MuiOtpInput } from "mui-one-time-password-input";
 import ShowWhen from "@/components/ui/ShowWhen";
 import TextField from "@mui/material/TextField";
 import { apiLogin } from "@/api/api";
-import { isLoggedIn } from "@/lib/authenticator";
 import { isValidEmail } from "@/lib/utils";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
@@ -27,7 +27,6 @@ import { useRouter } from "next/navigation";
 // import { PlusIcon } from "@shopify/polaris-icons";
 
 export default function LoginForm() {
-  const cookie = new Cookies();
   const router = useRouter();
   const {
     register,
@@ -53,11 +52,7 @@ export default function LoginForm() {
 
       const resp = await apiLogin(payload);
       const { merchant_id, token } = resp.data;
-
-      // Setting cookies
-      cookie.set("cashup_auth_token", token, { path: "/" });
-      cookie.set("cashup_merchant_id", merchant_id, { path: "/" });
-
+      setUserCredentials({ merchantId: merchant_id, token });
       toast.success("Login successful. Redirecting to dashboard...");
       setTimeout(() => {
         router.replace("/");
@@ -82,11 +77,10 @@ export default function LoginForm() {
       </ShowWhen>
       <CardContent className="grid grid-flow-row gap-8">
         <CardHeader
-          title="Welcome back admin!"
+          title="Welcome back Admin!"
           subheader="Sign in to manage your Cashup merchant account"
         />
         {/* <Icon source={PlusIcon} /> */}
-        {/* <Title /> */}
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="grid grid-flow-row gap-4"
@@ -141,19 +135,3 @@ export default function LoginForm() {
     </Card>
   );
 }
-
-const Title = () => {
-  return (
-    <div className="flex flex-col justify-center items-center gap-3">
-      {/* <span className="icon-[solar--shop-2-line-duotone] text-[4rem] text-primary" /> */}
-      <span>
-        <h1 className="text-3xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-green-950">
-          Welcome Back Admin
-        </h1>
-        <p className="text-sm text-black/60">
-          Sign in to manage your <b>Cashup</b> merchant account
-        </p>
-      </span>
-    </div>
-  );
-};

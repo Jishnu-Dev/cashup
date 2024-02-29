@@ -3,11 +3,10 @@
 import { Fragment, useState } from "react";
 
 import { Button } from "@mui/material";
-import Cookies from "universal-cookie";
 import Link from "next/link";
 import Popover from "@mui/material/Popover";
 import UserAvatar from "@/components/layout/UserAvatar";
-import { clearCookies } from "@/lib/authenticator";
+import { clearUserCredentials } from "@/lib/authenticator";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 
@@ -114,7 +113,7 @@ const LogoutButton = () => {
   const router = useRouter();
   // const cookie = new Cookies();
   const logoutHandler = () => {
-    clearCookies();
+    clearUserCredentials();
     toast.success("Logged out successfully, redirecting to login...");
     setTimeout(() => {
       router.push("/login");

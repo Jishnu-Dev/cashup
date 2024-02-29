@@ -3,7 +3,7 @@ import { authToken, clearCookies } from "@/lib/authenticator";
 import axios from "axios";
 
 const http = axios.create({
-  baseURL: "http://localhost:5000/v1",
+  baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
   headers: {
     Authorization: `Bearer ${authToken}`,
     "Content-Type": "application/json",
