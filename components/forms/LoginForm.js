@@ -16,8 +16,8 @@ import Link from "next/link";
 import { MuiOtpInput } from "mui-one-time-password-input";
 import ShowWhen from "@/components/ui/ShowWhen";
 import TextField from "@mui/material/TextField";
-import { apiLogin } from "@/api/api";
-import { isValidEmail } from "@/lib/utils";
+import { apiLogin } from "@/api";
+import isEmail from "validator/es/lib/isEmail";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -37,10 +37,17 @@ export default function LoginForm() {
     },
   });
 
+  // If token exists, means already logged in. Pushing to dashboard.
+  useEffect(() => {
+    if (isLoggedIn) router.push("/");
+  }, [isLoggedIn]);
+
+  // Login handler
   const onSubmit = async ({ username, passcode, remember_me }) => {
     try {
-      const isSigningInByEmail = isValidEmail(username);
-      const loginType = isSigningInByEmail ? 2 : 1;
+      const loginType = isEmail(username) ? 2 : 1; // 1: Phone num 2: Email
+      console.log(username, loginType, isEmail(username));
+      // return;
       const payload = {
         in_userid: username,
         in_pin: passcode,
@@ -65,10 +72,10 @@ export default function LoginForm() {
     }
   };
 
-  // If token exists, means already logged in. Pushing to dashboard.
-  useEffect(() => {
-    if (isLoggedIn) router.push("/");
-  }, [isLoggedIn]);
+  const validateUsername = (value) => {
+    const isNumber = Number(value); // Checking if a number or not
+    if (!isNumber) return isEmail(value) || "Invalid email address";
+  };
 
   return (
     <Card>
@@ -87,10 +94,11 @@ export default function LoginForm() {
           <TextField
             {...register("username", {
               required: "Please enter your email or phone",
+              validate: validateUsername,
             })}
             id="field-username"
             variant="outlined"
-            label="Email or Phone*"
+            label="Email or Phone"
             error={!!errors?.username}
             helperText={
               errors?.username?.message ??
@@ -103,7 +111,7 @@ export default function LoginForm() {
             rules={{ validate: (value) => value?.length === 6 }}
             render={({ field, fieldState }) => (
               <div className="grid grid-flow-row gap-1">
-                <FormLabel sx={{ ml: "14px" }}>Passcode*</FormLabel>
+                <FormLabel sx={{ ml: "14px" }}>Passcode</FormLabel>
                 <MuiOtpInput
                   {...field}
                   length={6}
@@ -148,7 +156,7 @@ export default function LoginForm() {
             href="/reset-pin"
             className="w-max mx-auto text-sm text-black hover:text-primary"
           >
-            Forgot passcode?
+            Forgot PIN?
           </Link>
         </CardActions>
       </CardContent>

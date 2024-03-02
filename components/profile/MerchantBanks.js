@@ -11,7 +11,7 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import { apiGetMerchantBanks } from "@/api/api";
+import { apiGetMerchantBanks } from "@/api";
 import { merchantId } from "@/lib/authenticator";
 import { toast } from "react-toastify";
 import { useEffect } from "react";

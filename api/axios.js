@@ -8,7 +8,7 @@ const http = axios.create({
     Authorization: `Bearer ${authToken}`,
     "Content-Type": "application/json",
     "ngrok-skip-browser-warning": 69420,
-    "in-login-platform-type-id": 1, // 1: Web, 2: Mobile App
+    in_platform_type_id: 1, // 1: Web, 2: Mobile App
   },
 });
 

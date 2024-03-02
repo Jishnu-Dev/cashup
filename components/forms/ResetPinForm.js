@@ -5,7 +5,7 @@ import {
   apiGetPinResetOTP,
   apiUpdateMerchantPin,
   apiVerifyPinResetOTP,
-} from "@/api/api";
+} from "@/api";
 
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
@@ -19,10 +19,17 @@ import Link from "next/link";
 import { MuiOtpInput } from "mui-one-time-password-input";
 import ShowWhen from "@/components/ui/ShowWhen";
 import TextField from "@mui/material/TextField";
+import isEmail from "validator/es/lib/isEmail";
 import { merchantId } from "@/lib/authenticator";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+
+// Filed names as global variable so that one change can affect everywhere it is being used
+const fieldNameEmail = "fieldEmail";
+const fieldNameOTP = "fieldOTP";
+const fieldNameNewPin = "fieldNewPin";
+const fieldNameConfirmPin = "fieldNameConfirmPin";
 
 export default function ResetPinForm() {
   const router = useRouter();
@@ -31,30 +38,67 @@ export default function ResetPinForm() {
     control,
     handleSubmit,
     setError,
+    getValues,
     formState: { errors, isSubmitting },
-  } = useForm({ email: "", otp: "", newPin: "", confirmPin: "" });
+  } = useForm({
+    [fieldNameEmail]: "",
+    [fieldNameOTP]: "",
+    [fieldNameNewPin]: "",
+    [fieldNameConfirmPin]: "",
+  });
 
   const [step, setStep] = useState(1);
-  const onSubmit = async ({ email, otp, newPin, confirmPin }) => {
-    try {
-      switch (step) {
-        // Sending OTP
-        case 1: {
-          const resp = await apiGetPinResetOTP({ in_merchant_email: email });
+  const onSubmit = async (formData) => {
+    const email = formData[fieldNameEmail];
+    const otp = formData[fieldNameOTP];
+    const newPin = formData[fieldNameNewPin];
+    const confirmPin = formData[fieldNameConfirmPin];
+    console.log("FIELD NAME EMAIL", email, otp, newPin, confirmPin);
+
+    // console.log("VALUES", getValues(), errors);
+    // setError(fieldNameEmail, "Hello error");
+    // console.log("ERR");
+    // return;
+
+    // Steps, 1: Email form, 2: OTP form, 3: New pin form
+    switch (step) {
+      // Sending OTP
+      case 1: {
+        setStep(2);
+        break;
+        try {
+          const resp = await apiGetPinResetOTP({
+            in_merchant_email: email,
+          });
           toast.success(resp?.data?.message);
           setStep(2);
+        } catch (e) {
+          const error = e?.response?.data?.message ?? e?.message;
+          setError(fieldNameEmail, { message: error });
+          console.dir(e);
+        } finally {
           break;
         }
-        // Verifying OTP
-        case 2: {
-          const resp = await apiVerifyPinResetOTP({ in_OTP: Number(otp) });
-          console.log("RESP", resp);
+      }
+      // Verifying OTP
+      case 2: {
+        setStep(3);
+        break;
+        try {
+          const resp = await apiVerifyPinResetOTP({ in_OTP: otp });
           toast.success(resp?.data?.message);
           setStep(3);
+        } catch (e) {
+          const error = e?.response?.data?.message ?? e?.message;
+          toast.error(error);
+          console.dir(e);
+        } finally {
           break;
         }
-        // Updating new PIN
-        case 3: {
+      }
+      // Updating new PIN
+      case 3: {
+        try {
           const isPinsMatching = newPin === confirmPin;
           if (!isPinsMatching)
             setError("confirmPin", { message: "PINs does not match" });
@@ -67,18 +111,22 @@ export default function ResetPinForm() {
           setTimeout(() => {
             router.push("/login");
           }, 1000);
-          break;
-        }
-        default: {
-          setStep(1);
+        } catch (e) {
+          const error = e?.response?.data?.message ?? e?.message;
+          toast.error(error);
+          console.dir(e);
+        } finally {
           break;
         }
       }
-    } catch (e) {
-      toast.error(e?.response?.data?.message ?? e?.message);
-      console.dir(e);
+      default: {
+        setStep(1);
+        break;
+      }
     }
   };
+
+  console.log("values", getValues());
 
   return (
     <Card>
@@ -95,22 +143,28 @@ export default function ResetPinForm() {
           className="grid grid-flow-row gap-4"
         >
           <ShowWhen when={step < 3}>
+            {/* Email Field */}
             <TextField
-              {...register("email", {
+              {...register(fieldNameEmail, {
                 required: "Please enter your email or phone",
+                validate: (value) => isEmail(value) || "Invalid email address",
               })}
               autoFocus
-              id="field-username"
+              id="field-email"
               variant="outlined"
               label="Enter your email address"
-              error={!!errors?.username}
+              // error={!!errors?.[fieldNameEmail]}
+              error={!!errors?.[fieldNameEmail]}
               helperText={
-                errors?.username?.message ?? "You will receive an OTP via email"
+                errors?.[fieldNameEmail]?.message ??
+                "You will receive an OTP via email"
               }
             />
+
+            {/* OTP Field */}
             <ShowWhen when={step === 2}>
               <Controller
-                name="otp"
+                name={fieldNameOTP}
                 control={control}
                 rules={{ validate: (value) => value?.length === 6 }}
                 render={({ field, fieldState }) => (
@@ -127,7 +181,7 @@ export default function ResetPinForm() {
                       sx={{ ml: "14px" }}
                     >
                       {fieldState?.invalid
-                        ? "Invalid passcode"
+                        ? "Invalid OTP"
                         : "Enter the OTP you received via email"}
                     </FormHelperText>
                   </div>
@@ -135,9 +189,11 @@ export default function ResetPinForm() {
               />
             </ShowWhen>
           </ShowWhen>
+
+          {/* New PIN Field */}
           <ShowWhen when={step === 3}>
             <Controller
-              name="newPin"
+              name={fieldNameNewPin}
               control={control}
               rules={{ validate: (value) => value?.length === 6 }}
               render={({ field, fieldState }) => (
@@ -156,9 +212,15 @@ export default function ResetPinForm() {
               )}
             />
             <Controller
-              name="confirmPin"
+              name={fieldNameConfirmPin}
               control={control}
-              rules={{ validate: (value) => value?.length === 6 }}
+              rules={{
+                validate: (value, formValues) => {
+                  // Check if pins are matching
+                  const isPinsMatching = formValues[fieldNameNewPin] === value;
+                  return isPinsMatching;
+                },
+              }}
               render={({ field, fieldState }) => (
                 <div className="grid grid-flow-row gap-1">
                   <FormLabel sx={{ ml: "14px" }}>Confirm PIN</FormLabel>
@@ -168,8 +230,8 @@ export default function ResetPinForm() {
                     sx={{ ml: "14px" }}
                   >
                     {fieldState?.invalid
-                      ? "Invalid passcode"
-                      : "Create a new passcode"}
+                      ? "Pins does not match"
+                      : "Confirm new pin"}
                   </FormHelperText>
                 </div>
               )}
