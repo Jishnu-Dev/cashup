@@ -36,7 +36,6 @@ const fieldNameNewPin = "fieldNewPin";
 const fieldNameConfirmPin = "fieldNameConfirmPin";
 
 export default function ResetPinForm() {
-  const router = useRouter();
   const cookie = new Cookies();
   const {
     register,
@@ -199,9 +198,7 @@ export default function ResetPinForm() {
                       error={fieldState?.invalid}
                       sx={{ ml: "14px" }}
                     >
-                      {fieldState?.invalid
-                        ? "Invalid passcode"
-                        : "Create a new passcode"}
+                      {fieldState?.invalid ? "Invalid PIN" : "Create a new PIN"}
                     </FormHelperText>
                   </div>
                 )}
@@ -249,6 +246,8 @@ export default function ResetPinForm() {
               {isSubmitting ? "Loading" : "Submit"}
             </Button>
           </form>
+        </ShowWhen>
+        <ShowWhen when={step <= 3}>
           <CardActions>
             <Link
               href="/login"

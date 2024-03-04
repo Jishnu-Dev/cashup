@@ -16,6 +16,9 @@ export const apiVerifyPinResetOTP = (payload) =>
 export const apiUpdateMerchantPin = (payload) =>
   http.post("/merchantPublic/updateMerchantPIN", payload);
 
+export const apiGetPinDefaultCheckedStatus = (merchantId) =>
+  http.get(`/merchantMain/getMerchantPINDefaultChecked/${merchantId}`);
+
 // Banks
 export const apiGetMerchantBanks = (merchantId) =>
   http.get(`/merchantBank/getMerchantBankAccounts/${merchantId}`);

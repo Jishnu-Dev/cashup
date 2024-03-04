@@ -1,7 +1,13 @@
 "use client";
 
 import { Controller, useForm } from "react-hook-form";
-import { isLoggedIn, setUserCredentials } from "@/lib/authenticator";
+import { apiGetPinDefaultCheckedStatus, apiLogin } from "@/api";
+import {
+  cookieDefaultSettings,
+  cookieNameOnboardingStatus,
+  isLoggedIn,
+  setUserCredentials,
+} from "@/lib/authenticator";
 
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
@@ -9,6 +15,7 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
 import Checkbox from "@mui/material/Checkbox";
+import Cookies from "universal-cookie";
 import FormHelperText from "@mui/material/FormHelperText";
 import FormLabel from "@mui/material/FormLabel";
 import LinearProgress from "@mui/material/LinearProgress";
@@ -16,13 +23,13 @@ import Link from "next/link";
 import { MuiOtpInput } from "mui-one-time-password-input";
 import ShowWhen from "@/components/ui/ShowWhen";
 import TextField from "@mui/material/TextField";
-import { apiLogin } from "@/api";
 import isEmail from "validator/es/lib/isEmail";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
+  const cookie = new Cookies();
   const router = useRouter();
   const {
     register,
@@ -31,8 +38,8 @@ export default function LoginForm() {
     formState: { errors, isSubmitting },
   } = useForm({
     defaultValues: {
-      username: "ryan@abc.com",
-      passcode: "123456",
+      pin: "",
+      username: "",
       remember_me: false,
     },
   });
@@ -43,14 +50,12 @@ export default function LoginForm() {
   }, [isLoggedIn]);
 
   // Login handler
-  const onSubmit = async ({ username, passcode, remember_me }) => {
+  const onSubmit = async ({ username, pin, remember_me }) => {
     try {
       const loginType = isEmail(username) ? 2 : 1; // 1: Phone num 2: Email
-      console.log(username, loginType, isEmail(username));
-      // return;
       const payload = {
         in_userid: username,
-        in_pin: passcode,
+        in_pin: pin,
         in_login_type: loginType,
       };
       const resp = await apiLogin(payload);
@@ -60,16 +65,53 @@ export default function LoginForm() {
         merchantId: merchant_id,
         keepAlive: remember_me,
       });
-      toast.success("Login successful. Redirecting to dashboard...");
-      setTimeout(() => {
-        router.replace("/");
-      }, [1500]);
+
+      await checkOnboardedStatus(merchant_id);
     } catch (e) {
       const errorMessage =
         e?.response?.data?.message ?? "Something went wrong, please try again";
       toast.error(errorMessage);
       console.dir(e);
     }
+  };
+
+  async function checkOnboardedStatus(merchantId) {
+    try {
+      const isAlreadyOnboarded = cookie.get(cookieNameOnboardingStatus); // Checking if already status checked cookie exists, if yes, no need to check again using api
+      if (isAlreadyOnboarded === "true") {
+        redirectToDashboard();
+      } else {
+        // Checking the status of the default pin changed or user opted not to change it using api.
+        const { data } = await apiGetPinDefaultCheckedStatus(merchantId);
+        const { is_pin_default_checked: isAlreadyOnboarded } = data;
+        const oneYearInSeconds = 60 * 60 * 24 * 365;
+        cookie.set(cookieNameOnboardingStatus, isAlreadyOnboarded, {
+          ...cookieDefaultSettings,
+          maxAge: oneYearInSeconds,
+        });
+        if (!isAlreadyOnboarded)
+          redirectToDashboard(); // TODO, INVERT CONDITION AFTER TESTING
+        else redirectToOnboard();
+      }
+    } catch (e) {
+      console.dir(e);
+    }
+  }
+
+  const redirectToDashboard = () => {
+    return;
+    toast.success("Login successful. Redirecting to dashboard...");
+    setTimeout(() => {
+      router.push("/");
+    }, [1500]);
+  };
+
+  const redirectToOnboard = () => {
+    return;
+    toast.success("Login successful. Redirecting to onboarding...");
+    setTimeout(() => {
+      router.push("/");
+    }, [1500]);
   };
 
   const validateUsername = (value) => {
@@ -84,7 +126,7 @@ export default function LoginForm() {
       </ShowWhen>
       <CardContent className="grid grid-flow-row gap-8">
         <CardHeader
-          title="Welcome back Admin!"
+          title="Welcome back Merchant"
           subheader="Sign in to manage your Cashup merchant account"
         />
         <form
@@ -96,6 +138,7 @@ export default function LoginForm() {
               required: "Please enter your email or phone",
               validate: validateUsername,
             })}
+            autoFocus
             id="field-username"
             variant="outlined"
             label="Email or Phone"
@@ -106,12 +149,12 @@ export default function LoginForm() {
             }
           />
           <Controller
-            name="passcode"
+            name="pin"
             control={control}
             rules={{ validate: (value) => value?.length === 6 }}
             render={({ field, fieldState }) => (
               <div className="grid grid-flow-row gap-1">
-                <FormLabel sx={{ ml: "14px" }}>Passcode</FormLabel>
+                <FormLabel sx={{ ml: "14px" }}>PIN</FormLabel>
                 <MuiOtpInput
                   {...field}
                   length={6}
@@ -119,9 +162,7 @@ export default function LoginForm() {
                   TextFieldsProps={{ type: "password" }}
                 />
                 <FormHelperText error={fieldState?.invalid} sx={{ ml: "14px" }}>
-                  {fieldState?.invalid
-                    ? "Invalid passcode"
-                    : "Enter your passcode"}
+                  {fieldState?.invalid ? "Invalid PIN" : "Enter your PIN"}
                 </FormHelperText>
               </div>
             )}
