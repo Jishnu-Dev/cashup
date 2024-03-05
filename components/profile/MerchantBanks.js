@@ -12,7 +12,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { apiGetMerchantBanks } from "@/api";
-import { merchantId } from "@/lib/authenticator";
+import { getMerchantId } from "@/lib/authenticator";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -30,6 +30,7 @@ const rows = [
 
 export default function MerchantBanks() {
   const router = useRouter();
+  const merchantId = getMerchantId();
 
   useEffect(() => {
     async function fetchData() {

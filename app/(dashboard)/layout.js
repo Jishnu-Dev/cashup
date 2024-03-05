@@ -21,7 +21,7 @@ export { metadata, viewport };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" data-theme="emerald">
+    <html lang="en" id="dashboard-root">
       <body
         className={classNames(
           inter.className,

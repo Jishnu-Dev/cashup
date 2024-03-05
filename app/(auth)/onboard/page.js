@@ -1,22 +1,16 @@
-"use client";
-
-import ShowWhen from "@/components/ui/ShowWhen";
+import { Logo } from "@/app/(auth)/login/page";
 import TwoColumnLayout from "@/components/ui/TwoColumnLayout";
 import UpdateDefaultPinForm from "@/components/forms/UpdateDefaultPinForm";
-import { useState } from "react";
 
 export default function Page() {
-  const [step, setStep] = useState(1); // 1: Welcome, 2: Update default pin
-
   return (
     <TwoColumnLayout
       background="bg-wave-scene-3.svg"
-      illustration="pin-mobile-flatline.svg"
+      illustration="online-protection-flatline.svg"
     >
-      <div className="h-full container flex justify-center items-center">
-        <ShowWhen when={step === 1}>
-          <UpdateDefaultPinForm />
-        </ShowWhen>
+      <div className="container h-full flex flex-col justify-center items-center gap-12">
+        <Logo />
+        <UpdateDefaultPinForm />
       </div>
     </TwoColumnLayout>
   );

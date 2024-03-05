@@ -11,23 +11,27 @@ import Image from "next/image";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import NivoBumpChart from "@/components/dummy/NivoBumpChart";
 import NivoPieChart from "@/components/dummy/NivoPieChart";
+import OnboardWelcomeModal from "@/components/dashboard/OnboardWelcomeModal";
 import ProfileVerifications from "@/components/dashboard/ProfileVerifications";
 
 export default function Page() {
   return (
-    <section className="grid grid-flow-row gap-6">
-      <div className="grid grid-cols-2 gap-6">
-        <Greenting
-          title="Check out today's statistics"
-          lead="Hello there, Welcome back to the dashboard. <br />
+    <Fragment>
+      <section className="grid grid-flow-row gap-6">
+        <div className="grid grid-cols-2 gap-6">
+          <Greenting
+            title="Check out today's statistics"
+            lead="Hello there, Welcome back to the dashboard. <br />
           Take a look at today's overview."
-          img="greetings-hero.svg"
-          cta="Explore"
-        />
-        <NivoPieChart />
-      </div>
-      <Grid />
-    </section>
+            img="greetings-hero.svg"
+            cta="Explore"
+          />
+          <NivoPieChart />
+        </div>
+        <Grid />
+      </section>
+      <OnboardWelcomeModal />
+    </Fragment>
   );
 }
 

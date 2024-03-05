@@ -1,6 +1,7 @@
 "use client";
 
 import { Controller, useForm } from "react-hook-form";
+import { apiUpdateDefaultPinChangedStatus, apiUpdateMerchantPin } from "@/api";
 
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
@@ -10,9 +11,8 @@ import CardHeader from "@mui/material/CardHeader";
 import FormHelperText from "@mui/material/FormHelperText";
 import FormLabel from "@mui/material/FormLabel";
 import { MuiOtpInput } from "mui-one-time-password-input";
-import ShowWhen from "../ui/ShowWhen";
-import { apiUpdateMerchantPin } from "@/api";
-import { merchantId } from "@/lib/authenticator";
+import ShowWhen from "@/components/ui/ShowWhen";
+import { getMerchantId } from "@/lib/authenticator";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -20,7 +20,11 @@ import { useRouter } from "next/navigation";
 const fieldNameNewPin = "fieldNewPin";
 const fieldNameConfirmPin = "fieldConfirmPin";
 
+const pathToDashboardWithWelcomePopup = "/?welcome=true";
+
 export default function UpdateDefaultPinForm() {
+  const router = useRouter();
+  const merchantId = getMerchantId();
   const {
     control,
     handleSubmit,
@@ -41,8 +45,20 @@ export default function UpdateDefaultPinForm() {
       };
       const resp = await apiUpdateMerchantPin(payload);
       toast.success(resp?.data?.message);
+      await updateUserDefaultPinChoice();
     } catch (e) {
       toast.error(e?.response?.data?.response?.message || e?.message);
+      console.dir(e);
+    }
+  };
+
+  const updateUserDefaultPinChoice = async () => {
+    try {
+      await apiUpdateDefaultPinChangedStatus(merchantId);
+      setTimeout(() => {
+        router.push(pathToDashboardWithWelcomePopup);
+      }, 1000);
+    } catch (e) {
       console.dir(e);
     }
   };
@@ -57,7 +73,7 @@ export default function UpdateDefaultPinForm() {
   return (
     <Card>
       <CardHeader
-        title="Change your default PIN"
+        title="Change your account's default PIN"
         subheader="Change your account's default PIN for more security"
       />
       <CardContent className="grid grid-flow-row gap-5">
@@ -73,7 +89,6 @@ export default function UpdateDefaultPinForm() {
               <div className="grid grid-flow-row gap-1">
                 <FormLabel sx={{ ml: "14px" }}>New PIN</FormLabel>
                 <MuiOtpInput
-                  autoFocus
                   sx={{ gap: 1 }}
                   {...field}
                   length={6}
@@ -138,18 +153,18 @@ export default function UpdateDefaultPinForm() {
 const SkipStep = ({ isSubmitting = false }) => {
   const router = useRouter();
   return (
-    <div className="flex flex-col gap-4 md:flex-row justify-between">
+    <div className="flex flex-col gap-4 md:flex-row justify-between items-center">
       <p className="text-sm text-black/80">
-        You can skip this step if you don't want to change the default PIN
+        You can skip this step if you don't want to change the default PIN. You
+        can always change your pin from your profile settings.
       </p>
       <Button
         onClick={() => {
-          router.push("/");
+          router.push(pathToDashboardWithWelcomePopup);
         }}
         disabled={isSubmitting}
-        variant="contained"
         endIcon={
-          <span className="icon-[solar--arrow-right-line-duotone] text-white" />
+          <span className="icon-[solar--arrow-right-line-duotone] text-primary" />
         }
       >
         Skip

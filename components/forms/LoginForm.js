@@ -5,7 +5,7 @@ import { apiGetPinDefaultCheckedStatus, apiLogin } from "@/api";
 import {
   cookieDefaultSettings,
   cookieNameOnboardingStatus,
-  isLoggedIn,
+  getIsLoggedIn,
   setUserCredentials,
 } from "@/lib/authenticator";
 
@@ -45,9 +45,10 @@ export default function LoginForm() {
   });
 
   // If token exists, means already logged in. Pushing to dashboard.
+  const isLoggedInAlready = getIsLoggedIn();
   useEffect(() => {
-    if (isLoggedIn) router.push("/");
-  }, [isLoggedIn]);
+    if (isLoggedInAlready) router.push("/");
+  }, [isLoggedInAlready]);
 
   // Login handler
   const onSubmit = async ({ username, pin, remember_me }) => {
@@ -77,7 +78,8 @@ export default function LoginForm() {
 
   async function checkOnboardedStatus(merchantId) {
     try {
-      const isAlreadyOnboarded = cookie.get(cookieNameOnboardingStatus); // Checking if already status checked cookie exists, if yes, no need to check again using api
+      const isAlreadyOnboarded = cookie.get(cookieNameOnboardingStatus);
+      // Checking if already status checked cookie exists, if yes, no need to check again using api
       if (isAlreadyOnboarded === "true") {
         redirectToDashboard();
       } else {
@@ -89,8 +91,7 @@ export default function LoginForm() {
           ...cookieDefaultSettings,
           maxAge: oneYearInSeconds,
         });
-        if (!isAlreadyOnboarded)
-          redirectToDashboard(); // TODO, INVERT CONDITION AFTER TESTING
+        if (isAlreadyOnboarded) redirectToDashboard();
         else redirectToOnboard();
       }
     } catch (e) {
@@ -99,7 +100,7 @@ export default function LoginForm() {
   }
 
   const redirectToDashboard = () => {
-    return;
+    // return;
     toast.success("Login successful. Redirecting to dashboard...");
     setTimeout(() => {
       router.push("/");
@@ -107,10 +108,10 @@ export default function LoginForm() {
   };
 
   const redirectToOnboard = () => {
-    return;
+    // return;
     toast.success("Login successful. Redirecting to onboarding...");
     setTimeout(() => {
-      router.push("/");
+      router.push("/onboard");
     }, [1500]);
   };
 
