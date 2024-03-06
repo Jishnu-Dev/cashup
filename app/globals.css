@@ -28,4 +28,13 @@ body {
     @apply bg-gradient-to-r from-sky-600 to-emerald-500;
     /* @apply bg-gradient-to-r from-emerald-500 to-emerald-900; */
   }
+  /* IE, EDGE, MOZILLA */
+  .scrollbar-hidden {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  /* CHROME, SAFARI, OPERA */
+  .scrollbar-hidden::-webkit-scrollbar {
+    display: none !important;
+  }
 }

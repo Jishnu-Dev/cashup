@@ -8,6 +8,7 @@ import {
   getIsLoggedIn,
   setUserCredentials,
 } from "@/lib/authenticator";
+import t, { dir, switchLanguage } from "@/i18n/translate";
 
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
@@ -100,7 +101,6 @@ export default function LoginForm() {
   }
 
   const redirectToDashboard = () => {
-    // return;
     toast.success("Login successful. Redirecting to dashboard...");
     setTimeout(() => {
       router.push("/");
@@ -108,7 +108,6 @@ export default function LoginForm() {
   };
 
   const redirectToOnboard = () => {
-    // return;
     toast.success("Login successful. Redirecting to onboarding...");
     setTimeout(() => {
       router.push("/onboard");
@@ -127,8 +126,15 @@ export default function LoginForm() {
       </ShowWhen>
       <CardContent className="grid grid-flow-row gap-8">
         <CardHeader
-          title="Welcome back Merchant"
-          subheader="Sign in to manage your Cashup merchant account"
+          title={t("login-heading")}
+          subheader={t("login-subheading")}
+        />
+        <input
+          type="checkbox"
+          name="language"
+          onChange={() => {
+            switchLanguage();
+          }}
         />
         <form
           onSubmit={handleSubmit(onSubmit)}
@@ -160,10 +166,15 @@ export default function LoginForm() {
                   {...field}
                   length={6}
                   sx={{ gap: 1 }}
-                  TextFieldsProps={{ type: "password" }}
+                  TextFieldsProps={{
+                    type: "password",
+                    error: fieldState?.invalid,
+                  }}
                 />
                 <FormHelperText error={fieldState?.invalid} sx={{ ml: "14px" }}>
-                  {fieldState?.invalid ? "Invalid PIN" : "Enter your PIN"}
+                  {fieldState?.invalid
+                    ? "Invalid PIN"
+                    : "Enter your 6-digit PIN"}
                 </FormHelperText>
               </div>
             )}

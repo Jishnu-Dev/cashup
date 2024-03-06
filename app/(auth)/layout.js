@@ -18,7 +18,7 @@ export { metadata, viewport };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" data-theme="emerald">
+    <html>
       <body
         className={classNames(
           inter.className,

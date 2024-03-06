@@ -42,6 +42,8 @@ export default function ResetPinForm() {
     control,
     handleSubmit,
     setError,
+    setFocus,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm({
     [fieldNameEmail]: "",
@@ -122,6 +124,15 @@ export default function ResetPinForm() {
     }
   };
 
+  // Auto switching input focus to Confirm Pin field
+  // After entering New Pin completely
+  const isNewPinFieldValid = watch(fieldNameNewPin)?.length === 6;
+  useEffect(() => {
+    if (!isNewPinFieldValid) return;
+    else setFocus(fieldNameConfirmPin);
+  }, [isNewPinFieldValid]);
+  console.log("IS NEW PIN VALID", isNewPinFieldValid);
+
   return (
     <Card>
       <ShowWhen when={isSubmitting}>
@@ -138,104 +149,122 @@ export default function ResetPinForm() {
             className="grid grid-flow-row gap-4"
           >
             <ShowWhen when={step < 3}>
-              {/* Email Field */}
-              <TextField
-                {...register(fieldNameEmail, {
-                  required: "Please enter your email or phone",
-                  validate: (value) =>
-                    isEmail(value) || "Invalid email address",
-                })}
-                autoFocus
-                id="field-email"
-                variant="outlined"
-                label="Enter your email address"
-                error={!!errors?.[fieldNameEmail]}
-                helperText={
-                  errors?.[fieldNameEmail]?.message ??
-                  "You will receive an OTP via email which is valid for 30 minutes"
-                }
-              />
-              {/* OTP Field */}
-              <ShowWhen when={step === 2}>
+              <div className="grid grid-flow-row gap-4">
+                {/* Email Field */}
+                <TextField
+                  {...register(fieldNameEmail, {
+                    required: "Please enter your email or phone",
+                    validate: (value) =>
+                      isEmail(value) || "Invalid email address",
+                  })}
+                  autoFocus
+                  id="field-email"
+                  variant="outlined"
+                  label="Enter your email address"
+                  error={!!errors?.[fieldNameEmail]}
+                  className="w-full"
+                  helperText={
+                    errors?.[fieldNameEmail]?.message ??
+                    "You will receive an OTP via email which is valid for 30 minutes"
+                  }
+                />
+                {/* OTP Field */}
+                <ShowWhen when={step === 2}>
+                  <Controller
+                    name={fieldNameOTP}
+                    control={control}
+                    rules={{ validate: (value) => value?.length === 6 }}
+                    render={({ field, fieldState }) => (
+                      <div className="grid grid-flow-row gap-1">
+                        <FormLabel sx={{ ml: "14px" }}>OTP</FormLabel>
+                        <MuiOtpInput
+                          sx={{ gap: 1 }}
+                          {...field}
+                          length={6}
+                          TextFieldsProps={{ error: fieldState?.invalid }}
+                        />
+                        <FormHelperText
+                          error={fieldState?.invalid}
+                          sx={{ ml: "14px" }}
+                        >
+                          {fieldState?.invalid
+                            ? "Invalid OTP"
+                            : "Enter the OTP you received via email"}
+                        </FormHelperText>
+                      </div>
+                    )}
+                  />
+                </ShowWhen>
+              </div>
+            </ShowWhen>
+
+            {/* New PIN FieldS */}
+            <ShowWhen when={step === 3}>
+              <div className="grid grid-flow-row gap-3">
+                {/* New PIN */}
                 <Controller
-                  name={fieldNameOTP}
+                  name={fieldNameNewPin}
                   control={control}
                   rules={{ validate: (value) => value?.length === 6 }}
                   render={({ field, fieldState }) => (
                     <div className="grid grid-flow-row gap-1">
-                      <FormLabel sx={{ ml: "14px" }}>OTP</FormLabel>
+                      <FormLabel sx={{ ml: "14px" }}>New PIN</FormLabel>
                       <MuiOtpInput
                         sx={{ gap: 1 }}
                         {...field}
                         length={6}
-                        autoFocus
+                        TextFieldsProps={{
+                          type: "password",
+                          error: fieldState?.invalid,
+                        }}
                       />
                       <FormHelperText
                         error={fieldState?.invalid}
                         sx={{ ml: "14px" }}
                       >
                         {fieldState?.invalid
-                          ? "Invalid OTP"
-                          : "Enter the OTP you received via email"}
+                          ? "Invalid PIN"
+                          : "Create a new PIN"}
                       </FormHelperText>
                     </div>
                   )}
                 />
-              </ShowWhen>
-            </ShowWhen>
-
-            {/* New PIN Field */}
-            <ShowWhen when={step === 3}>
-              <Controller
-                name={fieldNameNewPin}
-                control={control}
-                rules={{ validate: (value) => value?.length === 6 }}
-                render={({ field, fieldState }) => (
-                  <div className="grid grid-flow-row gap-1">
-                    <FormLabel sx={{ ml: "14px" }}>New PIN</FormLabel>
-                    <MuiOtpInput sx={{ gap: 1 }} {...field} length={6} />
-                    <FormHelperText
-                      error={fieldState?.invalid}
-                      sx={{ ml: "14px" }}
-                    >
-                      {fieldState?.invalid ? "Invalid PIN" : "Create a new PIN"}
-                    </FormHelperText>
-                  </div>
-                )}
-              />
-              <Controller
-                name={fieldNameConfirmPin}
-                control={control}
-                rules={{
-                  validate: (value, formValues) => {
-                    // Check if pins are matching
-                    const isPinsMatching =
-                      formValues[fieldNameNewPin] === value;
-                    return isPinsMatching;
-                  },
-                }}
-                render={({ field, fieldState }) => (
-                  <div className="grid grid-flow-row gap-1">
-                    <FormLabel sx={{ ml: "14px" }}>Confirm PIN</FormLabel>
-                    <MuiOtpInput
-                      sx={{ gap: 1 }}
-                      {...field}
-                      length={6}
-                      TextFieldsProps={{
-                        type: "password",
-                      }}
-                    />
-                    <FormHelperText
-                      error={fieldState?.invalid}
-                      sx={{ ml: "14px" }}
-                    >
-                      {fieldState?.invalid
-                        ? "Pins does not match"
-                        : "Confirm new pin"}
-                    </FormHelperText>
-                  </div>
-                )}
-              />
+                {/* Confirm PIN */}
+                <Controller
+                  name={fieldNameConfirmPin}
+                  control={control}
+                  rules={{
+                    validate: (value, formValues) => {
+                      // Check if pins are matching
+                      const isPinsMatching =
+                        formValues[fieldNameNewPin] === value;
+                      return isPinsMatching;
+                    },
+                  }}
+                  render={({ field, fieldState }) => (
+                    <div className="grid grid-flow-row gap-1">
+                      <FormLabel sx={{ ml: "14px" }}>Confirm PIN</FormLabel>
+                      <MuiOtpInput
+                        sx={{ gap: 1 }}
+                        {...field}
+                        length={6}
+                        TextFieldsProps={{
+                          type: "password",
+                          error: fieldState?.invalid,
+                        }}
+                      />
+                      <FormHelperText
+                        error={fieldState?.invalid}
+                        sx={{ ml: "14px" }}
+                      >
+                        {fieldState?.invalid
+                          ? "Pins does not match"
+                          : "Confirm new pin"}
+                      </FormHelperText>
+                    </div>
+                  )}
+                />
+              </div>
             </ShowWhen>
             <Button
               size="large"

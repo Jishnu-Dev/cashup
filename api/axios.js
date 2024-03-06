@@ -1,7 +1,8 @@
-import { authToken, clearUserCredentials } from "@/lib/authenticator";
+import { clearUserCredentials, getAuthToken } from "@/lib/authenticator";
 
 import axios from "axios";
 
+const authToken = getAuthToken();
 const http = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
   headers: {

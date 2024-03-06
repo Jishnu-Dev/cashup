@@ -3,6 +3,7 @@
 import { blue, green } from "@mui/material/colors";
 
 import { createTheme } from "@mui/material/styles";
+import { dir } from "@/i18n/translate";
 import { inter } from "@/lib/font";
 
 const theme = createTheme({
@@ -19,9 +20,11 @@ const theme = createTheme({
         titleTypographyProps: {
           fontSize: "1.3rem",
           fontWeight: "medium",
+          dir: dir,
         },
         subheaderTypographyProps: {
           fontSize: "0.8rem",
+          dir: dir,
         },
       },
     },

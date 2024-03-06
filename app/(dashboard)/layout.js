@@ -21,7 +21,7 @@ export { metadata, viewport };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" id="dashboard-root">
+    <html id="dashboard-root">
       <body
         className={classNames(
           inter.className,
@@ -31,13 +31,16 @@ export default function RootLayout({ children }) {
         <Authenticator>
           <AppRouterCacheProvider>
             <ThemeProvider theme={theme}>
-              <main className="h-screen max-h-screen w-full grid grid-cols-10 gap-10 bg-[#f0f5f9] overflow-hidden p-5">
-                <section className="col-span-2 w-full">
+              <main className="h-screen max-h-screen w-full grid grid-cols-10 gap-10 bg-[#f0f5f9] px-5 pt-5">
+                <section
+                  className="col-span-2 w-full sticky top-0 pb-6 overflow-y-auto"
+                  style={{ "max-height": "100vh" }}
+                >
                   <AsideMenu />
                 </section>
-                <section className="col-span-8 flex flex-col flex-grow h-full overflow-hidden relative rounded-2xl">
+                <section className="col-span-8 flex flex-col flex-grow h-full overflow-hidden relative rounded-t-2xl">
                   <Navbar />
-                  <section className="h-full overflow-scroll pt-24">
+                  <section className="overflow-y-scroll scrollbar-hidden pt-28 pb-16">
                     {children}
                   </section>
                 </section>
