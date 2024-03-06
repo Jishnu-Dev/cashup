@@ -1,4 +1,5 @@
-import { Logo } from "@/app/(auth)/login/page";
+// import { Logo } from "@/app/(auth)/login/page";
+
 import ResetPinForm from "@/components/forms/ResetPinForm";
 import TwoColumnLayout from "@/components/ui/TwoColumnLayout";
 
@@ -14,7 +15,7 @@ export default function Page() {
       illustration="authentication-flatline.svg"
     >
       <div className="container h-full flex flex-col justify-center items-center gap-12">
-        <Logo />
+        {/* <Logo /> */}
         <ResetPinForm />
       </div>
     </TwoColumnLayout>

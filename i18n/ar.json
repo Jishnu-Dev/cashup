@@ -1,0 +1,9 @@
+{
+  "server-component": {
+    "welcome": "Arabic welcome"
+  },
+  "counter": {
+    "increment": "Increment",
+    "decrement": "Decrement"
+  }
+}

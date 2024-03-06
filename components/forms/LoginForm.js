@@ -8,7 +8,6 @@ import {
   getIsLoggedIn,
   setUserCredentials,
 } from "@/lib/authenticator";
-import t, { dir, switchLanguage } from "@/i18n/translate";
 
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
@@ -126,15 +125,8 @@ export default function LoginForm() {
       </ShowWhen>
       <CardContent className="grid grid-flow-row gap-8">
         <CardHeader
-          title={t("login-heading")}
-          subheader={t("login-subheading")}
-        />
-        <input
-          type="checkbox"
-          name="language"
-          onChange={() => {
-            switchLanguage();
-          }}
+          title="Welcome back Maerchant"
+          subheader="Sign in to manage your merchant account"
         />
         <form
           onSubmit={handleSubmit(onSubmit)}

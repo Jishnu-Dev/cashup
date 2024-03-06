@@ -3,7 +3,7 @@
  * https://nextjs.org/docs/app/building-your-application/routing/route-groups
  ****/
 
-import "../globals.css";
+import "../../globals.css";
 
 import { metadata, viewport } from "@/lib/metadata";
 
