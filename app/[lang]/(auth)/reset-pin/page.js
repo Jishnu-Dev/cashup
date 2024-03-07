@@ -2,7 +2,6 @@
 
 import ResetPinForm from "@/components/forms/ResetPinForm";
 import TwoColumnLayout from "@/components/ui/TwoColumnLayout";
-import { getDictionary } from "@/i18n/get-dictionary";
 
 export const metadata = {
   title: "Reset PIN",
@@ -10,7 +9,6 @@ export const metadata = {
 };
 
 export default async function Page({ params: { lang } }) {
-  const dictionary = await getDictionary(lang);
   return (
     <TwoColumnLayout
       background="bg-wave-scene-2.svg"
@@ -18,7 +16,7 @@ export default async function Page({ params: { lang } }) {
     >
       <div className="container h-full flex flex-col justify-center items-center gap-12">
         {/* <Logo /> */}
-        <ResetPinForm dictionary={dictionary} lang={lang} />
+        <ResetPinForm />
       </div>
     </TwoColumnLayout>
   );

@@ -35,7 +35,7 @@ const fieldNameOTP = "fieldOTP";
 const fieldNameNewPin = "fieldNewPin";
 const fieldNameConfirmPin = "fieldNameConfirmPin";
 
-export default function ResetPinForm({ dictionary }) {
+export default function ResetPinForm() {
   const cookie = new Cookies();
   const {
     register,
@@ -137,13 +137,6 @@ export default function ResetPinForm({ dictionary }) {
       <ShowWhen when={isSubmitting}>
         <LinearProgress />
       </ShowWhen>
-      {/* LOCALE TEST */}
-      <div>
-        <p>CLIENT COMPONENT</p>
-        <p>{dictionary.login.title}</p>
-        <p>{dictionary.login.subtitle}</p>
-      </div>
-      {/* LOCALE TEST */}
       <CardHeader
         title="Reset PIN"
         subheader="Restore access to your merchant account by reseting the pin"

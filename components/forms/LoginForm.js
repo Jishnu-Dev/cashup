@@ -8,7 +8,6 @@ import {
   getIsLoggedIn,
   setUserCredentials,
 } from "@/lib/authenticator";
-import t, { LocaleSwitcherNew } from "@/i18n/translate";
 
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
@@ -21,7 +20,6 @@ import FormHelperText from "@mui/material/FormHelperText";
 import FormLabel from "@mui/material/FormLabel";
 import LinearProgress from "@mui/material/LinearProgress";
 import Link from "next/link";
-import LocaleSwitcher from "../ui/LocaleSwitcher";
 import { MuiOtpInput } from "mui-one-time-password-input";
 import ShowWhen from "@/components/ui/ShowWhen";
 import TextField from "@mui/material/TextField";
@@ -30,7 +28,7 @@ import { toast } from "react-toastify";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-export default function LoginForm({ dictionary }) {
+export default function LoginForm() {
   const cookie = new Cookies();
   const router = useRouter();
   const {
@@ -126,15 +124,6 @@ export default function LoginForm({ dictionary }) {
         <LinearProgress />
       </ShowWhen>
       <CardContent className="grid grid-flow-row gap-8">
-        {/* TEST */}
-        <div>
-          <p>CLIENT COMPONENT</p>
-          <p>{dictionary.login.title}</p>
-          <p>{dictionary.login.subtitle}</p>
-        </div>
-        {/* <LocaleSwitcherNew /> */}
-        {/* TEST */}
-        <LocaleSwitcher />
         <CardHeader
           title="Welcome Back Merchant"
           subheader="Sign In to manage your Cashup merchant account"
