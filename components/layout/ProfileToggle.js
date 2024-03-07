@@ -1,14 +1,13 @@
 "use client";
 
 import { Fragment, useState } from "react";
+import { Link, useRouter } from "@/navigation";
 
 import { Button } from "@mui/material";
-import Link from "next/link";
 import Popover from "@mui/material/Popover";
 import UserAvatar from "@/components/layout/UserAvatar";
 import { clearUserCredentials } from "@/lib/authenticator";
 import { toast } from "react-toastify";
-import { useRouter } from "next/navigation";
 
 const name = "Acme Doddas";
 

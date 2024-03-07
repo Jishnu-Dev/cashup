@@ -19,7 +19,7 @@ import Cookies from "universal-cookie";
 import FormHelperText from "@mui/material/FormHelperText";
 import FormLabel from "@mui/material/FormLabel";
 import LinearProgress from "@mui/material/LinearProgress";
-import Link from "next/link";
+import { Link } from "@/navigation";
 import { MuiOtpInput } from "mui-one-time-password-input";
 import ShowWhen from "@/components/ui/ShowWhen";
 import TextField from "@mui/material/TextField";
@@ -27,8 +27,10 @@ import isEmail from "validator/es/lib/isEmail";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 export default function LoginForm() {
+  const t = useTranslations("login");
   const cookie = new Cookies();
   const router = useRouter();
   const {
@@ -124,10 +126,7 @@ export default function LoginForm() {
         <LinearProgress />
       </ShowWhen>
       <CardContent className="grid grid-flow-row gap-8">
-        <CardHeader
-          title="Welcome Back Merchant"
-          subheader="Sign In to manage your Cashup merchant account"
-        />
+        <CardHeader title={t("title")} subheader={t("subtitle")} />
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="grid grid-flow-row gap-4"

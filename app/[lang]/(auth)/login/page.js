@@ -2,8 +2,14 @@ import Grow from "@mui/material/Grow";
 import Image from "next/image";
 import LoginForm from "@/components/forms/LoginForm";
 import TwoColumnLayout from "@/components/ui/TwoColumnLayout";
+import { getTranslations } from "next-intl/server";
 
-export default async function Page({ params: { lang } }) {
+// import { useTranslations } from "next-intl";
+// const t = useTranslations('login') // Client
+
+export default async function Page({ params: { locale } }) {
+  const t = await getTranslations("login"); // Server
+
   return (
     <TwoColumnLayout illustration="authentication-two-color.svg">
       <div className="container h-full flex flex-col justify-center items-center gap-12">

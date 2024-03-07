@@ -8,7 +8,7 @@ export const metadata = {
   description: "Restore access to your merchant account by reseting the pin",
 };
 
-export default async function Page({ params: { lang } }) {
+export default function Page({ params: { lang } }) {
   return (
     <TwoColumnLayout
       background="bg-wave-scene-2.svg"
