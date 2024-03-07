@@ -2,9 +2,12 @@ import { clearUserCredentials, getAuthToken } from "@/lib/authenticator";
 
 import axios from "axios";
 
+const baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
+const apiVersion = process.env.NEXT_PUBLIC_API_VERSION;
+
 const authToken = getAuthToken();
 const http = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
+  baseURL: baseURL + "/" + apiVersion,
   headers: {
     Authorization: `Bearer ${authToken}`,
     "Content-Type": "application/json",
