@@ -1,9 +1,12 @@
 {
-  "server-component": {
-    "welcome": "Arabic welcome"
+  "login": {
+    "title": "مرحباً بعودتك أيها التاجر",
+    "subtitle": "قم بتسجيل الدخول لإدارة حساب تاجر Cashup الخاص بك"
   },
-  "counter": {
-    "increment": "Increment",
-    "decrement": "Decrement"
+  "server-component": {
+    "welcome": "Welcome"
+  },
+  "client-component": {
+    "test": "Client component english"
   }
 }

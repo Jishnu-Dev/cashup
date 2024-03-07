@@ -2,13 +2,15 @@
 
 import ResetPinForm from "@/components/forms/ResetPinForm";
 import TwoColumnLayout from "@/components/ui/TwoColumnLayout";
+import { getDictionary } from "@/i18n/get-dictionary";
 
 export const metadata = {
   title: "Reset PIN",
   description: "Restore access to your merchant account by reseting the pin",
 };
 
-export default function Page() {
+export default async function Page({ params: { lang } }) {
+  const dictionary = await getDictionary(lang);
   return (
     <TwoColumnLayout
       background="bg-wave-scene-2.svg"
@@ -16,7 +18,7 @@ export default function Page() {
     >
       <div className="container h-full flex flex-col justify-center items-center gap-12">
         {/* <Logo /> */}
-        <ResetPinForm />
+        <ResetPinForm dictionary={dictionary} lang={lang} />
       </div>
     </TwoColumnLayout>
   );

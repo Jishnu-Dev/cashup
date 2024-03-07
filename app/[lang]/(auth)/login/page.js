@@ -9,10 +9,16 @@ export default async function Page({ params: { lang } }) {
   return (
     <TwoColumnLayout illustration="authentication-two-color.svg">
       <div className="container h-full flex flex-col justify-center items-center gap-12">
-        This text is rendered on the server:{" "}
-        {dictionary["server-component"].welcome}
+        {/* This text is rendered on the server:{" "} */}
         <Logo />
-        <LoginForm />
+        {/* TEST */}
+        <div>
+          <p>SERVER COMPONENT</p>
+          <p>{dictionary.login.title}</p>
+          <p>{dictionary.login.subtitle}</p>
+        </div>
+        {/* TEST */}
+        <LoginForm dictionary={dictionary} lang={lang} />
       </div>
     </TwoColumnLayout>
   );

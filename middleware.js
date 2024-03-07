@@ -1,6 +1,6 @@
 import Negotiator from "negotiator";
 import { NextResponse } from "next/server";
-import { i18n } from "./i18n/i18n-config";
+import { i18n } from "@/i18n/i18n-config";
 import { match as matchLocale } from "@formatjs/intl-localematcher";
 
 function getLocale(request) {
@@ -41,7 +41,6 @@ export function middleware(request) {
   // Redirect if there is no locale
   if (pathnameIsMissingLocale) {
     const locale = getLocale(request);
-
     // e.g. incoming request is /products
     // The new URL is now /en-US/products
     return NextResponse.redirect(

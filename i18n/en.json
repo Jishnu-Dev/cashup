@@ -1,9 +1,12 @@
 {
+  "login": {
+    "title": "Welcome Back Merchant",
+    "subtitle": "Sign in to Manage your Cashup Merchant Account"
+  },
   "server-component": {
     "welcome": "Welcome"
   },
-  "counter": {
-    "increment": "Increment",
-    "decrement": "Decrement"
+  "client-component": {
+    "test": "Client component english"
   }
 }

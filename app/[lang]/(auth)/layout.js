@@ -3,7 +3,7 @@
  * https://nextjs.org/docs/app/building-your-application/routing/route-groups
  ****/
 
-import "../../globals.css";
+import "@/app/globals.css";
 
 import { metadata, viewport } from "@/lib/metadata";
 
@@ -16,9 +16,9 @@ import theme from "@/app/theme";
 
 export { metadata, viewport };
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children, params }) {
   return (
-    <html>
+    <html lang={params?.lang}>
       <body
         className={classNames(
           inter.className,

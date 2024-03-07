@@ -35,7 +35,7 @@ const fieldNameOTP = "fieldOTP";
 const fieldNameNewPin = "fieldNewPin";
 const fieldNameConfirmPin = "fieldNameConfirmPin";
 
-export default function ResetPinForm() {
+export default function ResetPinForm({ dictionary }) {
   const cookie = new Cookies();
   const {
     register,
@@ -131,13 +131,19 @@ export default function ResetPinForm() {
     if (!isNewPinFieldValid) return;
     else setFocus(fieldNameConfirmPin);
   }, [isNewPinFieldValid]);
-  console.log("IS NEW PIN VALID", isNewPinFieldValid);
 
   return (
     <Card>
       <ShowWhen when={isSubmitting}>
         <LinearProgress />
       </ShowWhen>
+      {/* LOCALE TEST */}
+      <div>
+        <p>CLIENT COMPONENT</p>
+        <p>{dictionary.login.title}</p>
+        <p>{dictionary.login.subtitle}</p>
+      </div>
+      {/* LOCALE TEST */}
       <CardHeader
         title="Reset PIN"
         subheader="Restore access to your merchant account by reseting the pin"
@@ -279,7 +285,7 @@ export default function ResetPinForm() {
         <ShowWhen when={step <= 3}>
           <CardActions>
             <Link
-              href="/login"
+              href={`/login`}
               className="w-max mx-auto text-sm text-black hover:text-primary"
             >
               Remember PIN? Login

@@ -34,7 +34,7 @@ export default function RootLayout({ children }) {
               <main className="h-screen max-h-screen w-full grid grid-cols-10 gap-10 bg-[#f0f5f9] px-5 pt-5">
                 <section
                   className="col-span-2 w-full sticky top-0 pb-6 overflow-y-auto"
-                  style={{ "max-height": "100vh" }}
+                  style={{ maxHeight: "100vh" }}
                 >
                   <AsideMenu />
                 </section>

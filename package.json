@@ -45,7 +45,7 @@
     "@iconify-json/solar": "^1.1.9",
     "@iconify/tailwind": "^0.1.4",
     "autoprefixer": "^10.0.1",
-    "eslint": "^8",
+    "eslint": "^8.57.0",
     "eslint-config-next": "14.0.4",
     "postcss": "^8",
     "prettier": "^3.2.5",

@@ -1,0 +1,12 @@
+{
+  "login": {
+    "title": {
+      "en": "Welcome Back Merchant",
+      "ar": "مرحباً بعودتك أيها التاجر"
+    },
+    "subtitle": {
+      "en": "Sign in to Manage your Cashup Merchant Account",
+      "ar": "قم بتسجيل الدخول لإدارة حساب تاجر Cashup الخاص بك"
+    }
+  }
+}
