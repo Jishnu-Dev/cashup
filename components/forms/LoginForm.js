@@ -1,6 +1,7 @@
 "use client";
 
 import { Controller, useForm } from "react-hook-form";
+import { Link, useRouter } from "@/navigation";
 import { apiGetPinDefaultCheckedStatus, apiLogin } from "@/api";
 import {
   cookieDefaultSettings,
@@ -19,14 +20,12 @@ import Cookies from "universal-cookie";
 import FormHelperText from "@mui/material/FormHelperText";
 import FormLabel from "@mui/material/FormLabel";
 import LinearProgress from "@mui/material/LinearProgress";
-import { Link } from "@/navigation";
 import { MuiOtpInput } from "mui-one-time-password-input";
 import ShowWhen from "@/components/ui/ShowWhen";
 import TextField from "@mui/material/TextField";
 import isEmail from "validator/es/lib/isEmail";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
-import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 
 export default function LoginForm() {
@@ -47,10 +46,9 @@ export default function LoginForm() {
   });
 
   // If token exists, means already logged in. Pushing to dashboard.
-  const isLoggedInAlready = getIsLoggedIn();
   useEffect(() => {
-    if (isLoggedInAlready) router.push("/");
-  }, [isLoggedInAlready]);
+    if (getIsLoggedIn()) router.push("/");
+  }, []);
 
   // Login handler
   const onSubmit = async ({ username, pin, remember_me }) => {

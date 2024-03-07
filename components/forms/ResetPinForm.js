@@ -1,6 +1,7 @@
 "use client";
 
 import { Controller, useForm } from "react-hook-form";
+import { Link, useRouter } from "@/navigation";
 import {
   apiGetPinResetOTP,
   apiUpdateMerchantPin,
@@ -21,13 +22,11 @@ import Cookies from "universal-cookie";
 import FormHelperText from "@mui/material/FormHelperText";
 import FormLabel from "@mui/material/FormLabel";
 import { LinearProgress } from "@mui/material";
-import Link from "next/link";
 import { MuiOtpInput } from "mui-one-time-password-input";
 import ShowWhen from "@/components/ui/ShowWhen";
 import TextField from "@mui/material/TextField";
 import isEmail from "validator/es/lib/isEmail";
 import { toast } from "react-toastify";
-import { useRouter } from "next/navigation";
 
 // Filed names as global variable so that one change can affect everywhere it is being used
 const fieldNameEmail = "fieldEmail";

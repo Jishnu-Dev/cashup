@@ -2,6 +2,7 @@
 
 import { Controller, useForm } from "react-hook-form";
 import { apiUpdateDefaultPinChangedStatus, apiUpdateMerchantPin } from "@/api";
+import { useEffect, useState } from "react";
 
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
@@ -10,12 +11,12 @@ import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
 import FormHelperText from "@mui/material/FormHelperText";
 import FormLabel from "@mui/material/FormLabel";
+import LinearProgress from "@mui/material/LinearProgress";
 import { MuiOtpInput } from "mui-one-time-password-input";
 import ShowWhen from "@/components/ui/ShowWhen";
 import { getMerchantId } from "@/lib/authenticator";
 import { toast } from "react-toastify";
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/navigation";
 
 const fieldNameNewPin = "fieldNewPin";
 const fieldNameConfirmPin = "fieldConfirmPin";
@@ -36,6 +37,7 @@ export default function UpdateDefaultPinForm() {
     confirmPin: fieldNameConfirmPin,
   });
 
+  // Pin update form handler
   const pinUpdateHandler = async (formData) => {
     try {
       const newPin = formData[fieldNameNewPin];
@@ -52,14 +54,19 @@ export default function UpdateDefaultPinForm() {
     }
   };
 
+  // Updating user's choice to change or not to change default pin to db
+  const [isUpdatingStatus, setIsUpdatingStatus] = useState(false);
   const updateUserDefaultPinChoice = async () => {
     try {
+      setIsUpdatingStatus(true);
       await apiUpdateDefaultPinChangedStatus(merchantId);
       setTimeout(() => {
         router.push(pathToDashboardWithWelcomePopup);
       }, 1000);
     } catch (e) {
       console.dir(e);
+    } finally {
+      setIsUpdatingStatus(false);
     }
   };
 
@@ -72,6 +79,9 @@ export default function UpdateDefaultPinForm() {
 
   return (
     <Card>
+      <ShowWhen when={isSubmitting || isUpdatingStatus}>
+        <LinearProgress />
+      </ShowWhen>
       <CardHeader
         title="Change your account's default PIN"
         subheader="Change your account's default PIN for more security"
@@ -137,21 +147,32 @@ export default function UpdateDefaultPinForm() {
             />
           </ShowWhen>
           <ShowWhen when={newPinFieldValue}>
-            <Button disabled={isSubmitting} type="submit" variant="contained">
+            <Button
+              disabled={isSubmitting || isUpdatingStatus}
+              type="submit"
+              variant="contained"
+            >
               Update
             </Button>
           </ShowWhen>
         </form>
         <CardActions>
-          <SkipStep isSubmitting={isSubmitting} />
+          <SkipStep
+            isSubmitting={isSubmitting}
+            isUpdatingStatus={isUpdatingStatus}
+            updatePinChoice={updateUserDefaultPinChoice}
+          />
         </CardActions>
       </CardContent>
     </Card>
   );
 }
 
-const SkipStep = ({ isSubmitting = false }) => {
-  const router = useRouter();
+const SkipStep = ({
+  isSubmitting = false,
+  isUpdatingStatus,
+  updatePinChoice,
+}) => {
   return (
     <div className="flex flex-col gap-4 md:flex-row justify-between items-center">
       <p className="text-sm text-black/80">
@@ -159,10 +180,8 @@ const SkipStep = ({ isSubmitting = false }) => {
         can always change your pin from your profile settings.
       </p>
       <Button
-        onClick={() => {
-          router.push(pathToDashboardWithWelcomePopup);
-        }}
-        disabled={isSubmitting}
+        onClick={updatePinChoice}
+        disabled={isSubmitting || isUpdatingStatus}
         endIcon={
           <span className="icon-[solar--arrow-right-line-duotone] text-primary" />
         }
