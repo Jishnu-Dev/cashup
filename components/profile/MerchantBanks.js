@@ -32,18 +32,18 @@ export default function MerchantBanks() {
   const router = useRouter();
   const merchantId = getMerchantId();
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const resp = await apiGetMerchantBanks(merchantId);
-        console.log("BANKS:", resp.data);
-      } catch (e) {
-        toast.error(e?.response?.data?.message ?? e?.message);
-        console.dir(e);
-      }
-    }
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     try {
+  //       const resp = await apiGetMerchantBanks(merchantId);
+  //       console.log("BANKS:", resp.data);
+  //     } catch (e) {
+  //       toast.error(e?.response?.data?.message ?? e?.message);
+  //       console.dir(e);
+  //     }
+  //   }
+  //   fetchData();
+  // }, []);
 
   return (
     <Card>

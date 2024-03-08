@@ -2,8 +2,12 @@ import { clearUserCredentials, getAuthToken } from "@/lib/authenticator";
 
 import axios from "axios";
 
-const baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
+let baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 const apiVersion = process.env.NEXT_PUBLIC_API_VERSION;
+
+console.log("BASE URL BEFORE", baseURL);
+if (baseURL && baseURL.endsWith("/")) baseURL.slice(0, -1);
+console.log("BASE URL AFTER", baseURL);
 
 const authToken = getAuthToken();
 const http = axios.create({

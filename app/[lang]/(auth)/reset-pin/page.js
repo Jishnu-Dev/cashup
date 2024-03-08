@@ -1,6 +1,5 @@
-// import { Logo } from "@/app/(auth)/login/page";
-
-import ResetPinForm from "@/components/forms/ResetPinForm";
+import CashupLogo from "@/components/ui/CashupLogo";
+import OnboardingPinUpdateForm from "@/components/forms/OnboardingPinUpdateForm";
 import TwoColumnLayout from "@/components/ui/TwoColumnLayout";
 
 export const metadata = {
@@ -15,8 +14,8 @@ export default function Page({ params: { lang } }) {
       illustration="authentication-flatline.svg"
     >
       <div className="container h-full flex flex-col justify-center items-center gap-12">
-        {/* <Logo /> */}
-        <ResetPinForm />
+        <CashupLogo />
+        <OnboardingPinUpdateForm />
       </div>
     </TwoColumnLayout>
   );

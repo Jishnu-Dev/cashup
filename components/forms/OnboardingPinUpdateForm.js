@@ -34,7 +34,7 @@ const fieldNameOTP = "fieldOTP";
 const fieldNameNewPin = "fieldNewPin";
 const fieldNameConfirmPin = "fieldNameConfirmPin";
 
-export default function ResetPinForm() {
+export default function OnboardingPinUpdateForm() {
   const cookie = new Cookies();
   const {
     register,
@@ -51,7 +51,7 @@ export default function ResetPinForm() {
     [fieldNameConfirmPin]: "",
   });
 
-  const [step, setStep] = useState(1); // Steps, 1: Email form, 2: OTP form, 3: New pin form
+  const [step, setStep] = useState(3); // Steps, 1: Email form, 2: OTP form, 3: New pin form
   const onSubmit = async (formData) => {
     const email = formData[fieldNameEmail];
     const otp = formData[fieldNameOTP];

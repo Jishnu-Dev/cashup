@@ -5,63 +5,60 @@
   https://icon-sets.iconify.design/solar (Line Duotone variant) 
 ***** */
 
-import Image from "next/image";
-import Link from "next/link";
-import cn from "classnames";
-import { usePathname } from "next/navigation";
+import { Link, usePathname } from "@/navigation";
 
-export default function AsideMenu() {
+import Card from "@mui/material/Card";
+import Image from "next/image";
+import cn from "classnames";
+
+export default function SideNav({ slug }) {
   const pathname = usePathname();
   const menuItems = [
     {
       label: "Dashboard",
       uri: "/",
-      isActive: pathname === "/",
       icon: "icon-[solar--pie-chart-2-bold-duotone]",
     },
     {
       label: "Wallet",
       uri: "/wallet",
-      isActive: pathname === "/wallet",
       icon: "icon-[solar--wallet-money-bold-duotone]",
     },
     {
       label: "My Network",
       uri: "/network",
-      isActive: pathname === "/network",
       icon: "icon-[solar--users-group-two-rounded-bold-duotone]",
     },
     {
       label: "Manage eShop",
       uri: "/eshop",
-      isActive: pathname === "/manage/eshop",
       icon: "icon-[solar--shop-2-bold-duotone]",
     },
     {
       label: "Messages",
       uri: "/chat",
-      isActive: pathname === "/chat",
       icon: "icon-[solar--chat-unread-bold-duotone]",
     },
     {
       label: "Reports",
       uri: "/reports",
-      isActive: pathname === "/reports",
       icon: "icon-[solar--document-add-bold-duotone]",
     },
   ];
 
   return (
-    <aside
-      className="h-full py-6 pr-6 flex flex-col rounded-2xl shadow shadow-primary/20
-      bg-gradient-to-t from-emerald-500 via-emerald-600/30 to-white"
+    <Card
+      component="aside"
+      className="h-full py-6 pr-6 flex flex-col rounded-2xl"
     >
+      {/* Original Gradient:  bg-gradient-to-t from-emerald-500 via-emerald-600/30 to-white */}
       {/* from-emerald-700/70 */}
       <div className="flex flex-col gap-12">
         <Branding />
         <menu className="h-8/12">
           <ul className="flex flex-col gap-0.5">
-            {menuItems.map(({ label, uri, icon, isActive }) => {
+            {menuItems.map(({ label, uri, icon }) => {
+              const isActive = pathname === uri;
               return (
                 <li
                   key={uri}
@@ -92,7 +89,7 @@ export default function AsideMenu() {
           </ul>
         </menu>
       </div>
-    </aside>
+    </Card>
   );
 }
 

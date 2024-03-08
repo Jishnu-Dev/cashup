@@ -9,9 +9,9 @@ import { NextIntlClientProvider, useMessages } from "next-intl";
 import { metadata, viewport } from "@/lib/metadata";
 
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
-import AsideMenu from "@/components/layout/AsideMenu";
 import Authenticator from "@/lib/authenticator";
 import Navbar from "@/components/layout/Navbar";
+import SideNav from "@/components/layout/SideNav";
 import { ThemeProvider } from "@mui/material/styles";
 import ToastProvider from "@/lib/toast-provider";
 import classNames from "classnames";
@@ -39,7 +39,7 @@ export default function RootLayout({ children, params: { lang } }) {
                     className="col-span-2 w-full sticky top-0 pb-6 overflow-y-auto"
                     style={{ maxHeight: "100vh" }}
                   >
-                    <AsideMenu />
+                    <SideNav />
                   </section>
                   <section className="col-span-8 flex flex-col flex-grow h-full overflow-hidden relative rounded-t-2xl">
                     <Navbar />

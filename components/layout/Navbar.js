@@ -1,6 +1,6 @@
 "use client";
 
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter } from "@/navigation";
 
 import Badge from "@mui/material/Badge";
 import Box from "@mui/material/Box";

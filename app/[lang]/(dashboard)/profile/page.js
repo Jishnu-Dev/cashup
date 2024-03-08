@@ -1,38 +1,20 @@
-import Card from "@mui/material/Card";
-import { Chip } from "@mui/material";
 import { Fragment } from "react";
 import MerchantBanks from "@/components/profile/MerchantBanks";
 import MerchantContacts from "@/components/profile/MerchantContacts";
 import MerchantLicenses from "@/components/profile/MerchantLicenses";
 import MerchatDetails from "@/components/profile/MerchantDetails";
-import UserAvatar from "@/components/layout/UserAvatar";
+import ProfileHero from "@/components/profile/ProfileHero";
+
+// import UserAvatar from "@/components/layout/UserAvatar";
 
 export default function Page() {
   return (
-    <div className="w-full grid grid-flow-row gap-8">
-      <HeroBanner />
+    <div className="w-full flex flex-col gap-8">
+      <ProfileHero />
       <ProfileGrid />
     </div>
   );
 }
-
-const HeroBanner = () => {
-  return (
-    <Card variant="outlined w-full h-72 rounded-2xl default-gradient">
-      <div className="h-full flex justify-center items-center">
-        <div className="flex flex-col gap-4 justify-center items-center">
-          <div className="p-1 rounded-full border-2 border-white/60">
-            <UserAvatar size={96} name="Acme Doddas" />
-          </div>
-          <div className="text-center text-white">
-            <h2 className="text-2xl font-bold text-white">Acme Doddas</h2>
-            <small>Admin • acme@cashup.com • Merchant Id: WHRXSR854</small>
-          </div>
-        </div>
-      </div>
-    </Card>
-  );
-};
 
 const ProfileGrid = () => {
   return (
