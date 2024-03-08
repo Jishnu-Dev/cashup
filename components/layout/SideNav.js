@@ -6,6 +6,15 @@
 ***** */
 
 import { Link, usePathname } from "@/navigation";
+import {
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  MenuItem,
+  MenuList,
+} from "@mui/material";
 
 import Card from "@mui/material/Card";
 import Image from "next/image";
@@ -47,61 +56,76 @@ export default function SideNav({ slug }) {
   ];
 
   return (
-    <Card
+    <aside
       component="aside"
-      className="h-full py-6 pr-6 flex flex-col rounded-2xl"
+      className="h-full py-6 pr- flex flex-col rounded-2xl p-3"
     >
       {/* Original Gradient:  bg-gradient-to-t from-emerald-500 via-emerald-600/30 to-white */}
       {/* from-emerald-700/70 */}
       <div className="flex flex-col gap-12">
         <Branding />
-        <menu className="h-8/12">
-          <ul className="flex flex-col gap-0.5">
-            {menuItems.map(({ label, uri, icon }) => {
-              const isActive = pathname === uri;
-              return (
-                <li
+        <List title="jks">
+          <ListItemText
+            primaryTypographyProps={{
+              fontWeight: "bold",
+              className: "text-black/50",
+              fontSize: 12,
+            }}
+          >
+            OVERVIEW
+          </ListItemText>
+          {menuItems.map(({ label, uri, icon }) => {
+            const isActive = uri === pathname;
+            return (
+              <Link href={uri}>
+                <ListItemButton
                   key={uri}
-                  className={cn({
-                    "w-full group rounded-r-full": true,
-                    "bg-green-400/80 text-black/50": isActive,
-                    "text-black hover:bg-green-400/20": !isActive,
-                  })}
+                  selected={isActive}
+                  sx={{
+                    my: 1,
+                    padding: 0,
+                    borderRadius: "12px",
+                  }}
                 >
-                  <Link
-                    prefetch
-                    href={uri}
-                    className="w-full text-sm rounded-lg flex items-center gap-3 p-4"
-                  >
-                    <span
-                      className={cn({
-                        [icon]: true,
-                        "text-2xl": true,
-                        "text-green-900": isActive,
-                        "text-lime-800": !isActive,
-                      })}
-                    />
-                    {label}
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        </menu>
+                  <ListItem>
+                    <ListItemIcon>
+                      <span
+                        className={cn({
+                          [icon]: true,
+                          "text-2xl": true,
+                          "text-primary": isActive,
+                        })}
+                      />
+                    </ListItemIcon>
+                    <ListItemText
+                      primaryTypographyProps={{
+                        fontWeight: isActive ? "bold" : "normal",
+                        className: isActive ? "text-primary" : null,
+                        fontSize: 14,
+                      }}
+                    >
+                      {label}
+                    </ListItemText>
+                  </ListItem>
+                </ListItemButton>
+              </Link>
+            );
+          })}
+        </List>
       </div>
-    </Card>
+    </aside>
   );
 }
 
 const Branding = () => (
-  <Link href="/" className="px-6">
+  <Link href="/" className="px-">
     <Image
       priority
       alt="Logo"
-      width={160}
-      height={160}
+      width={180}
+      height={180}
       src="/images/cashup-logo-colored.png"
-      style={{ width: "auto", height: "auto" }}
+      // style={{ width: "auto", height: "auto" }}
     />
   </Link>
 );

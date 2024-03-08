@@ -34,14 +34,14 @@ export default function RootLayout({ children, params: { lang } }) {
           <Authenticator>
             <AppRouterCacheProvider>
               <ThemeProvider theme={theme}>
-                <main className="h-screen max-h-screen w-full grid grid-cols-10 gap-10 bg-[#f0f5f9] px-5 pt-5">
+                <main className="h-screen max-h-screen w-full grid grid-cols-12 gap- bg-[#f0f5f9]">
                   <section
-                    className="col-span-2 w-full sticky top-0 pb-6 overflow-y-auto"
+                    className="col-span-2 w-full sticky top- overflow-y-auto border-r bg-white"
                     style={{ maxHeight: "100vh" }}
                   >
                     <SideNav />
                   </section>
-                  <section className="col-span-8 flex flex-col flex-grow h-full overflow-hidden relative rounded-t-2xl">
+                  <section className="col-span-10 flex flex-col flex-grow h-full overflow-hidden relative bg-red- px-10">
                     <Navbar />
                     <section className="overflow-y-scroll scrollbar-hidden pt-28 pb-16">
                       {children}

@@ -5,7 +5,6 @@ import { usePathname, useRouter } from "@/navigation";
 import Badge from "@mui/material/Badge";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
 import Chip from "@mui/material/Chip";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
@@ -19,8 +18,8 @@ export default function Navbar() {
   const toggleDrawer = () => setIsDrawerOpen((open) => !open);
 
   return (
-    <Card>
-      <div className="w-full flex justify-between items-center glass rounded-2xl px-4 py-2 shadow absolute top-0 right-0 z-50">
+    <Card component="nav">
+      <div className="w-full flex justify-between items-center glass border-b rounde px-10 py-2 shado absolute top-0 right-0 z-50">
         <RouteActions />
         <div className="ml-auto flex gap-3 items-center">
           <AccountStatusBadge />

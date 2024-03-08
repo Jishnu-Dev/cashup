@@ -35,17 +35,14 @@ const StatisticsBar = () => {
     {
       label: "Contacts",
       value: 983,
-      icon: "icon-[solar--user-id-line-duotone]",
     },
     {
       label: "Licenses",
       value: 12,
-      icon: "icon-[solar--document-add-line-duotone]",
     },
     {
       label: "Accounts",
       value: 4,
-      icon: "icon-[solar--buildings-2-line-duotone]",
     },
   ];
 
@@ -58,9 +55,8 @@ const StatisticsBar = () => {
               key={i}
               className="flex flex-col gap-3 items-center text-center"
             >
-              <span className={classNames("text-2xl", icon)} />
               <span>
-                <p className="font-medium text-2xl">{value}</p>
+                <p className="font-medium text-xl">{value}</p>
                 <p>{label}</p>
               </span>
             </div>
