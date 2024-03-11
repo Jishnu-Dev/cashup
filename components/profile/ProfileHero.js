@@ -1,9 +1,15 @@
-import { Button, Card } from "@mui/material";
+"use client";
 
-import { Fragment } from "react";
+import { Button, Card } from "@mui/material";
+import { Fragment, useCallback, useState } from "react";
+import { usePathname, useRouter } from "@/navigation";
+
 import ProfilePinUpdateModal from "@/components/profile/ProfilePinUpdateModal";
+import Tab from "@mui/material/Tab";
+import Tabs from "@mui/material/Tabs";
 import UserAvatar from "@/components/layout/UserAvatar";
 import classNames from "classnames";
+import { useSearchParams } from "next/navigation";
 
 export default function ProfileHero() {
   return (
@@ -14,6 +20,7 @@ export default function ProfileHero() {
         bg-[url('/images/illust/bg-stacked-waves.svg')] bg-cover bg-no-repeat
         "
         >
+          {/* Green Box */}
           <div className="flex flex-col gap-4 justify-center items-center">
             <div className="p-1 rounded-full border-2 border-white/60 shadow-xl">
               <UserAvatar size={96} name="Acme Doddas" />
@@ -24,53 +31,70 @@ export default function ProfileHero() {
             </div>
           </div>
         </div>
-        <StatisticsBar />
+        {/* Profile tabs */}
+        <ProfileTabs />
       </div>
     </Card>
   );
 }
 
-const StatisticsBar = () => {
-  const statistics = [
-    {
-      label: "Contacts",
-      value: 983,
+export const profileTabs = [
+  {
+    id: "basic-info",
+    label: "Basic Info",
+    icon: "icon-[solar--document-text-outline]",
+  },
+  {
+    id: "business",
+    label: "Business",
+    icon: "icon-[solar--case-round-line-duotone]",
+  },
+  {
+    id: "security",
+    label: "Security",
+    icon: "icon-[solar--shield-minimalistic-line-duotone]",
+  },
+];
+
+const ProfileTabs = () => {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const createQueryString = useCallback(
+    (name, value) => {
+      const params = new URLSearchParams(searchParams);
+      params.set(name, value);
+      return params.toString();
     },
-    {
-      label: "Licenses",
-      value: 12,
-    },
-    {
-      label: "Accounts",
-      value: 4,
-    },
-  ];
+    [searchParams]
+  );
+
+  const [currentTab, setCurrentTab] = useState(profileTabs[0].id);
+  const handleChange = (event, value) => {
+    const queryWithTabName = createQueryString("tab", value);
+    router.push(pathname + "?" + queryWithTabName);
+    setCurrentTab(value);
+  };
 
   return (
-    <Fragment>
-      <div className="flex justify-between p-5 bg-white">
-        <div className="flex gap-6 items-center">
-          {statistics.map(({ label, value, icon }, i) => (
-            <div
-              key={i}
-              className="flex flex-col gap-3 items-center text-center"
-            >
-              <span>
-                <p className="font-medium text-xl">{value}</p>
-                <p>{label}</p>
-              </span>
+    <Tabs
+      value={currentTab}
+      onChange={handleChange}
+      aria-label="User profile sections"
+    >
+      {profileTabs.map(({ id, label, icon }) => (
+        <Tab
+          id={id}
+          label={
+            <div className="flex gap-3 items-end">
+              <span className={classNames("text-xl", icon)} />
+              {label}
             </div>
-          ))}
-        </div>
-
-        <div className="flex gap-4 justify-center items-center">
-          <Button className="flex gap-3" variant="contained">
-            Update pin
-            <span className="text-2xl icon-[solar--key-bold-duotone]" />
-          </Button>
-        </div>
-      </div>
-      <ProfilePinUpdateModal />
-    </Fragment>
+          }
+          value={id}
+        />
+      ))}
+    </Tabs>
   );
 };
