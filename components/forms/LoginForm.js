@@ -5,9 +5,12 @@ import { Link, useRouter } from "@/navigation";
 import { apiGetPinDefaultCheckedStatus, apiLogin } from "@/api";
 import {
   cookieDefaultSettings,
+  cookieNameLastLogin,
+  cookieNameMerchantId,
   cookieNameOnboardingStatus,
+  cookieNameToken,
   getIsLoggedIn,
-  setUserCredentials,
+  loginExpiryDays,
 } from "@/lib/authenticator";
 
 import Button from "@mui/material/Button";
@@ -61,11 +64,22 @@ export default function LoginForm() {
       };
       const resp = await apiLogin(payload);
       const { merchant_id, token } = resp.data;
-      setUserCredentials({
-        token,
-        merchantId: merchant_id,
-        keepAlive: remember_me,
-      });
+
+      // Deciding cookie expiry
+      let cookieSettings = cookieDefaultSettings;
+      let expiryDate = new Date();
+      if (remember_me) {
+        expiryDate.setDate(expiryDate.getDate() + loginExpiryDays); // 7 days for keepAlive, Session otherwise
+        cookieSettings = {
+          ...cookieSettings,
+          expires: expiryDate,
+        };
+      }
+
+      const currentDate = new Date().toISOString();
+      cookie.set(cookieNameMerchantId, merchant_id, cookieSettings);
+      cookie.set(cookieNameToken, token, cookieSettings);
+      cookie.set(cookieNameLastLogin, currentDate, cookieSettings);
 
       await checkOnboardedStatus(merchant_id);
     } catch (e) {
@@ -80,16 +94,16 @@ export default function LoginForm() {
     try {
       const isAlreadyOnboarded = cookie.get(cookieNameOnboardingStatus);
       // Checking if already status checked cookie exists, if yes, no need to check again using api
-      if (isAlreadyOnboarded === "true") {
-        redirectToDashboard();
-      } else {
+      if (isAlreadyOnboarded === "true") redirectToDashboard();
+      else {
         // Checking the status of the default pin changed or user opted not to change it using api.
         const { data } = await apiGetPinDefaultCheckedStatus(merchantId);
         const { is_pin_default_checked: isAlreadyOnboarded } = data;
-        const oneYearInSeconds = 60 * 60 * 24 * 365;
+        const oneYear = new Date();
+        oneYear.setDate(oneYear.getDate() + 365);
         cookie.set(cookieNameOnboardingStatus, isAlreadyOnboarded, {
           ...cookieDefaultSettings,
-          maxAge: oneYearInSeconds,
+          expires: oneYear,
         });
         if (isAlreadyOnboarded) redirectToDashboard();
         else redirectToOnboard();
@@ -114,7 +128,7 @@ export default function LoginForm() {
   };
 
   const validateUsername = (value) => {
-    const isNumber = Number(value); // Checking if a number or not
+    const isNumber = Number(value);
     if (!isNumber) return isEmail(value) || "Invalid email address";
   };
 

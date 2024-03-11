@@ -77,7 +77,7 @@ export default function SideNav({ slug }) {
           {menuItems.map(({ label, uri, icon }) => {
             const isActive = uri === pathname;
             return (
-              <Link href={uri}>
+              <Link key={uri} href={uri}>
                 <ListItemButton
                   key={uri}
                   selected={isActive}
