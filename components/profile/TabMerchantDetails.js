@@ -5,12 +5,11 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
 import CardTitleIcon from "@/components/ui/CardTitleIcon";
-import { Fragment } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/navigation";
 
 export default function MerchantDetails() {
   return (
-    <div className="grid grid-flow-row gap-5">
+    <div className="grid grid-cols-1 md:grid-cols-2 grid-flow-row gap-5">
       <CoreAccountInfo />
       <BasicInfo />
     </div>
@@ -45,9 +44,12 @@ const CoreAccountInfo = () => {
       />
       <CardContent>
         <div className="h-full flex flex-col gapp-3 justify-between">
-          <ul className="grid grid-cols-2 gap-x-4 gap-y-6">
+          <ul>
             {accountInfos.map(({ label, value }, i) => (
-              <li key={label} className="grid grid-flow-row gap-1">
+              <li
+                key={label}
+                className="grid grid-flow-row gap-1 border-b last:border-none py-4"
+              >
                 <p className="text-black/60 text-sm">{label}</p>
                 <p className="text-black font-medium">{value}</p>
               </li>
@@ -71,7 +73,6 @@ const BasicInfo = () => {
     },
     { label: "Branch Type", value: "Merchant" },
     { label: "Telephone", value: "+971 583459876" },
-    { label: "Status", value: "Active" },
   ];
 
   return (
@@ -89,13 +90,16 @@ const BasicInfo = () => {
             Edit Details
           </Button>
         }
-        avatar={<CardTitleIcon icon="icon-[solar--user-circle-broken]" />}
+        avatar={<CardTitleIcon icon="icon-[solar--document-text-outline]" />}
       />
       <CardContent>
-        <div className="h-full flex flex-col gapp-3 justify-between">
-          <ul className="grid grid-cols-2 gap-x-4 gap-y-6">
+        <div className="h-full flex flex-col justify-between">
+          <ul>
             {accountInfos.map(({ label, value }, i) => (
-              <li key={label} className="grid grid-flow-row gap-1">
+              <li
+                key={label}
+                className="grid grid-flow-row gap-1 border-b last:border-none py-4"
+              >
                 <p className="text-black/60 text-sm">{label}</p>
                 <p className="text-black font-medium">{value}</p>
               </li>

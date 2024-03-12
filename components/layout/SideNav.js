@@ -64,7 +64,7 @@ export default function SideNav({ slug }) {
       {/* from-emerald-700/70 */}
       <div className="flex flex-col gap-12">
         <Branding />
-        <List title="jks">
+        <List>
           <ListItemText
             primaryTypographyProps={{
               fontWeight: "bold",

@@ -51,7 +51,7 @@ export default function OnboardingPinUpdateForm() {
     [fieldNameConfirmPin]: "",
   });
 
-  const [step, setStep] = useState(3); // Steps, 1: Email form, 2: OTP form, 3: New pin form
+  const [step, setStep] = useState(1); // Steps, 1: Email form, 2: OTP form, 3: New pin form
   const onSubmit = async (formData) => {
     const email = formData[fieldNameEmail];
     const otp = formData[fieldNameOTP];

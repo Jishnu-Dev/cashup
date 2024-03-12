@@ -1,5 +1,5 @@
 import CashupLogo from "@/components/ui/CashupLogo";
-import OnboardingPinUpdateForm from "@/components/forms/OnboardingPinUpdateForm";
+import ForgotPinForm from "@/components/forms/ForgotPinForm";
 import TwoColumnLayout from "@/components/ui/TwoColumnLayout";
 
 export const metadata = {
@@ -7,7 +7,7 @@ export const metadata = {
   description: "Restore access to your merchant account by reseting the pin",
 };
 
-export default function Page({ params: { lang } }) {
+export default function Page() {
   return (
     <TwoColumnLayout
       background="bg-wave-scene-2.svg"
@@ -15,7 +15,7 @@ export default function Page({ params: { lang } }) {
     >
       <div className="container h-full flex flex-col justify-center items-center gap-12">
         <CashupLogo />
-        <OnboardingPinUpdateForm />
+        <ForgotPinForm />
       </div>
     </TwoColumnLayout>
   );
