@@ -26,6 +26,10 @@ export const apiUpdateDefaultPinChangedStatus = (merchantId) =>
     in_merchant_id: merchantId,
   });
 
+// Profile
+export const apiGetMerchantProfile = (merchantId) =>
+  http.get(`/merchantMain/getMerchantProfile/${merchantId}`);
+
 // Banks
 export const apiGetMerchantBanks = (merchantId) =>
   http.get(`/merchantBank/getMerchantBankAccounts/${merchantId}`);

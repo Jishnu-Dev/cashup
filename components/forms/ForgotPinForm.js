@@ -51,7 +51,8 @@ export default function OnboardingPinUpdateForm() {
     [fieldNameConfirmPin]: "",
   });
 
-  const [step, setStep] = useState(3); // Steps, 1: Email form, 2: OTP form, 3: New pin form
+  const [feedbackMessage, setFeedbackMessage] = useState();
+  const [step, setStep] = useState(1); // Steps, 1: Email form, 2: OTP form, 3: New pin form, 4: Success
   const onSubmit = async (formData) => {
     const email = formData[fieldNameEmail];
     const otp = formData[fieldNameOTP];
@@ -65,7 +66,9 @@ export default function OnboardingPinUpdateForm() {
           const resp = await apiGetPinResetOTP({
             in_merchant_email: email,
           });
-          toast.success(resp?.data?.message);
+          const message = resp?.data?.message;
+          toast.success(message);
+          setFeedbackMessage(message);
           setStep(2);
           cookie.set(
             cookieNameMerchantId,
@@ -132,13 +135,13 @@ export default function OnboardingPinUpdateForm() {
   }, [isNewPinFieldValid]);
 
   return (
-    <Card>
+    <Card className="w-full">
       <ShowWhen when={isSubmitting}>
         <LinearProgress />
       </ShowWhen>
       <CardHeader
         title="Reset PIN"
-        subheader="Restore access to your merchant account by reseting the pin"
+        subheader="Reset the PIN to restore access to your account."
       />
       <CardContent className="grid grid-flow-row gap-4">
         <ShowWhen when={step <= 3}>
@@ -158,12 +161,13 @@ export default function OnboardingPinUpdateForm() {
                   autoFocus
                   id="field-email"
                   variant="outlined"
-                  label="Enter your email address"
+                  label="Email Address"
                   error={!!errors?.[fieldNameEmail]}
                   className="w-full"
                   helperText={
-                    errors?.[fieldNameEmail]?.message ??
-                    "You will receive an OTP via email which is valid for 30 minutes"
+                    errors?.[fieldNameEmail]?.message ||
+                    feedbackMessage ||
+                    "Please enter your registered email address."
                   }
                 />
                 {/* OTP Field */}
@@ -186,9 +190,7 @@ export default function OnboardingPinUpdateForm() {
                           error={fieldState?.invalid}
                           sx={{ ml: "14px" }}
                         >
-                          {fieldState?.invalid
-                            ? "Invalid OTP"
-                            : "Enter the OTP you received via email"}
+                          {fieldState?.invalid ?? "Invalid OTP"}
                         </FormHelperText>
                       </div>
                     )}
@@ -207,7 +209,7 @@ export default function OnboardingPinUpdateForm() {
                   rules={{ validate: (value) => value?.length === 6 }}
                   render={({ field, fieldState }) => (
                     <div className="grid grid-flow-row gap-1">
-                      <FormLabel sx={{ ml: "14px" }}>New PIN</FormLabel>
+                      <FormLabel sx={{ ml: "14px" }}>Enter New PIN</FormLabel>
                       <MuiOtpInput
                         sx={{ gap: 1 }}
                         {...field}
@@ -259,8 +261,8 @@ export default function OnboardingPinUpdateForm() {
                         sx={{ ml: "14px" }}
                       >
                         {fieldState?.invalid
-                          ? "Pins does not match"
-                          : "Confirm new pin"}
+                          ? "PIN does not match"
+                          : "Confirm new PIN"}
                       </FormHelperText>
                     </div>
                   )}
@@ -273,17 +275,14 @@ export default function OnboardingPinUpdateForm() {
               variant="contained"
               disabled={isSubmitting}
             >
-              {isSubmitting ? "Loading" : "Submit"}
+              {isSubmitting ? "Loading" : "Save New Pin"}
             </Button>
           </form>
         </ShowWhen>
         <ShowWhen when={step <= 3}>
           <CardActions>
-            <Link
-              href={`/login`}
-              className="w-max mx-auto text-sm text-black hover:text-primary"
-            >
-              Remember PIN? Login
+            <Link href={`/login`} className="w-max mx-auto text-sm link">
+              Login Now
             </Link>
           </CardActions>
         </ShowWhen>
@@ -315,14 +314,10 @@ const PinResetSuccessMessage = () => {
   return (
     <div className="flex flex-col gap-3 items-center text-center">
       <span class="icon-[solar--check-circle-bold-duotone] text-primary text-7xl" />
-      <p>{`Pin reset completed successfully. You can login using your new pin. Redirecting you to login in... ${timeLeft}`}</p>
-      <Button
-        onClick={() => {
-          router.push("/login");
-        }}
-      >
+      <p>{`PIN reset completed successfully! Redirecting you to login in... ${timeLeft}`}</p>
+      <Link href="/login" className="link">
         Login now
-      </Button>
+      </Link>
     </div>
   );
 };

@@ -83,8 +83,8 @@ export default function UpdateDefaultPinForm() {
         <LinearProgress />
       </ShowWhen>
       <CardHeader
-        title="Change your account's default PIN"
-        subheader="Change your account's default PIN for more security"
+        title="Account Default PIN"
+        subheader="You are currently using a system-generated PIN. We recommend changing it to a personalized PIN for added security and convenience."
       />
       <CardContent className="grid grid-flow-row gap-5">
         <form
@@ -97,7 +97,7 @@ export default function UpdateDefaultPinForm() {
             rules={{ validate: (value) => value?.length === 6 }}
             render={({ field, fieldState }) => (
               <div className="grid grid-flow-row gap-1">
-                <FormLabel sx={{ ml: "14px" }}>New PIN</FormLabel>
+                <FormLabel sx={{ ml: "14px" }}>Enter New PIN</FormLabel>
                 <MuiOtpInput
                   sx={{ gap: 1 }}
                   {...field}
@@ -108,7 +108,7 @@ export default function UpdateDefaultPinForm() {
                   }}
                 />
                 <FormHelperText error={fieldState?.invalid} sx={{ ml: "14px" }}>
-                  {fieldState?.invalid ? "Invalid PIN" : "Create a new PIN"}
+                  {fieldState?.invalid ?? "Invalid PIN"}
                 </FormHelperText>
               </div>
             )}
@@ -140,9 +140,7 @@ export default function UpdateDefaultPinForm() {
                     error={fieldState?.invalid}
                     sx={{ ml: "14px" }}
                   >
-                    {fieldState?.invalid
-                      ? "Pins does not match"
-                      : "Confirm new pin"}
+                    {fieldState?.invalid ?? "PIN does not match"}
                   </FormHelperText>
                 </div>
               )}
@@ -154,7 +152,7 @@ export default function UpdateDefaultPinForm() {
               type="submit"
               variant="contained"
             >
-              Update
+              Save PIN
             </Button>
           </ShowWhen>
         </form>
@@ -178,8 +176,8 @@ const SkipStep = ({
   return (
     <div className="flex flex-col gap-4 md:flex-row justify-between items-center">
       <p className="text-sm text-black/80">
-        You can skip this step if you don't want to change the default PIN. You
-        can always change your pin from your profile settings.
+        You can skip this step for now and change your PIN anytime by accessing
+        the profile settings.
       </p>
       <Button
         onClick={updatePinChoice}

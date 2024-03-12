@@ -1,11 +1,14 @@
 "use client";
 
-import { Fragment } from "react";
-import MerchantBanks from "@/components/profile/MerchantBanks";
-import MerchantContacts from "@/components/profile/MerchantContacts";
-import MerchantLicenses from "@/components/profile/MerchantLicenses";
+import { Fragment, useEffect, useState } from "react";
+
 import ProfileHero from "@/components/profile/ProfileHero";
+import TabMerchantBanks from "@/components/profile/TabMerchantBanks";
+import TabMerchantContacts from "@/components/profile/TabMerchantContacts";
 import TabMerchantDetails from "@/components/profile/TabMerchantDetails";
+import TabMerchantLicenses from "@/components/profile/TabMerchantLicenses";
+import { apiGetMerchantProfile } from "@/api";
+import { getMerchantId } from "@/lib/authenticator";
 import { useSearchParams } from "next/navigation";
 
 // import UserAvatar from "@/components/layout/UserAvatar";
@@ -18,38 +21,42 @@ export const profileTabs = [
     Component: TabMerchantDetails,
   },
   {
-    id: "business",
-    label: "Business",
-    icon: "icon-[solar--case-round-line-duotone]",
-    Component: TabMerchantDetails,
-  },
-  {
-    id: "security",
-    label: "Security",
-    icon: "icon-[solar--shield-minimalistic-line-duotone]",
-    Component: TabMerchantDetails,
-  },
-  {
     id: "banks",
     label: "Banks",
-    icon: "icon-[solar--shield-minimalistic-line-duotone]",
-    Component: TabMerchantDetails,
+    icon: "icon-[solar--money-bag-outline]",
+    Component: TabMerchantBanks,
   },
   {
     id: "contacts",
     label: "Contacts",
-    icon: "icon-[solar--shield-minimalistic-line-duotone]",
-    Component: TabMerchantDetails,
+    icon: "icon-[solar--user-id-outline]",
+    Component: TabMerchantContacts,
   },
   {
     id: "licenses",
     label: "Licenses",
-    icon: "icon-[solar--shield-minimalistic-line-duotone]",
-    Component: TabMerchantDetails,
+    icon: "icon-[solar--document-add-outline]",
+    Component: TabMerchantLicenses,
   },
 ];
 
 export default function Page() {
+  const [isLoading, setIsLoading] = useState(false);
+  async function fetchMerchantProfile() {
+    try {
+      const merchantId = getMerchantId();
+      const resp = await apiGetMerchantProfile(merchantId);
+      console.log("RESP", resp);
+    } catch (e) {
+      console.dir(e);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+  useEffect(() => {
+    fetchMerchantProfile();
+  }, []);
+
   return (
     <div className="w-full flex flex-col gap-8">
       <ProfileHero />

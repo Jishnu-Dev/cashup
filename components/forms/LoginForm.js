@@ -27,7 +27,6 @@ import { MuiOtpInput } from "mui-one-time-password-input";
 import ShowWhen from "@/components/ui/ShowWhen";
 import TextField from "@mui/material/TextField";
 import isEmail from "validator/es/lib/isEmail";
-import { isNumber } from "lodash";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 import { useTranslations } from "next-intl";
@@ -37,9 +36,12 @@ export default function LoginForm() {
   const cookie = new Cookies();
   const router = useRouter();
   const {
+    reset,
+    control,
+    setFocus,
+    resetField,
     register,
     handleSubmit,
-    control,
     formState: { errors, isSubmitting },
   } = useForm({
     defaultValues: {
@@ -88,6 +90,8 @@ export default function LoginForm() {
         e?.response?.data?.message ?? "Something went wrong, please try again";
       toast.error(errorMessage);
       console.dir(e);
+      setFocus("username");
+      resetField("pin"); // RESET PIN AND SET FOCUS ON EMAIL ON ERROR
     }
   };
 
@@ -152,11 +156,11 @@ export default function LoginForm() {
             autoFocus
             id="field-username"
             variant="outlined"
-            label="Email or Phone"
+            label="Email Address or Mobile No."
             error={!!errors?.username}
             helperText={
               errors?.username?.message ??
-              "Use your email or registered phone to sign in"
+              "Use your registered email or mobile number to login."
             }
           />
           <Controller
@@ -198,7 +202,7 @@ export default function LoginForm() {
                 />
               )}
             />
-            <FormLabel sx={{ fontSize: "14px" }}>Keep me signed in</FormLabel>
+            <FormLabel sx={{ fontSize: "14px" }}>Keep me logged-in</FormLabel>
           </div>
           <Button
             size="large"
@@ -206,14 +210,11 @@ export default function LoginForm() {
             variant="contained"
             disabled={isSubmitting}
           >
-            Sign In
+            Log In
           </Button>
         </form>
         <CardActions>
-          <Link
-            href="/reset-pin"
-            className="w-max mx-auto text-sm text-black hover:text-primary"
-          >
+          <Link href="/reset-pin" className="w-max mx-auto text-sm link">
             Forgot PIN?
           </Link>
         </CardActions>

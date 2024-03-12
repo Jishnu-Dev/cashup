@@ -1,9 +1,9 @@
 "use client";
 
-import { Button, Card } from "@mui/material";
-import { Fragment, useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import { usePathname, useRouter } from "@/navigation";
 
+import Card from "@mui/material/Card";
 import ProfilePinUpdateModal from "@/components/profile/ProfilePinUpdateModal";
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
@@ -65,6 +65,7 @@ const ProfileTabs = () => {
 
   return (
     <Tabs
+      className="px-5 pt-2.5"
       value={currentTab}
       onChange={handleChange}
       aria-label="User profile sections"

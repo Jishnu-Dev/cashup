@@ -54,14 +54,21 @@ export default function OnboardWelcomeModal() {
           src="/images/illust/money-transfer-flatline.svg"
         />
         <DialogContentText id="alert-dialog-description">
-          Use this dashboard to handle everything related your merchant account
-          like bank accounts, licenses, contacts and much more. Moreover, you
-          can find various reports in the dashboard which can be utilized to
-          analyse your income.
+          As you step into the CashUp platform for the first time, get ready to
+          unlock a world of opportunities. <b>Manage your profile</b>,{" "}
+          <b>explore lucrative earning</b> and <b>marketing opportunities</b>,{" "}
+          <b>manage your own eCommerce store</b>,{" "}
+          <b>perform eWallet transactions</b>, and{" "}
+          <b>gain valuable insights through our analytics reporting tool</b>.
+          Your journey to maximizing profits starts here.
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button variant="contained" onClick={handleClose}>
+        <Button
+          variant="contained"
+          onClick={handleClose}
+          endIcon={<span className="icon-[solar--arrow-right-outline]" />}
+        >
           Continue
         </Button>
       </DialogActions>

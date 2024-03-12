@@ -50,7 +50,7 @@ export default function MerchantBanks() {
       <CardHeader
         title="Bank Accounts"
         subheader="View or update your bank accounts"
-        avatar={<CardTitleIcon icon="icon-[solar--buildings-2-line-duotone]" />}
+        avatar={<CardTitleIcon icon="icon-[solar--money-bag-outline]" />}
         action={
           <Button
             disableElevation

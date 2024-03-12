@@ -5,41 +5,31 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
 import CardTitleIcon from "@/components/ui/CardTitleIcon";
+import Chip from "@mui/material/Chip";
 import { useRouter } from "@/navigation";
 
 export default function MerchantDetails() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 grid-flow-row gap-5">
-      <CoreAccountInfo />
       <BasicInfo />
+      <CoreAccountInfo />
     </div>
   );
 }
 
 const CoreAccountInfo = () => {
-  const router = useRouter();
   const accountInfos = [
     { label: "Email", value: "jishnu@gmail.com" },
     { label: "Mobile", value: "0583069308" },
     { label: "Password PIN", value: "0583069308" },
-    { label: "Status", value: "Active" },
+    { label: "Status", value: <StatusPill status="Active" /> },
   ];
 
   return (
-    <Card>
+    <Card className="h-max">
       <CardHeader
         title="Account Info"
         subheader="View or update your account details"
-        // action={
-        //   <Button
-        //     onClick={() => {
-        //       router.push("/profile/edit-profile");
-        //     }}
-        //     startIcon={<span className="icon-[solar--pen-line-duotone]" />}
-        //   >
-        //     Edit Details
-        //   </Button>
-        // }
         avatar={<CardTitleIcon icon="icon-[solar--tuning-2-broken]" />}
       />
       <CardContent>
@@ -48,10 +38,10 @@ const CoreAccountInfo = () => {
             {accountInfos.map(({ label, value }, i) => (
               <li
                 key={label}
-                className="grid grid-flow-row gap-1 border-b last:border-none py-4"
+                className="grid grid-flow-row gap-1 border-b last:border-none py-2"
               >
                 <p className="text-black/60 text-sm">{label}</p>
-                <p className="text-black font-medium">{value}</p>
+                <p className="text-black">{value}</p>
               </li>
             ))}
           </ul>
@@ -98,10 +88,10 @@ const BasicInfo = () => {
             {accountInfos.map(({ label, value }, i) => (
               <li
                 key={label}
-                className="grid grid-flow-row gap-1 border-b last:border-none py-4"
+                className="grid grid-flow-row gap-1 border-b last:border-none py-2"
               >
                 <p className="text-black/60 text-sm">{label}</p>
-                <p className="text-black font-medium">{value}</p>
+                <p className="text-black">{value}</p>
               </li>
             ))}
           </ul>
@@ -109,4 +99,9 @@ const BasicInfo = () => {
       </CardContent>
     </Card>
   );
+};
+
+const StatusPill = ({ status = "unknown" }) => {
+  const color = status.toLowerCase() === "active" ? "success" : "default";
+  return <Chip label={status} variant="outlined" color={color} />;
 };
