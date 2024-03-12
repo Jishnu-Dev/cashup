@@ -170,6 +170,7 @@ export default function ProfilePinUpdateModal() {
                   sx={{ gap: 1 }}
                   {...field}
                   length={6}
+                  validateChar={(value) => !isNaN(value)} // Accepts only number
                   TextFieldsProps={{ error: fieldState?.invalid }}
                 />
                 <FormHelperText error={fieldState?.invalid} sx={{ ml: "14px" }}>
@@ -195,6 +196,7 @@ export default function ProfilePinUpdateModal() {
                     sx={{ gap: 1 }}
                     {...field}
                     length={6}
+                    validateChar={(value) => !isNaN(value)} // Accepts only number
                     TextFieldsProps={{
                       type: "password",
                       error: fieldState?.invalid,
@@ -227,6 +229,7 @@ export default function ProfilePinUpdateModal() {
                     sx={{ gap: 1 }}
                     {...field}
                     length={6}
+                    validateChar={(value) => !isNaN(value)} // Accepts only number
                     TextFieldsProps={{
                       type: "password",
                       error: fieldState?.invalid,

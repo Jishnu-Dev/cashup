@@ -51,7 +51,7 @@ export default function OnboardingPinUpdateForm() {
     [fieldNameConfirmPin]: "",
   });
 
-  const [step, setStep] = useState(1); // Steps, 1: Email form, 2: OTP form, 3: New pin form
+  const [step, setStep] = useState(3); // Steps, 1: Email form, 2: OTP form, 3: New pin form
   const onSubmit = async (formData) => {
     const email = formData[fieldNameEmail];
     const otp = formData[fieldNameOTP];
@@ -97,7 +97,7 @@ export default function OnboardingPinUpdateForm() {
           break;
         }
       }
-      // Updating new PIN
+      // Updating new Pin
       case 3: {
         try {
           const merchantId = cookie.get(cookieNameMerchantId);
@@ -179,6 +179,7 @@ export default function OnboardingPinUpdateForm() {
                           sx={{ gap: 1 }}
                           {...field}
                           length={6}
+                          validateChar={(value) => !isNaN(value)} // Accepts only number
                           TextFieldsProps={{ error: fieldState?.invalid }}
                         />
                         <FormHelperText
@@ -211,6 +212,7 @@ export default function OnboardingPinUpdateForm() {
                         sx={{ gap: 1 }}
                         {...field}
                         length={6}
+                        validateChar={(value) => !isNaN(value)} // Accepts only number
                         TextFieldsProps={{
                           type: "password",
                           error: fieldState?.invalid,
@@ -246,6 +248,7 @@ export default function OnboardingPinUpdateForm() {
                         sx={{ gap: 1 }}
                         {...field}
                         length={6}
+                        validateChar={(value) => !isNaN(value)} // Accepts only number
                         TextFieldsProps={{
                           type: "password",
                           error: fieldState?.invalid,

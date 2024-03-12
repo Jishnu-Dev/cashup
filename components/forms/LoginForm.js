@@ -27,6 +27,7 @@ import { MuiOtpInput } from "mui-one-time-password-input";
 import ShowWhen from "@/components/ui/ShowWhen";
 import TextField from "@mui/material/TextField";
 import isEmail from "validator/es/lib/isEmail";
+import { isNumber } from "lodash";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 import { useTranslations } from "next-intl";
@@ -169,6 +170,7 @@ export default function LoginForm() {
                   {...field}
                   length={6}
                   sx={{ gap: 1 }}
+                  validateChar={(value) => !isNaN(value)} // Accepts only number
                   TextFieldsProps={{
                     type: "password",
                     error: fieldState?.invalid,

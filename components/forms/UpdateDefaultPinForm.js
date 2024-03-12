@@ -102,6 +102,7 @@ export default function UpdateDefaultPinForm() {
                   sx={{ gap: 1 }}
                   {...field}
                   length={6}
+                  validateChar={(value) => !isNaN(value)} // Accepts only number
                   TextFieldsProps={{
                     type: "password",
                   }}
@@ -130,6 +131,7 @@ export default function UpdateDefaultPinForm() {
                     sx={{ gap: 1 }}
                     {...field}
                     length={6}
+                    validateChar={(value) => !isNaN(value)} // Accepts only number
                     TextFieldsProps={{
                       type: "password",
                     }}
