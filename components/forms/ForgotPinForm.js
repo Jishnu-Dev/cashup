@@ -28,21 +28,23 @@ import TextField from "@mui/material/TextField";
 import isEmail from "validator/es/lib/isEmail";
 import { toast } from "react-toastify";
 
-// Filed names as global variable so that one change can affect everywhere it is being used
+const cookie = new Cookies();
+// Field names as global variable so that one change can affect everywhere it is being used
 const fieldNameEmail = "fieldEmail";
 const fieldNameOTP = "fieldOTP";
 const fieldNameNewPin = "fieldNewPin";
 const fieldNameConfirmPin = "fieldNameConfirmPin";
 
 export default function OnboardingPinUpdateForm() {
-  const cookie = new Cookies();
   const {
-    register,
+    watch,
     control,
-    handleSubmit,
     setError,
     setFocus,
-    watch,
+    register,
+    getValues,
+    clearErrors,
+    handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm({
     [fieldNameEmail]: "",
@@ -51,9 +53,9 @@ export default function OnboardingPinUpdateForm() {
     [fieldNameConfirmPin]: "",
   });
 
+  const [step, setStep] = useState(2); // Steps, 1: Email form, 2: OTP form, 3: New pin form, 4: Success
   const [feedbackMessage, setFeedbackMessage] = useState();
-  const [step, setStep] = useState(1); // Steps, 1: Email form, 2: OTP form, 3: New pin form, 4: Success
-  const onSubmit = async (formData) => {
+  async function onSubmit(formData) {
     const email = formData[fieldNameEmail];
     const otp = formData[fieldNameOTP];
     const newPin = formData[fieldNameNewPin];
@@ -124,7 +126,32 @@ export default function OnboardingPinUpdateForm() {
         break;
       }
     }
-  };
+  }
+
+  // Resend OTP handler
+  async function otpResendHandler() {
+    try {
+      const email = getValues(fieldNameEmail);
+      if (!email) throw new Error("Please enter your email address");
+      clearErrors();
+      const resp = await apiGetPinResetOTP({
+        in_merchant_email: email,
+      });
+      const message = resp?.data?.message;
+      toast.success(message);
+      setFeedbackMessage(message);
+      setStep(2);
+      cookie.set(
+        cookieNameMerchantId,
+        resp?.data?.merchant_id,
+        cookieDefaultSettings
+      );
+    } catch (e) {
+      const error = e?.response?.data?.message ?? e?.message;
+      setError(fieldNameEmail, { message: error });
+      console.dir(e);
+    }
+  }
 
   // Auto switching input focus to Confirm Pin field
   // After entering New Pin completely
@@ -134,14 +161,34 @@ export default function OnboardingPinUpdateForm() {
     else setFocus(fieldNameConfirmPin);
   }, [isNewPinFieldValid]);
 
+  // Card titles
+  const titles = {
+    4: {
+      title: "PIN reset completed successfully!",
+      subtitle: "Redirecting...",
+    },
+    default: {
+      title: "Reset the PIN to restore access to your account",
+      subtitle: "",
+    },
+  };
+
+  // Submit button labels for each step
+  const submitLabels = {
+    1: "Send OTP",
+    2: "Submit",
+    3: "Save new PIN",
+    default: "Submit",
+  };
+
   return (
     <Card className="w-full">
       <ShowWhen when={isSubmitting}>
         <LinearProgress />
       </ShowWhen>
       <CardHeader
-        title="Reset PIN"
-        subheader="Reset the PIN to restore access to your account."
+        title={titles[step]?.title || titles?.default?.title}
+        subheader={titles[step]?.subtitle || titles?.default?.subtitle}
       />
       <CardContent className="grid grid-flow-row gap-4">
         <ShowWhen when={step <= 3}>
@@ -154,7 +201,7 @@ export default function OnboardingPinUpdateForm() {
                 {/* Email Field */}
                 <TextField
                   {...register(fieldNameEmail, {
-                    required: "Please enter your email or phone",
+                    required: "Please enter your email address",
                     validate: (value) =>
                       isEmail(value) || "Invalid email address",
                   })}
@@ -165,9 +212,7 @@ export default function OnboardingPinUpdateForm() {
                   error={!!errors?.[fieldNameEmail]}
                   className="w-full"
                   helperText={
-                    errors?.[fieldNameEmail]?.message ||
-                    feedbackMessage ||
-                    "Please enter your registered email address."
+                    errors?.[fieldNameEmail]?.message || feedbackMessage
                   }
                 />
                 {/* OTP Field */}
@@ -184,7 +229,11 @@ export default function OnboardingPinUpdateForm() {
                           {...field}
                           length={6}
                           validateChar={(value) => !isNaN(value)} // Accepts only number
-                          TextFieldsProps={{ error: fieldState?.invalid }}
+                          TextFieldsProps={{
+                            type: "password",
+                            placeholder: "•",
+                            error: fieldState?.invalid,
+                          }}
                         />
                         <FormHelperText
                           error={fieldState?.invalid}
@@ -194,6 +243,11 @@ export default function OnboardingPinUpdateForm() {
                         </FormHelperText>
                       </div>
                     )}
+                  />
+                  {/** RESEND OTP **/}
+                  <ResendOTPButton
+                    otpResendHandler={otpResendHandler}
+                    getValues={getValues}
                   />
                 </ShowWhen>
               </div>
@@ -217,6 +271,7 @@ export default function OnboardingPinUpdateForm() {
                         validateChar={(value) => !isNaN(value)} // Accepts only number
                         TextFieldsProps={{
                           type: "password",
+                          placeholder: "•",
                           error: fieldState?.invalid,
                         }}
                       />
@@ -224,9 +279,7 @@ export default function OnboardingPinUpdateForm() {
                         error={fieldState?.invalid}
                         sx={{ ml: "14px" }}
                       >
-                        {fieldState?.invalid
-                          ? "Invalid PIN"
-                          : "Create a new PIN"}
+                        {fieldState?.invalid ? "Invalid PIN" : null}
                       </FormHelperText>
                     </div>
                   )}
@@ -253,6 +306,7 @@ export default function OnboardingPinUpdateForm() {
                         validateChar={(value) => !isNaN(value)} // Accepts only number
                         TextFieldsProps={{
                           type: "password",
+                          placeholder: "•",
                           error: fieldState?.invalid,
                         }}
                       />
@@ -260,9 +314,7 @@ export default function OnboardingPinUpdateForm() {
                         error={fieldState?.invalid}
                         sx={{ ml: "14px" }}
                       >
-                        {fieldState?.invalid
-                          ? "PIN does not match"
-                          : "Confirm new PIN"}
+                        {fieldState?.invalid ? "PIN does not match" : null}
                       </FormHelperText>
                     </div>
                   )}
@@ -275,7 +327,7 @@ export default function OnboardingPinUpdateForm() {
               variant="contained"
               disabled={isSubmitting}
             >
-              {isSubmitting ? "Loading" : "Save New Pin"}
+              {submitLabels[step] || submitLabels.default}
             </Button>
           </form>
         </ShowWhen>
@@ -293,6 +345,18 @@ export default function OnboardingPinUpdateForm() {
     </Card>
   );
 }
+
+// TODO: DISABLE OTP RESEND BUTTON FOR 1 MINUTE AFTER RESEND
+const ResendOTPButton = ({ otpResendHandler }) => {
+  return (
+    <p className="text-sm mt-2">
+      {`Didn't receive the email? `}
+      <button type="button" className="link" onClick={otpResendHandler}>
+        Resend OTP now
+      </button>
+    </p>
+  );
+};
 
 const PinResetSuccessMessage = () => {
   const router = useRouter();
@@ -314,7 +378,11 @@ const PinResetSuccessMessage = () => {
   return (
     <div className="flex flex-col gap-3 items-center text-center">
       <span class="icon-[solar--check-circle-bold-duotone] text-primary text-7xl" />
-      <p>{`PIN reset completed successfully! Redirecting you to login in... ${timeLeft}`}</p>
+      <p
+        dangerouslySetInnerHTML={{
+          __html: `PIN reset completed successfully! <br />Redirecting you to login in... ${timeLeft}`,
+        }}
+      />
       <Link href="/login" className="link">
         Login now
       </Link>

@@ -134,7 +134,7 @@ export default function LoginForm() {
 
   const validateUsername = (value) => {
     const isNumber = Number(value);
-    if (!isNumber) return isEmail(value) || "Invalid email address";
+    if (!isNumber) return isEmail(value) || "Invalid username";
   };
 
   return (
@@ -158,10 +158,7 @@ export default function LoginForm() {
             variant="outlined"
             label="Email Address or Mobile No."
             error={!!errors?.username}
-            helperText={
-              errors?.username?.message ??
-              "Use your registered email or mobile number to login."
-            }
+            helperText={errors?.username?.message}
           />
           <Controller
             name="pin"
@@ -169,7 +166,6 @@ export default function LoginForm() {
             rules={{ validate: (value) => value?.length === 6 }}
             render={({ field, fieldState }) => (
               <div className="grid grid-flow-row gap-1">
-                <FormLabel sx={{ ml: "14px" }}>PIN</FormLabel>
                 <MuiOtpInput
                   {...field}
                   length={6}
@@ -177,6 +173,7 @@ export default function LoginForm() {
                   validateChar={(value) => !isNaN(value)} // Accepts only number
                   TextFieldsProps={{
                     type: "password",
+                    placeholder: "•",
                     error: fieldState?.invalid,
                   }}
                 />

@@ -1,23 +1,47 @@
 "use client";
 
+import { useEffect, useState } from "react";
+
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
 import CardTitleIcon from "@/components/ui/CardTitleIcon";
 import Chip from "@mui/material/Chip";
+import { apiGetMerchantProfile } from "@/api";
+import { getMerchantId } from "@/lib/authenticator";
+import { isValidElement } from "react";
 import { useRouter } from "@/navigation";
 
 export default function MerchantDetails() {
+  // Fetching data
+  const [isLoading, setIsLoading] = useState(false);
+  const [merchantData, setMerchantData] = useState();
+  useEffect(() => {
+    async function fetchMerchantProfile() {
+      try {
+        const merchantId = getMerchantId();
+        const resp = await apiGetMerchantProfile(merchantId);
+        setMerchantData(resp?.data);
+        console.log("resp", resp);
+      } catch (e) {
+        console.dir(e);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    fetchMerchantProfile();
+  }, []);
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 grid-flow-row gap-5">
-      <BasicInfo />
-      <CoreAccountInfo />
+      <BasicInfo merchantData={merchantData} />
+      <CoreAccountInfo merchantData={merchantData} />
     </div>
   );
 }
 
-const CoreAccountInfo = () => {
+const CoreAccountInfo = ({ merchantData }) => {
   const accountInfos = [
     { label: "Email", value: "jishnu@gmail.com" },
     { label: "Mobile", value: "0583069308" },
@@ -41,7 +65,11 @@ const CoreAccountInfo = () => {
                 className="grid grid-flow-row gap-1 border-b last:border-none py-2"
               >
                 <p className="text-black/60 text-sm">{label}</p>
-                <p className="text-black">{value}</p>
+                {isValidElement(value) ? (
+                  value
+                ) : (
+                  <p className="text-black">{value}</p>
+                )}
               </li>
             ))}
           </ul>
@@ -51,7 +79,7 @@ const CoreAccountInfo = () => {
   );
 };
 
-const BasicInfo = () => {
+const BasicInfo = ({ merchantData }) => {
   const router = useRouter();
   const accountInfos = [
     { label: "Merchant ID", value: "WHRXSR854" },
@@ -103,5 +131,7 @@ const BasicInfo = () => {
 
 const StatusPill = ({ status = "unknown" }) => {
   const color = status.toLowerCase() === "active" ? "success" : "default";
-  return <Chip label={status} variant="outlined" color={color} />;
+  return (
+    <Chip className="w-max" label={status} variant="outlined" color={color} />
+  );
 };

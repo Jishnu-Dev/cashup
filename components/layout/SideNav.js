@@ -24,7 +24,7 @@ export default function SideNav({ slug }) {
   const pathname = usePathname();
   const menuItems = [
     {
-      label: "Dashboard",
+      label: "Home",
       uri: "/",
       icon: "icon-[solar--pie-chart-2-bold-duotone]",
     },
@@ -42,11 +42,6 @@ export default function SideNav({ slug }) {
       label: "Manage eShop",
       uri: "/eshop",
       icon: "icon-[solar--shop-2-bold-duotone]",
-    },
-    {
-      label: "Messages",
-      uri: "/chat",
-      icon: "icon-[solar--chat-unread-bold-duotone]",
     },
     {
       label: "Reports",

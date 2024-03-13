@@ -55,12 +55,11 @@ export default function OnboardWelcomeModal() {
         />
         <DialogContentText id="alert-dialog-description">
           As you step into the CashUp platform for the first time, get ready to
-          unlock a world of opportunities. <b>Manage your profile</b>,{" "}
-          <b>explore lucrative earning</b> and <b>marketing opportunities</b>,{" "}
-          <b>manage your own eCommerce store</b>,{" "}
-          <b>perform eWallet transactions</b>, and{" "}
-          <b>gain valuable insights through our analytics reporting tool</b>.
-          Your journey to maximizing profits starts here.
+          unlock a world of opportunities. Manage your profile, explore
+          lucrative earning and marketing opportunities, manage your own
+          eCommerce store, perform eWallet transactions, and gain valuable
+          insights through our analytics reporting tool. Your journey to
+          maximizing profits starts here.
         </DialogContentText>
       </DialogContent>
       <DialogActions>

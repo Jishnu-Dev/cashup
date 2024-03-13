@@ -105,6 +105,7 @@ export default function UpdateDefaultPinForm() {
                   validateChar={(value) => !isNaN(value)} // Accepts only number
                   TextFieldsProps={{
                     type: "password",
+                    placeholder: "•",
                   }}
                 />
                 <FormHelperText error={fieldState?.invalid} sx={{ ml: "14px" }}>
@@ -114,6 +115,7 @@ export default function UpdateDefaultPinForm() {
             )}
           />
           <ShowWhen when={newPinFieldValue}>
+            {/* Confirm PIN */}
             <Controller
               name={fieldNameConfirmPin}
               control={control}
@@ -134,13 +136,15 @@ export default function UpdateDefaultPinForm() {
                     validateChar={(value) => !isNaN(value)} // Accepts only number
                     TextFieldsProps={{
                       type: "password",
+                      placeholder: "•",
+                      error: fieldState?.invalid,
                     }}
                   />
                   <FormHelperText
                     error={fieldState?.invalid}
                     sx={{ ml: "14px" }}
                   >
-                    {fieldState?.invalid ?? "PIN does not match"}
+                    {fieldState?.invalid ? "PIN does not match" : null}
                   </FormHelperText>
                 </div>
               )}

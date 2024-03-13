@@ -1,16 +1,7 @@
-"use client";
-
-import { useCallback, useState } from "react";
-import { usePathname, useRouter } from "@/navigation";
-
 import Card from "@mui/material/Card";
 import ProfilePinUpdateModal from "@/components/profile/ProfilePinUpdateModal";
-import Tab from "@mui/material/Tab";
-import Tabs from "@mui/material/Tabs";
+import ProfileTabs from "@/components/profile/ProfileTabs";
 import UserAvatar from "@/components/layout/UserAvatar";
-import classNames from "classnames";
-import { profileTabs } from "@/app/[lang]/(dashboard)/profile/page";
-import { useSearchParams } from "next/navigation";
 
 export default function ProfileHero() {
   return (
@@ -41,47 +32,3 @@ bg-[url('/images/illust/bg-stacked-waves.svg')] bg-cover bg-no-repeat"
     </div>
   </div>
 );
-
-const ProfileTabs = () => {
-  const searchParams = useSearchParams();
-  const router = useRouter();
-  const pathname = usePathname();
-
-  const createQueryString = useCallback(
-    (name, value) => {
-      const params = new URLSearchParams(searchParams);
-      params.set(name, value);
-      return params.toString();
-    },
-    [searchParams]
-  );
-
-  const [currentTab, setCurrentTab] = useState(profileTabs[0].id);
-  const handleChange = (event, value) => {
-    const queryWithTabName = createQueryString("tab", value);
-    router.push(pathname + "?" + queryWithTabName);
-    setCurrentTab(value);
-  };
-
-  return (
-    <Tabs
-      className="px-5 pt-2.5"
-      value={currentTab}
-      onChange={handleChange}
-      aria-label="User profile sections"
-    >
-      {profileTabs.map(({ id, label, icon }) => (
-        <Tab
-          id={id}
-          label={
-            <div className="flex gap-3 items-end">
-              <span className={classNames("text-xl", icon)} />
-              {label}
-            </div>
-          }
-          value={id}
-        />
-      ))}
-    </Tabs>
-  );
-};
