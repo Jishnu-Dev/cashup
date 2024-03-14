@@ -16,6 +16,7 @@ export default function ProfileTabContent() {
     <Fragment>
       {profileTabs.map(({ id, label, Component }) => (
         <div
+          key={id}
           role="tabpanel"
           hidden={id !== tab}
           id={`profile-tabpanel-${id}`}

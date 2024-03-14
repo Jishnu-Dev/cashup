@@ -1,5 +1,5 @@
 /****
- * Why folder name - (dashboard) ?, refer below
+ * Why folder name - (dashboard), (public) etc ?, refer below
  * https://nextjs.org/docs/app/building-your-application/routing/route-groups
  ****/
 
@@ -43,7 +43,7 @@ export default function RootLayout({ children, params: { lang } }) {
                   </section>
                   <section className="col-span-10 flex flex-col flex-grow h-full overflow-hidden relative bg-red- px-10">
                     <Navbar />
-                    <section className="overflow-y-scroll scrollbar-hidden pt-28 pb-16">
+                    <section className="h-full overflow-y-scroll scrollbar-hidden pt-28 pb-16">
                       {children}
                     </section>
                   </section>

@@ -1,5 +1,5 @@
 /****
- * Why folder name - (dashboard) ?, refer below
+ * Why folder name - (dashboard), (public) etc ?, refer below
  * https://nextjs.org/docs/app/building-your-application/routing/route-groups
  ****/
 

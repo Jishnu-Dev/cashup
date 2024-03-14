@@ -3,7 +3,7 @@
 import { useCallback, useState } from "react";
 import { usePathname, useRouter } from "@/navigation";
 
-import { Card } from "@mui/material";
+import Card from "@mui/material/Card";
 import Tab from "@mui/material/Tab";
 import TabMerchantBanks from "@/components/profile/TabMerchantBanks";
 import TabMerchantContacts from "@/components/profile/TabMerchantContacts";
@@ -71,6 +71,7 @@ export default function ProfileTabs() {
       >
         {profileTabs.map(({ id, label, icon }) => (
           <Tab
+            key={id}
             id={id}
             label={
               <div className="flex gap-3 items-end">
