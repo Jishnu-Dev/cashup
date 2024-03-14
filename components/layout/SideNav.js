@@ -51,10 +51,7 @@ export default function SideNav({ slug }) {
   ];
 
   return (
-    <aside
-      component="aside"
-      className="h-full py-6 pr- flex flex-col rounded-2xl p-3"
-    >
+    <aside component="aside" className="h-full py-6 pr- flex flex-col p-3">
       {/* Original Gradient:  bg-gradient-to-t from-emerald-500 via-emerald-600/30 to-white */}
       {/* from-emerald-700/70 */}
       <div className="flex flex-col gap-12">

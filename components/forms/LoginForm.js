@@ -154,6 +154,7 @@ export default function LoginForm() {
               validate: validateUsername,
             })}
             autoFocus
+            focused
             id="field-username"
             variant="outlined"
             label="Email Address or Mobile No."

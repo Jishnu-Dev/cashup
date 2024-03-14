@@ -205,6 +205,7 @@ export default function OnboardingPinUpdateForm() {
                     validate: (value) =>
                       isEmail(value) || "Invalid email address",
                   })}
+                  focused
                   autoFocus
                   id="field-email"
                   variant="outlined"

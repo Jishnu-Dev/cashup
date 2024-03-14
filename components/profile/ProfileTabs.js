@@ -3,6 +3,7 @@
 import { useCallback, useState } from "react";
 import { usePathname, useRouter } from "@/navigation";
 
+import { Card } from "@mui/material";
 import Tab from "@mui/material/Tab";
 import TabMerchantBanks from "@/components/profile/TabMerchantBanks";
 import TabMerchantContacts from "@/components/profile/TabMerchantContacts";
@@ -61,24 +62,26 @@ export default function ProfileTabs() {
   };
 
   return (
-    <Tabs
-      className="px-5 pt-2.5"
-      value={currentTab}
-      onChange={handleChange}
-      aria-label="User profile sections"
-    >
-      {profileTabs.map(({ id, label, icon }) => (
-        <Tab
-          id={id}
-          label={
-            <div className="flex gap-3 items-end">
-              <span className={classNames("text-xl", icon)} />
-              {label}
-            </div>
-          }
-          value={id}
-        />
-      ))}
-    </Tabs>
+    <Card>
+      <Tabs
+        className="px-5 pt-2.5"
+        value={currentTab}
+        onChange={handleChange}
+        aria-label="User profile sections"
+      >
+        {profileTabs.map(({ id, label, icon }) => (
+          <Tab
+            id={id}
+            label={
+              <div className="flex gap-3 items-end">
+                <span className={classNames("text-xl", icon)} />
+                {label}
+              </div>
+            }
+            value={id}
+          />
+        ))}
+      </Tabs>
+    </Card>
   );
 }

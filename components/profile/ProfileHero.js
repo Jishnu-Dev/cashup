@@ -8,8 +8,7 @@ export default function ProfileHero() {
     <Card>
       <div className="rounded-2xl overflow-hidden">
         <ProfileHeroBanner />
-        {/* Profile tabs */}
-        <ProfileTabs />
+        {/* <ProfileTabs /> */}
       </div>
     </Card>
   );
