@@ -14,6 +14,7 @@ import Navbar from "@/components/layout/Navbar";
 import SideNav from "@/components/layout/SideNav";
 import { ThemeProvider } from "@mui/material/styles";
 import ToastProvider from "@/lib/toast-provider";
+import { ZustandStoreContext } from "@/store/merchant-store-provider";
 import classNames from "classnames";
 import { inter } from "@/lib/font";
 import theme from "@/app/theme";
@@ -34,20 +35,23 @@ export default function RootLayout({ children, params: { lang } }) {
           <Authenticator>
             <AppRouterCacheProvider>
               <ThemeProvider theme={theme}>
-                <main className="h-screen max-h-screen w-full grid grid-cols-12 gap- bg-[#f0f5f9]">
-                  <section
-                    className="col-span-2 w-full sticky top- overflow-y-auto border-r bg-white"
-                    style={{ maxHeight: "100vh" }}
-                  >
-                    <SideNav />
-                  </section>
-                  <section className="col-span-10 flex flex-col flex-grow h-full overflow-hidden relative bg-red- px-10">
-                    <Navbar />
-                    <section className="h-full overflow-y-scroll scrollbar-hidden pt-28 pb-16">
-                      {children}
+                <ZustandStoreContext>
+                  <main className="h-screen max-h-screen w-full grid grid-cols-12 gap- bg-[#f0f5f9]">
+                    <section
+                      className="col-span-2 w-full sticky top- overflow-y-auto border-r bg-white"
+                      style={{ maxHeight: "100vh" }}
+                    >
+                      <SideNav />
                     </section>
-                  </section>
-                </main>
+                    <section className="col-span-10 flex flex-col flex-grow h-full overflow-hidden relative bg-red- px-10">
+                      <Navbar />
+                      <section className="h-full overflow-y-scroll scrollbar-hidden pt-28 pb-16">
+                        {children}
+                      </section>
+                    </section>
+                  </main>
+                </ZustandStoreContext>
+
                 <ToastProvider />
               </ThemeProvider>
             </AppRouterCacheProvider>

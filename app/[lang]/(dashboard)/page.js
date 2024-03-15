@@ -1,20 +1,48 @@
 "use client";
 
 import { Button, Card, CardContent, CardHeader, Divider } from "@mui/material";
+import { Fragment, useEffect, useState } from "react";
 
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import CardTitleIcon from "@/components/ui/CardTitleIcon";
 import { CountUp } from "use-count-up";
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
-import { Fragment } from "react";
 import Image from "next/image";
+import LoadingBackdrop from "@/components/ui/loaders/LoadingBackdrop";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import NivoBumpChart from "@/components/dummy/NivoBumpChart";
 import NivoPieChart from "@/components/dummy/NivoPieChart";
 import OnboardWelcomeModal from "@/components/dashboard/OnboardWelcomeModal";
 import ProfileVerifications from "@/components/dashboard/ProfileVerifications";
+import { apiGetMerchantProfile } from "@/api";
+import { getMerchantId } from "@/lib/authenticator";
+import { useMerchantStore } from "@/store/merchant-store-provider";
 
 export default function Page() {
+  // Fetching & storing merchant profile in store
+  const { storeMerchantData, getMerchantData } = useMerchantStore(
+    (state) => state
+  );
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    async function fetchMerchantProfile() {
+      try {
+        const merchantId = getMerchantId();
+        const resp = await apiGetMerchantProfile(merchantId);
+        storeMerchantData(resp?.data);
+      } catch (e) {
+        console.dir(e);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    // TODO: FIX MERHCANT PROFILE FETCHING AND STORING TO STORE
+    fetchMerchantProfile();
+  }, []);
+
+  // TEST
+  console.log("MERCHANT DATA::", getMerchantData());
+
   return (
     <Fragment>
       <section className="grid grid-flow-row gap-6">
@@ -31,6 +59,7 @@ export default function Page() {
         <Grid />
       </section>
       <OnboardWelcomeModal />
+      <LoadingBackdrop isOpen={isLoading} />
     </Fragment>
   );
 }

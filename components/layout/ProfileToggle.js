@@ -33,7 +33,7 @@ export default function ProfileToggle() {
         <UserAvatar name={name} />
         <div className="flex flex-col">
           <h2 className="font-semibold text-black">{name}</h2>
-          <small className="text-black/80">Admin</small>
+          <small className="text-black/80">Merchant</small>
         </div>
       </button>
       <Popover
