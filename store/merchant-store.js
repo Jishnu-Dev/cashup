@@ -12,7 +12,6 @@ const store = (set, get) => ({
   ...initialState,
   storeMerchantData: (data) => set((state) => ({ merchantData: data })),
   getMerchantData: () => get().merchantData,
-  // incrementCount: () => set((state) => ({ count: state.count + 1 })),
 });
 
 export const initMerchantStore = () => initialState;

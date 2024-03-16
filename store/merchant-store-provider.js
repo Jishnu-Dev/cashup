@@ -22,6 +22,6 @@ export const ZustandStoreContext = ({ children }) => {
 export const useMerchantStore = (selector) => {
   const merchantStoreContext = useContext(StoreContext);
   if (!merchantStoreContext)
-    throw new Error(`useCounterStore must be use within ZustandStoreContext`);
+    throw new Error(`useMerchantStore must be use within MerchantStoreContext`);
   return useStore(merchantStoreContext, selector);
 };

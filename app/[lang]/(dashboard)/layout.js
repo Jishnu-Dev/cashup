@@ -8,6 +8,7 @@ import "@/app/globals.css";
 import { NextIntlClientProvider, useMessages } from "next-intl";
 import { metadata, viewport } from "@/lib/metadata";
 
+import AppGlobalContext from "@/components/dashboard/AppGlobalContext";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import Authenticator from "@/lib/authenticator";
 import Navbar from "@/components/layout/Navbar";
@@ -36,20 +37,22 @@ export default function RootLayout({ children, params: { lang } }) {
             <AppRouterCacheProvider>
               <ThemeProvider theme={theme}>
                 <ZustandStoreContext>
-                  <main className="h-screen max-h-screen w-full grid grid-cols-12 gap- bg-[#f0f5f9]">
-                    <section
-                      className="col-span-2 w-full sticky top- overflow-y-auto border-r bg-white"
-                      style={{ maxHeight: "100vh" }}
-                    >
-                      <SideNav />
-                    </section>
-                    <section className="col-span-10 flex flex-col flex-grow h-full overflow-hidden relative bg-red- px-10">
-                      <Navbar />
-                      <section className="h-full overflow-y-scroll scrollbar-hidden pt-28 pb-16">
-                        {children}
+                  <AppGlobalContext>
+                    <main className="h-screen max-h-screen w-full grid grid-cols-12 gap- bg-[#f0f5f9]">
+                      <section
+                        className="col-span-2 w-full sticky top- overflow-y-auto border-r bg-white"
+                        style={{ maxHeight: "100vh" }}
+                      >
+                        <SideNav />
                       </section>
-                    </section>
-                  </main>
+                      <section className="col-span-10 flex flex-col flex-grow h-full overflow-hidden relative bg-red- px-10">
+                        <Navbar />
+                        <section className="h-full overflow-y-scroll scrollbar-hidden pt-28 pb-16">
+                          {children}
+                        </section>
+                      </section>
+                    </main>
+                  </AppGlobalContext>
                 </ZustandStoreContext>
 
                 <ToastProvider />

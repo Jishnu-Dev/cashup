@@ -1,9 +1,5 @@
 "use client";
 
-import {
-  useCounterStore,
-  useMerchantStore,
-} from "@/store/merchant-store-provider";
 import { usePathname, useRouter } from "@/navigation";
 
 import Badge from "@mui/material/Badge";
@@ -26,7 +22,6 @@ export default function Navbar() {
       <div className="w-full flex justify-between items-center glass border-b rounde px-10 py-2 shado absolute top-0 right-0 z-50">
         <RouteActions />
         <div className="ml-auto flex gap-3 items-center">
-          {/* <button onClick={incrementCount}>INCREASE</button> */}
           <AccountStatusBadge />
           <Badge badgeContent={4} color="primary" overlap="circular">
             <IconButton aria-label="notifications" onClick={toggleDrawer}>

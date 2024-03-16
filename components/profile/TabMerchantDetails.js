@@ -23,7 +23,6 @@ export default function MerchantDetails() {
         const merchantId = getMerchantId();
         const resp = await apiGetMerchantProfile(merchantId);
         setMerchantData(resp?.data);
-        console.log("resp", resp);
       } catch (e) {
         console.dir(e);
       } finally {
