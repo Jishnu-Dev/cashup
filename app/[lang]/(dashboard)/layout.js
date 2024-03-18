@@ -54,7 +54,6 @@ export default function RootLayout({ children, params: { lang } }) {
                     </main>
                   </AppGlobalContext>
                 </ZustandStoreContext>
-
                 <ToastProvider />
               </ThemeProvider>
             </AppRouterCacheProvider>

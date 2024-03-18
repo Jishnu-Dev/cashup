@@ -68,7 +68,7 @@ export default function OnboardingPinUpdateForm() {
           const resp = await apiGetPinResetOTP({
             in_merchant_email: email,
           });
-          const message = resp?.data?.message;
+          const message = resp?.message;
           toast.success(message);
           setFeedbackMessage(message);
           setStep(2);
@@ -92,7 +92,7 @@ export default function OnboardingPinUpdateForm() {
             in_merchant_email: email,
             in_OTP: otp,
           });
-          toast.success(resp?.data?.message);
+          toast.success(resp?.message);
           setStep(3);
         } catch (e) {
           const error = e?.response?.data?.message ?? e?.message;
@@ -111,7 +111,7 @@ export default function OnboardingPinUpdateForm() {
             in_pin: newPin,
           };
           const resp = await apiUpdateMerchantPin(payload);
-          toast.success(resp?.data?.message);
+          toast.success(resp?.message);
           setStep(4);
         } catch (e) {
           const error = e?.response?.data?.message ?? e?.message;
@@ -137,7 +137,7 @@ export default function OnboardingPinUpdateForm() {
       const resp = await apiGetPinResetOTP({
         in_merchant_email: email,
       });
-      const message = resp?.data?.message;
+      const message = resp?.message;
       toast.success(message);
       setFeedbackMessage(message);
       setStep(2);

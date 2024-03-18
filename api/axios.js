@@ -18,7 +18,7 @@ const http = axios.create({
 
 http.interceptors.response.use(
   function (response) {
-    return Promise.resolve(response);
+    return Promise.resolve(response?.data);
   },
   function (error) {
     if (error?.response?.status === 401) clearUserCredentials(); // If token error, clear cookies. So, on next re-load, user will be redirected to login.

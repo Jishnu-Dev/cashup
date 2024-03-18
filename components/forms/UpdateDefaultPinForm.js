@@ -47,26 +47,10 @@ export default function UpdateDefaultPinForm() {
       };
       const resp = await apiUpdateMerchantPin(payload);
       toast.success(resp?.data?.message);
-      await updateUserDefaultPinChoice();
+      router.push(pathToDashboardWithWelcomePopup);
     } catch (e) {
       toast.error(e?.response?.data?.response?.message || e?.message);
       console.dir(e);
-    }
-  };
-
-  // Updating user's choice to change or not to change default pin to db
-  const [isUpdatingStatus, setIsUpdatingStatus] = useState(false);
-  const updateUserDefaultPinChoice = async () => {
-    try {
-      setIsUpdatingStatus(true);
-      await apiUpdateDefaultPinChangedStatus(merchantId);
-      setTimeout(() => {
-        router.push(pathToDashboardWithWelcomePopup);
-      }, 1000);
-    } catch (e) {
-      console.dir(e);
-    } finally {
-      setIsUpdatingStatus(false);
     }
   };
 
@@ -79,7 +63,7 @@ export default function UpdateDefaultPinForm() {
 
   return (
     <Card>
-      <ShowWhen when={isSubmitting || isUpdatingStatus}>
+      <ShowWhen when={isSubmitting}>
         <LinearProgress />
       </ShowWhen>
       <CardHeader
@@ -161,22 +145,32 @@ export default function UpdateDefaultPinForm() {
           </ShowWhen>
         </form>
         <CardActions>
-          <SkipStep
-            isSubmitting={isSubmitting}
-            isUpdatingStatus={isUpdatingStatus}
-            updatePinChoice={updateUserDefaultPinChoice}
-          />
+          <SkipStep isSubmitting={isSubmitting} />
         </CardActions>
       </CardContent>
     </Card>
   );
 }
 
-const SkipStep = ({
-  isSubmitting = false,
-  isUpdatingStatus,
-  updatePinChoice,
-}) => {
+// TODO: TEST THIS SKIP OPTION
+const SkipStep = ({ isSubmitting = false }) => {
+  // Updating user's choice to change or not to change default pin to db
+  const [isUpdatingStatus, setIsUpdatingStatus] = useState(false);
+  const updateDefaultPinChoice = async () => {
+    try {
+      setIsUpdatingStatus(true);
+      const merchantId = getMerchantId();
+      await apiUpdateDefaultPinChangedStatus(merchantId);
+      setTimeout(() => {
+        router.push(pathToDashboardWithWelcomePopup);
+      }, 1000);
+    } catch (e) {
+      console.dir(e);
+    } finally {
+      setIsUpdatingStatus(false);
+    }
+  };
+
   return (
     <div className="flex flex-col gap-4 md:flex-row justify-between items-center">
       <p className="text-sm text-black/80">
@@ -184,7 +178,7 @@ const SkipStep = ({
         the profile settings.
       </p>
       <Button
-        onClick={updatePinChoice}
+        onClick={updateDefaultPinChoice}
         disabled={isSubmitting || isUpdatingStatus}
         endIcon={
           <span className="icon-[solar--arrow-right-line-duotone] text-primary" />

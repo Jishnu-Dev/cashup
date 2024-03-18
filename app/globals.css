@@ -26,11 +26,14 @@ body {
   }
   .default-gradient {
     @apply bg-gradient-to-r from-sky-600 to-emerald-500;
-    /* @apply bg-gradient-to-r from-emerald-500 to-emerald-900; */
   }
   .link {
     @apply text-primary hover:text-green-700 underline;
   }
+  .plain-card {
+    box-shadow: none !important;
+  }
+
   /* IE, EDGE, MOZILLA */
   .scrollbar-hidden {
     -ms-overflow-style: none;

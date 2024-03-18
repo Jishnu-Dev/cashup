@@ -16,7 +16,7 @@ export default function ProfileHero() {
   );
 
   return (
-    <Card>
+    <Card sx={{ minHeight: "160px" }}>
       <div className="rounded-2xl overflow-hidden">
         <div className="p-10 h-full flex justify-center items-center bg-[url('/images/illust/bg-stacked-waves.svg')] bg-cover bg-no-repeat">
           <ShowWhen when={merchantData}>

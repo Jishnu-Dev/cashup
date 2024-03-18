@@ -66,7 +66,7 @@ export default function LoginForm() {
         in_login_type: loginType,
       };
       const resp = await apiLogin(payload);
-      const { merchant_id, token } = resp.data;
+      const { merchant_id, token, pin_default_checked } = resp?.data;
 
       // Deciding cookie expiry
       let cookieSettings = cookieDefaultSettings;
@@ -84,7 +84,8 @@ export default function LoginForm() {
       cookie.set(cookieNameToken, token, cookieSettings);
       cookie.set(cookieNameLastLogin, currentDate, cookieSettings);
 
-      await checkOnboardedStatus(merchant_id);
+      if (pin_default_checked) router.push("/");
+      else router.push("/onboard");
     } catch (e) {
       const errorMessage =
         e?.response?.data?.message ?? "Something went wrong, please try again";
@@ -95,28 +96,29 @@ export default function LoginForm() {
     }
   };
 
-  async function checkOnboardedStatus(merchantId) {
-    try {
-      const isAlreadyOnboarded = cookie.get(cookieNameOnboardingStatus);
-      // Checking if already status checked cookie exists, if yes, no need to check again using api
-      if (isAlreadyOnboarded === "true") redirectToDashboard();
-      else {
-        // Checking the status of the default pin changed or user opted not to change it using api.
-        const { data } = await apiGetPinDefaultCheckedStatus(merchantId);
-        const { is_pin_default_checked: isAlreadyOnboarded } = data;
-        const oneYear = new Date();
-        oneYear.setDate(oneYear.getDate() + 365);
-        cookie.set(cookieNameOnboardingStatus, isAlreadyOnboarded, {
-          ...cookieDefaultSettings,
-          expires: oneYear,
-        });
-        if (isAlreadyOnboarded) redirectToDashboard();
-        else redirectToOnboard();
-      }
-    } catch (e) {
-      console.dir(e);
-    }
-  }
+  // TODO: REMOVE AFTER TESTING ONBOARDING
+  // async function checkOnboardedStatus(merchantId) {
+  //   try {
+  //     const isAlreadyOnboarded = cookie.get(cookieNameOnboardingStatus);
+  //     // Checking if already status checked cookie exists, if yes, no need to check again using api
+  //     if (isAlreadyOnboarded === "true") redirectToDashboard();
+  //     else {
+  //       // Checking the status of the default pin changed or user opted not to change it using api.
+  //       const resp = await apiGetPinDefaultCheckedStatus(merchantId);
+  //       const { is_pin_default_checked: isAlreadyOnboarded } = resp?.data;
+  //       const oneYear = new Date();
+  //       oneYear.setDate(oneYear.getDate() + 365);
+  //       cookie.set(cookieNameOnboardingStatus, isAlreadyOnboarded, {
+  //         ...cookieDefaultSettings,
+  //         expires: oneYear,
+  //       });
+  //       if (isAlreadyOnboarded) redirectToDashboard();
+  //       else redirectToOnboard();
+  //     }
+  //   } catch (e) {
+  //     console.dir(e);
+  //   }
+  // }
 
   const redirectToDashboard = () => {
     toast.success("Login successful. Redirecting to dashboard...");

@@ -6,7 +6,7 @@ export default function FullPageLoader({
 }) {
   return (
     <div className="h-full w-full flex flex-col justify-center items-center gap-4">
-      <CircularProgress />
+      <CircularProgress className="my-6" />
       {!onlySpinner && <p className="text-sm text-black/80">{label}</p>}
     </div>
   );
