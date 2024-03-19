@@ -124,6 +124,7 @@ export default function ProfilePinUpdateModal() {
 
   return (
     <Dialog
+      fullWidth
       open={open}
       onClose={handleClose}
       PaperProps={{

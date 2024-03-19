@@ -1,20 +1,22 @@
 "use client";
 
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useCallback, useEffect, useState } from "react";
+import { usePathname, useRouter } from "@/navigation";
 
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
 import CardTitleIcon from "@/components/ui/CardTitleIcon";
-import Chip from "@mui/material/Chip";
 import Divider from "@mui/material/Divider";
 import EmailVerificationModal from "@/components/profile/EmailVerificationModal";
 import FullPageLoader from "@/components/ui/loaders/FullPageLoader";
 import ShowWhen from "@/components/ui/ShowWhen";
 import { apiGetMerchantProfile } from "@/api";
 import { getMerchantId } from "@/lib/authenticator";
-import { useRouter } from "@/navigation";
+import { useSearchParams } from "next/navigation";
+
+// import Chip from "@mui/material/Chip";
 
 export default function MerchantDetails() {
   // Fetching data
@@ -41,7 +43,7 @@ export default function MerchantDetails() {
   ) : (
     <div className="grid grid-cols-1 md:grid-cols-2 grid-flow-row gap-5">
       <BasicInfo merchantData={merchantData} />
-      <CoreAccountInfo merchantData={merchantData} />
+      <ContactInfo merchantData={merchantData} />
     </div>
   );
 }
@@ -110,10 +112,19 @@ const BasicInfo = ({ merchantData }) => {
   );
 };
 
-const CoreAccountInfo = ({ merchantData }) => {
-  // Mail verification
-  const [isMailVerifModalOpen, setIsMailVerifModalOpen] = useState(false);
+const ContactInfo = ({ merchantData }) => {
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const router = useRouter();
 
+  // Constructing URL with query string
+  const createQueryString = (name, value) => {
+    const params = new URLSearchParams(searchParams);
+    params.set(name, value);
+    return params.toString();
+  };
+
+  // Creating array from merchantData object to list in the UI
   const createAccountInfoArray = (data) => {
     if (!data) return [];
     return [
@@ -121,7 +132,7 @@ const CoreAccountInfo = ({ merchantData }) => {
         label: "Email Address",
         value: data?.email_address,
         actionLabel: !data?.is_email_verified ? null : "Verify Email",
-        actionHandler: () => setIsMailVerifModalOpen(true),
+        actionHandler: openEmailVerificationModal,
       },
       {
         label: "Mobile Number",
@@ -134,6 +145,14 @@ const CoreAccountInfo = ({ merchantData }) => {
         value: data?.tel_no,
       },
     ];
+  };
+
+  // Sets query path to 'modal=email-verify' which modal checks and opens
+  const openEmailVerificationModal = () => {
+    const paramName = "modal";
+    const paramValue = "email-verify";
+    const queryWithTabName = createQueryString(paramName, paramValue);
+    router.push(pathname + "?" + queryWithTabName);
   };
 
   return (
@@ -162,10 +181,7 @@ const CoreAccountInfo = ({ merchantData }) => {
           </div>
         </CardContent>
       </Card>
-      <EmailVerificationModal
-        isOpen={isMailVerifModalOpen}
-        handleClose={() => setIsMailVerifModalOpen(false)}
-      />
+      <EmailVerificationModal />
     </Fragment>
   );
 };

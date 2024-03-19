@@ -1,71 +1,34 @@
-import { Controller, useForm } from "react-hook-form";
-
-import { Button } from "@mui/material";
+import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import FormHelperText from "@mui/material/FormHelperText";
-import FormLabel from "@mui/material/FormLabel";
-import LinearProgress from "@mui/material/LinearProgress";
-import { MuiOtpInput } from "mui-one-time-password-input";
-import ShowWhen from "@/components/ui/ShowWhen";
-import { useState } from "react";
+import { useRouter } from "@/navigation";
+import { useSearchParams } from "next/navigation";
 
-export default function EmailVerificationModal({ isOpen, handleClose }) {
-  const { control, handleSubmit } = useForm();
-  const onSubmit = () => {};
+export default function EmailVerificationModal() {
+  // Handling open state of modal
+  const queryParamKey = "modal";
+  const queryParamValue = "email-verify";
 
-  // Form related
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const isModalOpen = searchParams.get(queryParamKey) === queryParamValue;
+  const closeModal = () => {
+    router.back();
+  };
 
   return (
-    <Dialog
-      open={isOpen}
-      onClose={handleClose}
-      PaperProps={{
-        component: "form",
-        onSubmit: handleSubmit(onSubmit),
-      }}
-    >
-      <ShowWhen when={isSubmitting}>
-        <LinearProgress />
-      </ShowWhen>
+    <Dialog fullWidth open={isModalOpen} onClose={closeModal}>
       <DialogTitle>Verify Your Email</DialogTitle>
-      <DialogContent className="flex flex-col gap-4">
-        {/* Email */}
-        <Controller
-          name="otp"
-          control={control}
-          rules={{ validate: (value) => value?.length === 6 }}
-          render={({ field, fieldState }) => (
-            <div className="grid grid-flow-row gap-1">
-              <FormLabel sx={{ ml: "14px" }}>OTP</FormLabel>
-              <MuiOtpInput
-                sx={{ gap: 1 }}
-                {...field}
-                length={6}
-                validateChar={(value) => !isNaN(value)} // Accepts only number
-                TextFieldsProps={{
-                  type: "password",
-                  placeholder: "•",
-                  error: fieldState?.invalid,
-                }}
-              />
-              <FormHelperText error={fieldState?.invalid} sx={{ ml: "14px" }}>
-                {fieldState?.invalid
-                  ? "Invalid OTP"
-                  : "Enter the OTP you received via email"}
-              </FormHelperText>
-            </div>
-          )}
-        />
-        <div className="grid grid-flow-row gap-2">
-          <Button variant="contained">Submit</Button>
-          <Button type="reset" onClick={handleClose}>
-            Cancel
-          </Button>
-        </div>
+      <DialogContent className="text-center flex flex-col justify-center items-center gap-4">
+        <span className="icon-[solar--check-circle-line-duotone] text-8xl text-primary" />
+        <p>
+          An email verification link has been sent to your email address. <br />
+          Please click the link to verify your email address.
+        </p>
+        <Button variant="outlined" className="w-full" onClick={closeModal}>
+          Close
+        </Button>
       </DialogContent>
     </Dialog>
   );

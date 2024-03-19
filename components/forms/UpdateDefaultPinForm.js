@@ -135,11 +135,7 @@ export default function UpdateDefaultPinForm() {
             />
           </ShowWhen>
           <ShowWhen when={newPinFieldValue}>
-            <Button
-              disabled={isSubmitting || isUpdatingStatus}
-              type="submit"
-              variant="contained"
-            >
+            <Button disabled={isSubmitting} type="submit" variant="contained">
               Save PIN
             </Button>
           </ShowWhen>

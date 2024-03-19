@@ -36,6 +36,7 @@ export default function OnboardWelcomeModal() {
 
   return (
     <Dialog
+      fullWidth
       open={isOpen}
       TransitionComponent={Transition}
       onClose={handleClose}

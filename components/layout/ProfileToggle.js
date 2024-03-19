@@ -25,7 +25,6 @@ export default function ProfileToggle() {
     useMerchantStore,
     (state) => state?.merchantData
   );
-  console.log("merchantData:", merchantData);
 
   return merchantData ? (
     <Fragment>

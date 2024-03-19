@@ -8,9 +8,13 @@ export const apiLogin = (payload) =>
 export const apiGetPinResetOTP = (payload) =>
   http.post("/merchantPublic/sendMailOTPPIN", payload);
 
-// SEND Pin reset OTP
+// SEND PIN reset OTP
 export const apiVerifyPinResetOTP = (payload) =>
   http.post("/merchantPublic/verifyOTPPIN", payload);
+
+// Verify email address
+export const apiVerifyEmailAddress = (payload) =>
+  http.post("/merchantPublic/verifyMerchantEmail", payload);
 
 // UPDATE PIN
 export const apiUpdateMerchantPin = (payload) =>
@@ -26,7 +30,7 @@ export const apiUpdateDefaultPinChangedStatus = (merchantId) =>
     in_merchant_id: merchantId,
   });
 
-// Profile
+// GET Merchant profile
 export const apiGetMerchantProfile = (merchantId) =>
   http.get(`/merchantMain/getMerchantProfile/${merchantId}`);
 
