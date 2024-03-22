@@ -23,7 +23,7 @@ export default function ProfileToggle() {
   // Data
   const merchantData = useStore(
     useMerchantStore,
-    (state) => state?.merchantData
+    (state) => state.merchantData
   );
 
   return merchantData ? (

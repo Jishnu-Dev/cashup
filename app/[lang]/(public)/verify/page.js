@@ -9,12 +9,16 @@ import { apiVerifyEmailAddress } from "@/api";
 import cn from "classnames";
 import { useSearchParams } from "next/navigation";
 
+// TODO: Take timestamp from url and passive it back for link expiry validation
 export default function Page() {
   const searchParams = useSearchParams();
   const merchantId = searchParams.get("merch_id");
 
   return (
-    <TwoColumnLayout illustration="illust-full-inbox-flatline.svg">
+    <TwoColumnLayout
+      illustration="illust-full-inbox-flatline.svg"
+      background="bg-wave-scene-4.svg"
+    >
       <div className="container h-full flex flex-col justify-center items-center gap-12">
         <Card>
           <CardHeader title="Verify email address" />

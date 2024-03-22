@@ -1,6 +1,5 @@
 "use client";
 
-import { Fragment, useCallback, useEffect, useState } from "react";
 import { usePathname, useRouter } from "@/navigation";
 
 import Button from "@mui/material/Button";
@@ -10,37 +9,22 @@ import CardHeader from "@mui/material/CardHeader";
 import CardTitleIcon from "@/components/ui/CardTitleIcon";
 import Divider from "@mui/material/Divider";
 import EmailVerificationModal from "@/components/profile/EmailVerificationModal";
-import FullPageLoader from "@/components/ui/loaders/FullPageLoader";
+import { Fragment } from "react";
 import ShowWhen from "@/components/ui/ShowWhen";
-import { apiGetMerchantProfile } from "@/api";
-import { getMerchantId } from "@/lib/authenticator";
+import { useMerchantStore } from "@/store/merchant-store-provider";
 import { useSearchParams } from "next/navigation";
+import { useStore } from "@/store/use-store";
 
+// import FullPageLoader from "@/components/ui/loaders/FullPageLoader";
 // import Chip from "@mui/material/Chip";
 
 export default function MerchantDetails() {
-  // Fetching data
-  const [isLoading, setIsLoading] = useState(true);
-  const [merchantData, setMerchantData] = useState();
+  const merchantData = useStore(
+    useMerchantStore,
+    (state) => state.merchantData
+  );
 
-  useEffect(() => {
-    async function fetchMerchantProfile() {
-      try {
-        const merchantId = getMerchantId();
-        const resp = await apiGetMerchantProfile(merchantId);
-        setMerchantData(resp?.data);
-      } catch (e) {
-        console.dir(e);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-    fetchMerchantProfile();
-  }, []);
-
-  return isLoading ? (
-    <FullPageLoader onlySpinner />
-  ) : (
+  return (
     <div className="grid grid-cols-1 md:grid-cols-2 grid-flow-row gap-5">
       <BasicInfo merchantData={merchantData} />
       <ContactInfo merchantData={merchantData} />

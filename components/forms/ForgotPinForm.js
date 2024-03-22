@@ -378,7 +378,7 @@ const PinResetSuccessMessage = () => {
 
   return (
     <div className="flex flex-col gap-3 items-center text-center">
-      <span class="icon-[solar--check-circle-bold-duotone] text-primary text-7xl" />
+      <span className="icon-[solar--check-circle-bold-duotone] text-primary text-7xl" />
       <p
         dangerouslySetInnerHTML={{
           __html: `PIN reset completed successfully! <br />Redirecting you to login in... ${timeLeft}`,

@@ -16,6 +16,19 @@ const http = axios.create({
   },
 });
 
+// Handling no-internet
+http.interceptors.request.use(
+  function (config) {
+    if (!navigator.onLine) {
+      alert("Please check your internet connection and try again.");
+      return Promise.reject("No internet connection");
+    } else return config;
+  },
+  function (error) {
+    return Promise.reject(error);
+  }
+);
+
 http.interceptors.response.use(
   function (response) {
     return Promise.resolve(response?.data);
