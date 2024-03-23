@@ -16,6 +16,10 @@ export const apiVerifyPinResetOTP = (payload) =>
 export const apiVerifyEmailAddress = (payload) =>
   http.post("/merchantPublic/verifyMerchantEmail", payload);
 
+/* Send Mail verification link */
+export const apiSendMailVerificationLink = (payload) =>
+  http.post("/merchantMain/sendMailVerification", payload);
+
 /*  UPDATE PIN */
 export const apiUpdateMerchantPin = (payload) =>
   http.post("/merchantPublic/updateMerchantPIN", payload);

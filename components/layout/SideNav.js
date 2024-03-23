@@ -74,7 +74,6 @@ export default function SideNav({ slug }) {
                   key={uri}
                   selected={isActive}
                   sx={{
-                    my: 1,
                     padding: 0,
                     borderRadius: "12px",
                   }}
@@ -93,7 +92,7 @@ export default function SideNav({ slug }) {
                       primaryTypographyProps={{
                         fontWeight: isActive ? "bold" : "normal",
                         className: isActive ? "text-primary" : null,
-                        fontSize: 14,
+                        fontSize: 16,
                       }}
                     >
                       {label}

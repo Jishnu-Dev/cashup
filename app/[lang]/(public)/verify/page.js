@@ -1,6 +1,5 @@
 "use client";
 
-import { Card, CardContent, CardHeader } from "@mui/material";
 import { Fragment, useEffect, useState } from "react";
 
 import CircularProgress from "@mui/material/CircularProgress";
@@ -9,61 +8,62 @@ import { apiVerifyEmailAddress } from "@/api";
 import cn from "classnames";
 import { useSearchParams } from "next/navigation";
 
-// TODO: Take timestamp from url and passive it back for link expiry validation
 export default function Page() {
   const searchParams = useSearchParams();
-  const merchantId = searchParams.get("merch_id");
+  const merchantId = searchParams.get("mid");
+  const token = searchParams.get("token");
+
+  const [isInvalidLink, setIsInvalidLink] = useState(false);
+  useEffect(() => {
+    const isInValidToken = token?.length != 63;
+    if (!merchantId) setIsInvalidLink(true);
+    else if (!token) setIsInvalidLink(true);
+    else if (isInValidToken) setIsInvalidLink(true);
+  }, []);
 
   return (
-    <TwoColumnLayout
-      illustration="illust-full-inbox-flatline.svg"
-      background="bg-wave-scene-4.svg"
-    >
+    <TwoColumnLayout illustration="illust-mail-lady.svg">
       <div className="container h-full flex flex-col justify-center items-center gap-12">
-        <Card>
-          <CardHeader title="Verify email address" />
-          <CardContent>
-            {!merchantId ? (
-              <BrokenLinkScreen />
-            ) : (
-              <Validator merchantId={merchantId} />
-            )}
-          </CardContent>
-        </Card>
+        {isInvalidLink ? (
+          <ScreenBrokenLink />
+        ) : (
+          <Validator merchantId={merchantId} token={token} />
+        )}
       </div>
     </TwoColumnLayout>
   );
 }
 
-const Validator = ({ merchantId }) => {
+const Validator = ({ merchantId, token }) => {
   const [response, setResponse] = useState();
   const [isLoading, setIsLoading] = useState(true);
-  const verifyEmail = async () => {
-    try {
-      const resp = await apiVerifyEmailAddress({
-        in_merchant_id: Number(merchantId),
-      });
-      setResponse(resp);
-      console.log("resp:", resp);
-    } catch (e) {
-      setResponse(e?.response?.data);
-      console.log(e);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+
   useEffect(() => {
-    if (merchantId) verifyEmail();
-  }, []);
+    async function verifyEmail() {
+      try {
+        const resp = await apiVerifyEmailAddress({
+          in_merchant_id: Number(merchantId),
+          in_token: token,
+        });
+        setResponse(resp);
+      } catch (e) {
+        setResponse(e?.response?.data);
+        console.log(e);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    verifyEmail();
+  }, [merchantId, token]);
 
   return (
     <div className="w-full h-full flex flex-col justify-center items-center gap-3">
-      {isLoading ? <LoadingScreen /> : <ResponseScreen response={response} />}
+      {isLoading ? <ScreenLoading /> : <ScreenResult response={response} />}
     </div>
   );
 };
 
-const ResponseScreen = ({ response }) => {
+const ScreenResult = ({ response }) => {
   const statuses = {
     Success: {
       icon: "icon-[solar--verified-check-line-duotone]",
@@ -90,14 +90,14 @@ const ResponseScreen = ({ response }) => {
   );
 };
 
-const LoadingScreen = () => (
+const ScreenLoading = () => (
   <Fragment>
     <CircularProgress />
     <p className="text-center">Verifying your email address, please wait...</p>
   </Fragment>
 );
 
-const BrokenLinkScreen = () => (
+const ScreenBrokenLink = () => (
   <div className="w-full h-full flex flex-col justify-center items-center gap-3">
     <span className="icon-[solar--link-broken-line-duotone] text-red-500 text-6xl" />
     <p className="text-center">The URL you followed seems to be broken...</p>

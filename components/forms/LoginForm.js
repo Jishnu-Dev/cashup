@@ -2,12 +2,10 @@
 
 import { Controller, useForm } from "react-hook-form";
 import { Link, useRouter } from "@/navigation";
-import { apiGetPinDefaultCheckedStatus, apiLogin } from "@/api";
 import {
   cookieDefaultSettings,
   cookieNameLastLogin,
   cookieNameMerchantId,
-  cookieNameOnboardingStatus,
   cookieNameToken,
   getIsLoggedIn,
   loginExpiryDays,
@@ -26,6 +24,7 @@ import LinearProgress from "@mui/material/LinearProgress";
 import { MuiOtpInput } from "mui-one-time-password-input";
 import ShowWhen from "@/components/ui/ShowWhen";
 import TextField from "@mui/material/TextField";
+import { apiLogin } from "@/api";
 import isEmail from "validator/es/lib/isEmail";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
@@ -36,7 +35,6 @@ export default function LoginForm() {
   const cookie = new Cookies();
   const router = useRouter();
   const {
-    reset,
     control,
     setFocus,
     resetField,
@@ -79,11 +77,13 @@ export default function LoginForm() {
         };
       }
 
+      // Setting auth cookies
       const currentDate = new Date().toISOString();
       cookie.set(cookieNameMerchantId, merchant_id, cookieSettings);
       cookie.set(cookieNameToken, token, cookieSettings);
       cookie.set(cookieNameLastLogin, currentDate, cookieSettings);
 
+      toast.success(resp?.message);
       if (pin_default_checked) router.push("/");
       else router.push("/onboard");
     } catch (e) {
@@ -94,44 +94,6 @@ export default function LoginForm() {
       setFocus("username");
       resetField("pin"); // RESET PIN AND SET FOCUS ON EMAIL ON ERROR
     }
-  };
-
-  // TODO: REMOVE AFTER TESTING ONBOARDING
-  // async function checkOnboardedStatus(merchantId) {
-  //   try {
-  //     const isAlreadyOnboarded = cookie.get(cookieNameOnboardingStatus);
-  //     // Checking if already status checked cookie exists, if yes, no need to check again using api
-  //     if (isAlreadyOnboarded === "true") redirectToDashboard();
-  //     else {
-  //       // Checking the status of the default pin changed or user opted not to change it using api.
-  //       const resp = await apiGetPinDefaultCheckedStatus(merchantId);
-  //       const { is_pin_default_checked: isAlreadyOnboarded } = resp?.data;
-  //       const oneYear = new Date();
-  //       oneYear.setDate(oneYear.getDate() + 365);
-  //       cookie.set(cookieNameOnboardingStatus, isAlreadyOnboarded, {
-  //         ...cookieDefaultSettings,
-  //         expires: oneYear,
-  //       });
-  //       if (isAlreadyOnboarded) redirectToDashboard();
-  //       else redirectToOnboard();
-  //     }
-  //   } catch (e) {
-  //     console.dir(e);
-  //   }
-  // }
-
-  const redirectToDashboard = () => {
-    toast.success("Login successful. Redirecting to dashboard...");
-    setTimeout(() => {
-      router.push("/");
-    }, [1500]);
-  };
-
-  const redirectToOnboard = () => {
-    toast.success("Login successful. Redirecting to onboarding...");
-    setTimeout(() => {
-      router.push("/onboard");
-    }, [1500]);
   };
 
   const validateUsername = (value) => {

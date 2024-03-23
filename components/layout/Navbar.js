@@ -102,7 +102,7 @@ const RouteActions = () => {
       >
         <span className="icon-[solar--arrow-left-line-duotone] text-4xl" />
       </button>
-      <h5 className="text-xl text-primary font-medium capitalize">
+      <h5 className="text-lg text-primary font-medium capitalize">
         {pathname}
       </h5>
     </div>

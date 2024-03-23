@@ -6,7 +6,7 @@ import CardTitleIcon from "@/components/ui/CardTitleIcon";
 import { Controller } from "react-hook-form";
 import Divider from "@mui/material/Divider";
 import MenuItem from "@mui/material/MenuItem";
-import { ProfileEditFormContext } from "@/components/forms/profile-edit-form";
+import { ProfileEditFormContext } from "@/components/forms/ProfileEditForm";
 import { Skeleton } from "@mui/material";
 import TextField from "@mui/material/TextField";
 

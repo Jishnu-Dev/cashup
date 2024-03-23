@@ -20,7 +20,7 @@ export default function AppGlobalContext({ children }) {
       }
     }
     // TODO: FIX MERHCANT PROFILE FETCHING AND STORING TO STORE
-    // fetchMerchantProfile();
+    fetchMerchantProfile();
   }, []);
   return children;
 }

@@ -1,15 +1,14 @@
 "use client";
 
-import { createContext, useEffect, useState } from "react";
-
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
 import CardTitleIcon from "@/components/ui/CardTitleIcon";
-import FormSectionAddress from "@/components/forms/profile-edit-form/FormSectionAddress";
-import FormSectionBasic from "@/components/forms/profile-edit-form/FormSectionBasic";
+import FormSectionAddress from "@/components/forms/ProfileEditForm/FormSectionAddress";
+import FormSectionBasic from "@/components/forms/ProfileEditForm/FormSectionBasic";
+import { createContext } from "react";
 import { useForm } from "react-hook-form";
 import { useMerchantStore } from "@/store/merchant-store-provider";
 import { useRouter } from "@/navigation";

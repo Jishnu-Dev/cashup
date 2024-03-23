@@ -144,7 +144,7 @@ const LogoutButton = () => {
 
 const LoadingSkelt = () => (
   <div className="flex items-center gap-3 p-2">
-    <Skeleton variant="circular" width={60} height={60} />
+    <Skeleton variant="circular" width={40} height={40} />
     <div>
       <Skeleton variant="text" width={90} />
       <Skeleton variant="text" width={50} />

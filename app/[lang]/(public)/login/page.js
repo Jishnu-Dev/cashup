@@ -4,10 +4,7 @@ import TwoColumnLayout from "@/components/ui/TwoColumnLayout";
 
 export default async function Page({ params: { locale } }) {
   return (
-    <TwoColumnLayout
-      illustration="authentication-two-color.svg"
-      background="bg-wave-scene-5.svg"
-    >
+    <TwoColumnLayout illustration="illust-business-card.svg">
       <div className="container h-full flex flex-col justify-center items-center gap-12">
         <CashupLogo />
         <LoginForm />

@@ -1,4 +1,4 @@
-import ProfileEditForm from "@/components/forms/profile-edit-form";
+import ProfileEditForm from "@/components/forms/ProfileEditForm";
 
 export default function Page() {
   return <ProfileEditForm />;
