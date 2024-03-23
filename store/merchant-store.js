@@ -11,7 +11,6 @@ const store = (set, get) => ({
   ...initialState,
   storeMerchantData: (data) => set((state) => ({ merchantData: data })),
   clearStore: () => initialState,
-  // clearMerchantData: () => get().merchantData,
 });
 
 export const initMerchantStore = () => initialState;

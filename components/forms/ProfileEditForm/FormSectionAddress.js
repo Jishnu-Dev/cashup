@@ -8,6 +8,7 @@ import MenuItem from "@mui/material/MenuItem";
 import { ProfileEditFormContext } from "@/components/forms/ProfileEditForm";
 import { Skeleton } from "@mui/material";
 import TextField from "@mui/material/TextField";
+import { countryId } from "@/lib/constants";
 import { toast } from "react-toastify";
 
 const inputLabelProps = { shrink: true }; // Refer: https://github.com/react-hook-form/react-hook-form/issues/2192
@@ -99,7 +100,6 @@ const FieldMerchantCity = () => {
     ProfileEditFormContext
   );
 
-  const countryId = 1; // 1: UAE
   const [isLoading, setIsLoading] = useState(false);
   const [cities, setCities] = useState([]);
   useEffect(() => {
@@ -118,8 +118,7 @@ const FieldMerchantCity = () => {
     fetchCities();
   }, []);
 
-  if (isLoading || !cities.length)
-    return <Skeleton variant="rounded" height={56} animation="wave" />;
+  if (isLoading || !cities?.length) return <FieldSkeleton />;
   return (
     <Controller
       name={fieldNames.city}
@@ -130,7 +129,6 @@ const FieldMerchantCity = () => {
         <TextField
           {...field}
           select
-          variant="outlined"
           label="City"
           helperText="Choose the type of your city"
           error={!!errors?.[fieldNames.city]}
@@ -161,6 +159,7 @@ const FieldMerchantArea = () => {
       try {
         setIsLoading(true);
         const { data } = await apiGetAreasByCity(cityId);
+        console.log("data:", data);
         setAreas(data);
       } catch (e) {
         console.dir(e);
@@ -172,8 +171,7 @@ const FieldMerchantArea = () => {
     if (cityId) fetchCities();
   }, [cityId]);
 
-  if (isLoading || !areas.length)
-    return <Skeleton variant="rounded" height={56} animation="wave" />;
+  if (isLoading) return <FieldSkeleton />;
   return (
     <Controller
       name={fieldNames.area}
@@ -184,7 +182,6 @@ const FieldMerchantArea = () => {
         <TextField
           {...field}
           select
-          variant="outlined"
           label="Branch Type"
           helperText="Choose the type of your branch"
           error={!!errors?.[fieldNames.area]}
@@ -199,3 +196,7 @@ const FieldMerchantArea = () => {
     />
   );
 };
+
+const FieldSkeleton = () => (
+  <Skeleton variant="rounded" height={56} animation="wave" />
+);

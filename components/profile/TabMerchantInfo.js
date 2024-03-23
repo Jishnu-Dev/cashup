@@ -27,7 +27,7 @@ export default function MerchantDetails() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 grid-flow-row gap-5">
       <BasicInfo merchantData={merchantData} />
-      <ContactInfo merchantData={merchantData} />
+      <Security merchantData={merchantData} />
     </div>
   );
 }
@@ -38,8 +38,8 @@ const BasicInfo = ({ merchantData }) => {
     if (!data) return [];
     return [
       {
-        label: "Merchant ID",
-        value: data?.merchant_id,
+        label: "Merchant Code",
+        value: data?.merchant_code,
         isLocked: true,
       },
       {
@@ -61,7 +61,7 @@ const BasicInfo = ({ merchantData }) => {
   return (
     <Card className="plain-card">
       <CardHeader
-        title="Basic Info"
+        title="Basic"
         subheader="View or update your account details"
         action={
           <Button
@@ -96,7 +96,7 @@ const BasicInfo = ({ merchantData }) => {
   );
 };
 
-const ContactInfo = ({ merchantData }) => {
+const Security = ({ merchantData }) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
@@ -125,8 +125,11 @@ const ContactInfo = ({ merchantData }) => {
         actionHandler: () => alert("Mobile verify Handler"),
       },
       {
-        label: "Telephone",
-        value: data?.tel_no,
+        label: "PIN",
+        value: "******",
+        actionLabel: "Update Pin",
+        actionLabelIcon: null,
+        actionHandler: () => {},
       },
     ];
   };
@@ -143,7 +146,7 @@ const ContactInfo = ({ merchantData }) => {
     <Fragment>
       <Card className="h-max flex-grow-0 plain-card">
         <CardHeader
-          title="Account Info"
+          title="Security"
           subheader="View or update your account details"
           avatar={<CardTitleIcon icon="icon-[solar--tuning-2-broken]" />}
         />
@@ -151,12 +154,16 @@ const ContactInfo = ({ merchantData }) => {
           <div className="h-full flex flex-col gapp-3 justify-between">
             <ul>
               {createAccountInfoArray(merchantData).map(
-                ({ label, value, actionLabel, actionHandler }, i) => (
+                (
+                  { label, value, actionLabel, actionLabelIcon, actionHandler },
+                  i
+                ) => (
                   <InfoRow
                     key={i}
                     label={label}
                     value={value}
                     actionLabel={actionLabel}
+                    actionLabelIcon={actionLabelIcon}
                     actionHandler={actionHandler}
                   />
                 )
@@ -184,6 +191,7 @@ const InfoRow = ({
   actionLabel,
   actionHandler,
   isLocked,
+  actionLabelIcon,
 }) => {
   const As = as;
   return (
@@ -196,7 +204,11 @@ const InfoRow = ({
         </div>
         {/* Right */}
         <ShowWhen when={actionLabel}>
-          <Button variant="text" onClick={actionHandler}>
+          <Button
+            endIcon={actionLabelIcon}
+            variant="text"
+            onClick={actionHandler}
+          >
             {actionLabel}
           </Button>
         </ShowWhen>

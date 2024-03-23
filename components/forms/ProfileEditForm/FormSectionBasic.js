@@ -33,8 +33,6 @@ export default function FormSectionBasic() {
     });
   }, [merchantData]);
 
-  console.log("merchantData:", merchantData);
-
   return (
     <div className="grid grid-flow-row gap-6">
       <Divider textAlign="left">
@@ -145,6 +143,7 @@ export default function FormSectionBasic() {
               value={value}
               inputRef={fieldRef}
               label="Mobile Number"
+              disableFormatting
               onlyCountries={["AE"]}
               defaultCountry="AE"
               helperText={fieldState.invalid ? "Mobile number is invalid" : ""}
@@ -157,7 +156,7 @@ export default function FormSectionBasic() {
         <Controller
           control={control}
           name={fieldNames.landline}
-          defaultValue={merchantData?.tel_no}
+          // defaultValue={merchantData?.tel_no}
           rules={{
             required: "Please enter landline number",
             validate: (value) =>
@@ -170,9 +169,10 @@ export default function FormSectionBasic() {
             <MuiTelInput
               {...fieldProps}
               disableDropdown
-              // value={value}
+              value={value}
               inputRef={fieldRef}
               label="Landline Number"
+              disableFormatting
               onlyCountries={["AE"]}
               defaultCountry="AE"
               helperText={fieldState.invalid ? "Landline is invalid" : ""}

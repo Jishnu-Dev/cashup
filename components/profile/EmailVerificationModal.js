@@ -30,8 +30,6 @@ export default function EmailVerificationModal() {
     (state) => state.merchantData
   );
 
-  console.log("merchantData:", merchantData);
-
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     async function sendMailVerificationLink() {

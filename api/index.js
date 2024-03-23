@@ -39,8 +39,8 @@ export const apiGetMerchantProfile = (merchantId) =>
   http.get(`/merchantMain/getMerchantProfile/${merchantId}`);
 
 /*  UPDATE Merchant profile */
-export const apiUpdateMerchantProfile = (payload) =>
-  http.get(`/merchantMain/updateMerchantProfile`, payload);
+export const apiUpdateMerchantDetails = (payload) =>
+  http.post(`/merchantMain/updateMerchantProfile`, payload);
 
 /*  Banks */
 export const apiGetMerchantBanks = (merchantId) =>
