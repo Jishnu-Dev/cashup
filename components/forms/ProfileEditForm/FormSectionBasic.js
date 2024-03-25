@@ -30,6 +30,7 @@ export default function FormSectionBasic() {
   useEffect(() => {
     reset({
       [fieldNames.mobile]: merchantData?.mobile_no,
+      [fieldNames.landline]: merchantData?.landline,
     });
   }, [merchantData]);
 
@@ -144,8 +145,10 @@ export default function FormSectionBasic() {
               inputRef={fieldRef}
               label="Mobile Number"
               disableFormatting
+              forceCallingCode
               onlyCountries={["AE"]}
               defaultCountry="AE"
+              placeholder="0512345678"
               helperText={fieldState.invalid ? "Mobile number is invalid" : ""}
               error={fieldState.invalid}
             />
@@ -173,6 +176,8 @@ export default function FormSectionBasic() {
               inputRef={fieldRef}
               label="Landline Number"
               disableFormatting
+              forceCallingCode
+              placeholder="0512345678"
               onlyCountries={["AE"]}
               defaultCountry="AE"
               helperText={fieldState.invalid ? "Landline is invalid" : ""}

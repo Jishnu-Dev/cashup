@@ -19,7 +19,7 @@ export default function Navbar() {
 
   return (
     <Card component="nav">
-      <div className="w-full flex justify-between items-center glass border-b rounde px-10 py-2 shado absolute top-0 right-0 z-50">
+      <div className="w-full flex justify-between items-center glas bg-white border-b rounde px-10 py-2 shado absolute top-0 right-0 z-50">
         <RouteActions />
         <div className="ml-auto flex gap-3 items-center">
           <AccountStatusBadge />

@@ -13,6 +13,7 @@ export default function AppGlobalContext({ children }) {
     async function fetchMerchantProfile() {
       try {
         const merchantId = getMerchantId();
+        console.log("merchantId:", merchantId);
         const resp = await apiGetMerchantProfile(merchantId);
         storeMerchantData(resp?.data);
       } catch (e) {

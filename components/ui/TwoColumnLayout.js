@@ -22,14 +22,14 @@ export default function TwoColumnLayout({
           backgroundImage: `url(/images/illust/${background})`,
         }}
       >
-        <ShowWhen when={illustration}>
+        {/* <ShowWhen when={illustration}>
           <Image
             src={`/images/illust/${illustration}`}
             alt="Cashup"
             width={600}
             height={600}
           />
-        </ShowWhen>
+        </ShowWhen> */}
         <div className="absolute bottom-3 w-full p-10 mr-auto mix-blend-multipl mt-auto">
           <h2 className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-t from-blue-900 via-blue-500 to-blue-400">
             {title}

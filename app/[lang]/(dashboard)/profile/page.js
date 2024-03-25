@@ -1,3 +1,4 @@
+import { Card } from "@mui/material";
 import { Fragment } from "react";
 import ProfileHero from "@/components/profile/ProfileHero";
 import ProfileTabs from "@/components/profile/ProfileTabs";

@@ -9,10 +9,7 @@ export const metadata = {
 
 export default function Page() {
   return (
-    <TwoColumnLayout
-      background="bg-wave-scene-2.svg"
-      illustration="authentication-flatline.svg"
-    >
+    <TwoColumnLayout illustration="authentication-flatline.svg">
       <div className="container h-full flex flex-col justify-center items-center gap-12">
         <CashupLogo />
         <ForgotPinForm />
